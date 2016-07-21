@@ -1,6 +1,6 @@
 @charset "UTF-8";
 .left_col {
-  background: #2A3F54; }
+  background: #37C6F5; }
 
 .nav-sm .container.body .col-md-3.left_col {
   width: 70px;
@@ -207,7 +207,7 @@ body .container.body .right_col {
 .nav_title {
   width: 230px;
   float: left;
-  background: #2A3F54;
+  background: #37C6F5;
   border-radius: 0;
   height: 57px; }
 
@@ -326,7 +326,7 @@ body .container.body .right_col {
 
 body {
   color: #73879C;
-  background: #2A3F54;
+  background: #37C6F5;
   font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
   font-size: 13px;
   font-weight: 400;
@@ -554,7 +554,7 @@ a:hover, a:focus {
 
 .nav.side-menu > li.active > a {
   text-shadow: rgba(0, 0, 0, 0.25) 0 -1px 0;
-  background: linear-gradient(#334556, #2C4257), #2A3F54;
+  background: linear-gradient(#334556, #2C4257), #37C6F5;
   box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0; }
 
 .navbar-brand, .navbar-nav > li > a {
@@ -1416,7 +1416,7 @@ span.right {
   padding: 5px 0 0 0;
   position: fixed;
   width: 230px;
-  background: #2A3F54; }
+  background: #37C6F5; }
 
 .sidebar-footer a {
   padding: 7px 0 3px;
