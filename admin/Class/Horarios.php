@@ -8,5 +8,6 @@
  */
 class Horarios
 {
-
+    private $sDia="";
+    
 }
