@@ -208,7 +208,7 @@ class Paciente
         return $bRet;
     }
 
-    function insertar(){
+    function insertar($usuario){
         $oAD = new AccesoDatos();
         $sQuery = "";
         $i = 0;
@@ -216,7 +216,7 @@ class Paciente
             throw new Exception("Paciente->insertar(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call insertaPaciente()";
+                $sQuery = "call insertaPaciente('".$usuario."')";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }

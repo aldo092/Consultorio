@@ -125,18 +125,33 @@ class AntePatologicos
                 $rst = $oAD->ejecutaQuery($sQuery);
                 $oAD->Desconecta();
                 if($rst){
-                    $oPat  = new AntePatologicos();
-                    $oPat->setAlergias($rst[0][0]);
-                    $oPat->setCardiopatias($rst[0][1]);
-                    $oPat->setTransfusiones($rst[0][2]);
-                    $oPat->setDiabetico($rst[0][3]);
-                    $oPat->setCardiovasculares($rst[0][4]);
-                    $oPat->setHTA($rst[0][5]);
+                    $this->setAlergias($rst[0][0]);
+                    $this->setCardiopatias($rst[0][1]);
+                    $this->setTransfusiones($rst[0][2]);
+                    $this->setDiabetico($rst[0][3]);
+                    $this->setCardiovasculares($rst[0][4]);
+                    $this->setHTA($rst[0][5]);
                     $bRet=true;
                 }
             }
         }
         return $bRet;
+    }
+
+    function insertarAntecPatologicos($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getExpediente()->getNumero() == 0){
+            throw new Exception("AntePatologicos->insertarAntecPatologicos('".$usuario."'): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call insertarAntePatologicos";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
     }
 
 }

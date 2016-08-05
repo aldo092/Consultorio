@@ -77,4 +77,79 @@ class Estudios
         $this->nCostoAseg = $nCostoAseg;
     }
 
+    function buscarTodos(){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $i = 0;
+        $oEst = null;
+        if($oAD->Conecta()){
+            $sQuery = "call buscarTodosEstudios()";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+        }
+        if($rst){
+            foreach ($rst as $vRowTemp){
+                $oEst = new Estudios();
+                $oEst->setClaveInterna($vRowTemp[0]);
+                $oEst->setDescripcion($vRowTemp[1]);
+                $oEst->setIVA($vRowTemp[2]);
+                $oEst->setCostoNormal($vRowTemp[3]);
+                $oEst->setCostoAseg($vRowTemp[4]);
+                $vObj[$i] = $oEst;
+                $i = $i + 1;
+            }
+        }
+        else{
+            $vObj = false;
+        }
+        return $vObj;
+    }
+
+    function insertar($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($oAD->Conecta()){
+            $sQuery = "call insertaEstudios('".$usuario."',".$this->getDescripcion()."', ".$this->getIVA().", ".$this->getCostoNormal().",
+            ".$this->getCostoAseg().");";
+            $i = $oAD->ejecutaComando($sQuery);
+            $oAD->Desconecta();
+        }
+        return $i;
+    }
+    
+    function modificar($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getClaveInterna() == 0){
+            throw new Exception("Estudios->modificar(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call modificaEstudio('".$usuario."',".$this->getClaveInterna().", '".$this->getDescripcion()."',
+                ".$this->getIVA().", ".$this->getCostoNormal().",".$this->getCostoAseg().");";
+                $i = $oAD->ejecutaComando($sQuery);
+            }
+        }
+        return $i;
+    }
+    
+    function eliminar($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getClaveInterna() == 0){
+            throw new Exception("Estudios->eliminar():error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call eliminaEstudio('".$usuario."', ".$this->getClaveInterna().");";
+                $i = $oAD->ejecutaComando();
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
+    }
+
 }

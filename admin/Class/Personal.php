@@ -111,7 +111,67 @@ class Personal
     }
 
     function buscarTodos(){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $oPer = null;
+        $i = 0;
+        if($oAD->Conecta()){
+            $sQuery = "call buscarTodosPersonal();";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+        }
+        if($rst){
+            foreach ($rst as $vRowTemp){
+                $oPer = new Personal();
+                $oPer->setIdPersonal($vRowTemp[0]);
+                $oPer->setNombres($vRowTemp[1]);
+                $oPer->setApPaterno($vRowTemp[2]);
+                $oPer->setApMaterno($vRowTemp[3]);
+                $oPer->setTelefono($vRowTemp[4]);
+                $oPer->setPuesto($vRowTemp[5]);
+                $oPer->setSexo($vRowTemp[6]);
+                $oPer->setCURP($vRowTemp[7]);
+                $vObj[$i] = $oPer;
+                $i = $i + 1;
+            }
+        }else{
+            $vObj = false;
+        }
+        return $vObj;
+    }
 
+    function insertarPersonal($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($oAD->Conecta()){
+            $sQuery = "call insertaPersonal('".$usuario."','".$this->getNombres()."',
+            '".$this->getApPaterno()."','".$this->getApMaterno()."','".$this->getTelefono()."',
+            '".$this->getPuesto()."','".$this->getSexo()."','".$this->getCURP()."');";
+            $i = $oAD->ejecutaComando($sQuery);
+            $oAD->Desconecta();
+        }
+        return $i;
+    }
+
+    function modificarPersonal($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getIdPersonal() == 0){
+            throw new Exception("Personal->modificarPersonal(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call modificarPersonal('".$usuario."',".$this->getIdPersonal().", '".$this->getNombres()."',
+                '".$this->getApPaterno()."','".$this->getApMaterno()."','".$this->getTelefono()."',
+                '".$this->getPuesto()."','".$this->getSexo()."','".$this->getCURP()."');";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
     }
 
 }

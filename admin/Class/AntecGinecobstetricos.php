@@ -159,22 +159,37 @@ class AntecGinecobstetricos
                 $rst = $oAD->ejecutaQuery($sQuery);
                 $oAD->Desconecta();
                 if($rst){
-                    $oGine = new AntecGinecobstetricos();
-                    $oGine->setAnticonceptivos(new MetodoAnticonceptivo());
-                    $oGine->getAnticonceptivos()->setDescripcion($rst[0][0]);
-                    $oGine->setGestaciones($rst[0][1]);
-                    $oGine->setPartos($rst[0][2]);
-                    $oGine->setAbortos($rst[0][3]);
-                    $oGine->setIVSA($rst[0][4]);
-                    $oGine->setParejasSexuales($rst[0][5]);
-                    $oGine->setETS($rst[0][6]);
-                    $oGine->setCesareas([0][7]);
-                    $oGine->setUltPapanicolau($rst[0][8]);
+                    $this->setAnticonceptivos(new MetodoAnticonceptivo());
+                    $this->getAnticonceptivos()->setDescripcion($rst[0][0]);
+                    $this->setGestaciones($rst[0][1]);
+                    $this->setPartos($rst[0][2]);
+                    $this->setAbortos($rst[0][3]);
+                    $this->setIVSA($rst[0][4]);
+                    $this->setParejasSexuales($rst[0][5]);
+                    $this->setETS($rst[0][6]);
+                    $this->setCesareas([0][7]);
+                    $this->setUltPapanicolau($rst[0][8]);
                     $bRet = true;
                 }
             }
         }
         return $bRet;
+    }
+    
+    function insertarGineco($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getExpediente()->getNumero()==0){
+            throw new Exception("AntecGinecobstetricos->insertarGineco('".$usuario."'): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "insertarAntecGineco()";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
     }
     
 }

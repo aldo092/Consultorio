@@ -50,7 +50,7 @@ class Expediente
         return $sNumero;
     }
 
-    function insertarExpediente(){
+    function insertarExpediente($usuario){
         $oAD = new AccesoDatos();
         $sQuery = "";
         $nReg = 0;

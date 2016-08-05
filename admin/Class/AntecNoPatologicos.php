@@ -180,22 +180,37 @@ class AntecNoPatologicos
                 $rst = $oAD->ejecutaQuery($sQuery);
                 $oAD->Desconecta();
                 if($rst){
-                    $oPat = new AntecNoPatologicos();
-                    $oPat->setReligion($rst[0][0]);
-                    $oPat->setTabaquismo($rst[0][1]);
-                    $oPat->setEscolaridad($rst[0][2]);
-                    $oPat->setOcupacion($rst[0][3]);
-                    $oPat->setAlcoholismo($rst[0][4]);
-                    $oPat->setDrogas($rst[0][5]);
-                    $oPat->setAguaPotable($rst[0][6]);
-                    $oPat->setElectricidad($rst[0][7]);
-                    $oPat->setDrenaje($rst[0][8]);
-                    $oPat->setServSan($rst[0][9]);
+                    $this->setReligion($rst[0][0]);
+                    $this->setTabaquismo($rst[0][1]);
+                    $this->setEscolaridad($rst[0][2]);
+                    $this->setOcupacion($rst[0][3]);
+                    $this->setAlcoholismo($rst[0][4]);
+                    $this->setDrogas($rst[0][5]);
+                    $this->setAguaPotable($rst[0][6]);
+                    $this->setElectricidad($rst[0][7]);
+                    $this->setDrenaje($rst[0][8]);
+                    $this->setServSan($rst[0][9]);
                     $bRet = true;
                 }
             }
         }
         return $bRet;
+    }
+    
+    function insertarAntecedentes($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getExpediente()->getNumero() == 0){
+            throw new Exception("AntecNoPatologicos->insertarAntecedentes(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call insertarAntecNoPatologicos('".$usuario."')";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
     }
     
 }
