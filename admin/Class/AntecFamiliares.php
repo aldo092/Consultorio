@@ -8,8 +8,11 @@
  */
 include_once ("AccesoDatos.php");
 include_once ("Expediente.php");
+include_once ("Paciente.php");
 class AntecFamiliares
 {
+    private $oAD=null;
+    private $oExpediente=null;
     private $sAlcoholismo="";
     private $sAlergias="";
     private $sAsma="";
@@ -20,7 +23,37 @@ class AntecFamiliares
     private $sHipertension="";
     private $sDrogradiccion="";
     private $sTabaquismo;
+    private $oPaciente = null;
 
+    public function getPaciente()
+    {
+        return $this->oPaciente;
+    }
+
+    public function setPaciente($oPaciente)
+    {
+        $this->oPaciente = $oPaciente;
+    }
+    
+    public function getAD()
+    {
+        return $this->oAD;
+    }
+
+    public function setAD($oAD)
+    {
+        $this->oAD = $oAD;
+    }
+
+    public function getExpediente()
+    {
+        return $this->oExpediente;
+    }
+
+    public function setExpediente($oExpediente)
+    {
+        $this->oExpediente = $oExpediente;
+    }
 
     public function getAlcoholismo()
     {
@@ -120,6 +153,37 @@ class AntecFamiliares
     public function setTabaquismo($sTabaquismo)
     {
         $this->sTabaquismo = $sTabaquismo;
+    }
+
+    function buscarPorPaciente(){
+        $oAD = new AccesoDatos();
+        $oAntFam = null;
+        $rst = null;
+        $bRet = false;
+        $sQuery = "";
+        if($this->getPaciente()->getCurpPaciente() == ""){
+            throw new Exception("AntecFamiliares->buscarPorPaciente(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                if($rst) {
+                    $oAntFam = new AntecFamiliares();
+                    $oAntFam->setAlcoholismo($rst[0][0]);
+                    $oAntFam->setAlergias($rst[0][1]);
+                    $oAntFam->setAsma($rst[0][2]);
+                    $oAntFam->setCancer($rst[0][3]);
+                    $oAntFam->setCongenitos($rst[0][4]);
+                    $oAntFam->setConvulsiones($rst[0][5]);
+                    $oAntFam->setDiabetes($rst[0][6]);
+                    $oAntFam->setHipertension($rst[0][7]);
+                    $oAntFam->setDrogradiccion($rst[0][8]);
+                    $oAntFam->setTabaquismo($rst[0][9]);
+                    $bRet = true;
+                }
+            }
+        }
+        return $bRet;
     }
 
 

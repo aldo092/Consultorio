@@ -8,15 +8,50 @@
  */
 include_once ("AccesoDatos.php");
 include_once ("Expediente.php");
+include_once ("Paciente.php");
 class AntePatologicos
 {
+    private $oAD = null;
+    private $oExpediente = null;
     private $sAlergias="";
     private $sCardiopatias="";
     private $sTransfusiones="";
     private $sDiabetico="";
     private $sCardiovasculares="";
     private $sHTA="";
+    private $oPaciente;
 
+
+    public function getPaciente()
+    {
+        return $this->oPaciente;
+    }
+
+    public function setPaciente($oPaciente)
+    {
+        $this->oPaciente = $oPaciente;
+    }
+    
+    public function getAD()
+    {
+        return $this->oAD;
+    }
+
+    public function setAD($oAD)
+    {
+        $this->oAD = $oAD;
+    }
+    
+    public function getExpediente()
+    {
+        return $this->oExpediente;
+    }
+    
+    public function setExpediente($oExpediente)
+    {
+        $this->oExpediente = $oExpediente;
+    }
+    
     public function getAlergias()
     {
         return $this->sAlergias;
@@ -75,6 +110,33 @@ class AntePatologicos
     public function setHTA($sHTA)
     {
         $this->sHTA = $sHTA;
+    }
+
+    function buscarPorPaciente(){
+        $oAD = new AccesoDatos();
+        $rst = null;
+        $oPat = null;
+        $sQuery = "";
+        if($this->getPaciente()->getCurpPaciente() == ""){
+            throw new Exception("AntePatologicos->buscarPorPaciente(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+                if($rst){
+                    $oPat  = new AntePatologicos();
+                    $oPat->setAlergias($rst[0][0]);
+                    $oPat->setCardiopatias($rst[0][1]);
+                    $oPat->setTransfusiones($rst[0][2]);
+                    $oPat->setDiabetico($rst[0][3]);
+                    $oPat->setCardiovasculares($rst[0][4]);
+                    $oPat->setHTA($rst[0][5]);
+                    $bRet=true;
+                }
+            }
+        }
+        return $bRet;
     }
 
 }

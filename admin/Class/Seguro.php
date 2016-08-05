@@ -11,10 +11,21 @@ include_once ("Aseguradora.php");
 include_once ("Paciente.php");
 class Seguro
 {
+    private $oAD = null;
     private $oAseguradora;
     private $oPaciente;
     private $dFechaVigencia;
 
+
+    public function getAD()
+    {
+        return $this->oAD;
+    }
+
+    public function setAD($oAD)
+    {
+        $this->oAD = $oAD;
+    }
 
     public function getPaciente()
     {

@@ -9,6 +9,7 @@
 include_once ("AccesoDatos.php");
 class Personal
 {
+    private $oAD = null;
     private $nIdPersonal=0;
     private $sNombres="";
     private $sApPaterno="";
@@ -18,6 +19,16 @@ class Personal
     private $sSexo="";
     private $sCURP="";
 
+
+    public function getAD()
+    {
+        return $this->oAD;
+    }
+    
+    public function setAD($oAD)
+    {
+        $this->oAD = $oAD;
+    }
 
     public function getIdPersonal()
     {
