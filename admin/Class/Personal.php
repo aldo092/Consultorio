@@ -110,4 +110,8 @@ class Personal
         $this->sCURP = $sCURP;
     }
 
+    function buscarTodos(){
+
+    }
+
 }
