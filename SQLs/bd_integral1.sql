@@ -6,6 +6,7 @@ CREATE DATABASE consultorio;
 USE consultorio;
 
 
+
 CREATE TABLE Perfil (
   sClavePerfil VARCHAR(15) NOT NULL,
   sDescripcion VARCHAR(100) NOT NULL,
@@ -68,6 +69,14 @@ CREATE TABLE Usuarios (
   sPassword VARCHAR(30) NOT NULL,
   dFechaRegistro DATE NOT NULL,
   PRIMARY KEY (sEmail)
+);
+
+
+CREATE TABLE Accesos (
+  sEmail VARCHAR(60) NOT NULL,
+  nNIP INT NOT NULL,
+  bEstado SMALLINT NOT NULL,
+  PRIMARY KEY (sEmail, nNIP)
 );
 
 
@@ -333,6 +342,12 @@ REFERENCES Usuarios (sEmail)
   ON UPDATE NO ACTION;
 
 ALTER TABLE Bitacora ADD CONSTRAINT usuarios_bitacora_fk
+FOREIGN KEY (sEmail)
+REFERENCES Usuarios (sEmail)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE Accesos ADD CONSTRAINT usuarios_accesos_fk
 FOREIGN KEY (sEmail)
 REFERENCES Usuarios (sEmail)
   ON DELETE NO ACTION
