@@ -24,3 +24,51 @@ CREATE PROCEDURE  inserta_AntecenteFam(nNumero int, sAlcoholismo VARCHAR(50), sA
 BEGIN
   INSERT INTO AntecedenteFam(nNumero, sAlcoholismo, sAlergias, sAsma, sCancer, sCongenitos, sConvulsiones, sDiabetes, sHipertension, sDrogadiccion, sTabaquismo) VALUES (nNumero,sAlergias,SAsma, sCancer,sCongenitos,sConvulsiones,sDiabetes,sHipertension,sDrogadiccion, sTabaquismo);
 END //
+
+/*Fecha de creación 6 de agosto */
+delimiter //
+CREATE PROCEDURE buscarEmailPassUser(IN user varchar(60), IN email varchar(60), spass varchar(30))
+  BEGIN
+    SELECT  usuarios.sEmail FROM usuarios WHERE usuarios.sEmail = email AND usuarios.sPassword = md5(spass);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'SELECT', current_date, 'USUARIOS', CONCAT('Búsqueda de datos de inicio de sesión por el usuario ',user));
+  END;
+//
+
+call buscarEmailPassUser('llarena_92@hotmail.com','llarena_92@hotmail.com','pablo123');
+
+delimiter //
+CREATE PROCEDURE  insertarUsuario(IN user varchar(60), IN email varchar(60), IN pass varchar(30))
+  BEGIN
+    INSERT INTO usuarios(sEmail,sPassword, dFechaRegistro) VALUES(email, md5(pass), current_date);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'USUARIOS', CONCAT('Se insertó el usuario ', email));
+  END;
+//
+
+delimiter //
+CREATE PROCEDURE insertaRol(IN user varchar(60), IN descripcion varchar(200))
+  BEGIN
+    INSERT INTO roles(sDescripcion) VALUES (descripcion);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'ROL', CONCAT('Se insertó el rol  ', descripcion));
+  END;
+//
+
+delimiter //
+CREATE PROCEDURE insertarPersonal(IN user varchar(60), IN nombre varchar(40), IN apPaterno varchar(40), IN apMaterno varchar(40), IN telefono VARCHAR(15),
+                                  IN sexo char(1), IN curp varchar(18), IN rol int(11), IN email varchar(60), IN pass  varchar(30))
+  BEGIN
+    call insertarUsuario(email, pass);
+
+    INSERT INTO Personal(sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCurp, nIdRol, sEmail, bEstatus)
+    VALUES (nombre, apPaterno, apMaterno, telefono, sexo, curp, rol, email, 1);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'PERSONAL', CONCAT('Se insertó un nuevo colega  ', nombre, ' ', apPaterno, ' ', apMaterno));
+  END;
+//
+

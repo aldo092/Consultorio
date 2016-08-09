@@ -1,3 +1,14 @@
+<?php
+$sErr = "";
+$sEmail = "";
+    if(isset($_COOKIE['cUser']) && !empty($_COOKIE['cUser'])){
+        $sEmail = $_COOKIE['cUser'];
+    }else{
+        $sErr = "Aún no ha ingresado datos de inicio de sesión";
+    }
+    if($sErr != "")
+        header("Location:../error.php?sError=".$sErr);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,16 +20,24 @@
     <title>Login </title>
 
     <!-- Bootstrap -->
-    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
-    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="../../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- Animate.css -->
     <link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="../../build/css/custom.min.css" rel="stylesheet">
+    <script>
+        function validar(frm) {
+            if (frm.txtNip.value.length!=4) {
+                alert('error, introduzca la cantidad correcta de números');
+                frm.txtNip.focus();
+            }
+        }
+    </script>
 </head>
 
 <body class="login">
@@ -29,13 +48,10 @@
     <div class="login_wrapper">
         <div class="animate form login_form">
             <section class="login_content">
-                <form role="form" action="Controllers/validateLog.php" method="post">
-                    <h1>Inicio de sesión </h1>
+                <form id="frm" role="form" action="Controllers/validateNIP.php" method="post">
+                    <h1>Ingrese su NIP </h1>
                     <div>
-                        <input type="text" name="txtEmail" class="form-control" placeholder="correo" required="" autofocus/>
-                    </div>
-                    <div>
-                        <input type="password" name="txtPass" class="form-control" placeholder="password" required="" />
+                        <input type="text" name="txtNip" min="0" pattern="^[0-9]{4}$" maxlength="4" class="form-control" placeholder="NIP" required=""/>
                     </div>
                     <div>
                         <input type="submit" value="Validar" class="btn btn-default" />

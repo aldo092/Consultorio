@@ -1,3 +1,5 @@
+<?php
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,7 +8,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Login </title>
+    <title>ADVERTENCIA</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -29,23 +31,12 @@
     <div class="login_wrapper">
         <div class="animate form login_form">
             <section class="login_content">
-                <form role="form" action="Controllers/validateLog.php" method="post">
-                    <h1>Inicio de sesión </h1>
-                    <div>
-                        <input type="text" name="txtEmail" class="form-control" placeholder="correo" required="" autofocus/>
-                    </div>
-                    <div>
-                        <input type="password" name="txtPass" class="form-control" placeholder="password" required="" />
-                    </div>
-                    <div>
-                        <input type="submit" value="Validar" class="btn btn-default" />
-
-                    </div>
-
+                    <h1>Error</h1>
+                    <h4><?php echo $_REQUEST["sError"]; ?></h4>
+                    <a href="../admin/login.html">Regresar al inicio de sesión</a>
                     <div class="clearfix"></div>
 
                     <div class="separator">
-
 
                         <div class="clearfix"></div>
                         <br />
@@ -55,7 +46,6 @@
                             <p>©2016 Todos los derechos reservados</p>
                         </div>
                     </div>
-                </form>
             </section>
         </div>
 

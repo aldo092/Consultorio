@@ -89,6 +89,56 @@ class Usuarios
         $this->oPersonal = $oPersonal;
     }
 
-    
+    function buscarTodos(){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $i = 0;
+        $oUser = null;
+        if($oAD->Conecta()){
+            $sQuery = "call buscarTodosUsuarios();";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+        }
+        if($rst){
+            foreach ($rst as $vRowTemp){
+                $oUser = new Usuarios();
+                $oUser->setPersonal(new Personal());
+                $oUser->setIdUsuario($vRowTemp[0]);
+                $oUser->setEmail($vRowTemp[1]);
+                $oUser->setFechaRegistro($vRowTemp[2]);
+                $oUser->getPersonal()->setNombres($vRowTemp[3]);
+                $oUser->getPersonal()->setApPaterno($vRowTemp[4]);
+                $oUser->getPersonal()->setApMaterno($vRowTemp[5]);
+                $vObj[$i]= $oUser;
+                $i = $i + 1;
+            }
+        }else{
+            $vObj = false;
+        }
+        return $vObj;
+    }
+
+    function buscarEmailPass($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $rst = null;
+        $bRet = false;
+        if($this->getEmail() == "" && $this->getPassword() == ""){
+            throw new Exception("Usuarios->buscarEmailPass(): error ,faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarEmailPassUser('".$usuario."','".$this->getEmail()."','".$this->getPassword()."');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+                if($rst){
+                    $this->setEmail($rst[0][0]);
+                    $bRet = true;
+                }
+            }
+        }
+        return $bRet;
+    }
 
 }

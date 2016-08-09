@@ -2,8 +2,9 @@ GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON consultorio.* TO 'adminconsulto
 GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON consultorio.* TO 'adminconsultorio'@'localhost' IDENTIFIED BY 'sisadmin0303';
 
 CREATE DATABASE consultorio;
-
+ALTER SCHEMA `consultorio`  DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_spanish2_ci ;
 USE consultorio;
+
 
 
 
@@ -66,7 +67,7 @@ CREATE TABLE Horarios (
 
 CREATE TABLE Usuarios (
   sEmail VARCHAR(60) NOT NULL,
-  sPassword VARCHAR(30) NOT NULL,
+  sPassword VARCHAR(200) NOT NULL,
   dFechaRegistro DATE NOT NULL,
   PRIMARY KEY (sEmail)
 );
@@ -74,7 +75,7 @@ CREATE TABLE Usuarios (
 
 CREATE TABLE Accesos (
   sEmail VARCHAR(60) NOT NULL,
-  nNIP INT NOT NULL,
+  nNIP VARCHAR(150) NOT NULL,
   bEstado SMALLINT NOT NULL,
   PRIMARY KEY (sEmail, nNIP)
 );
@@ -105,7 +106,6 @@ CREATE TABLE Personal (
   sApPaterno VARCHAR(40) NOT NULL,
   sTelefono VARCHAR(15),
   sSexo CHAR(1),
-  sPuesto VARCHAR(200) NOT NULL,
   sCURP VARCHAR(18),
   nIdRol INT NOT NULL,
   sEmail VARCHAR(60),
