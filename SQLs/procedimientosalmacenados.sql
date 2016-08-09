@@ -72,3 +72,43 @@ CREATE PROCEDURE insertarPersonal(IN user varchar(60), IN nombre varchar(40), IN
   END;
 //
 
+
+/*Fecha de creación 9 de agosto*/
+delimiter //
+CREATE PROCEDURE equalNIP(IN user varchar(60), nip int(11))
+  BEGIN
+    SELECT accesoss.Email, accesos.nNIP FROM accesos WHERE accesos.sEmail = user AND accesos.nNIP = md5(nip);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'SELECT', current_date, 'ACCESOS', CONCAT('Búsqueda de identificador personal por el usuario ', user));
+  END;
+//
+
+delimiter //
+CREATE PROCEDURE checkValue(IN nip int(11))
+  BEGIN
+    SELECT nNIP FROM accesos WHERE  nNIP = md5(nip);
+  END;
+//
+
+delimiter //
+CREATE PROCEDURE insertaAcceso(IN user varchar(60), IN nip int(11))
+  BEGIN
+    INSERT INTO accesos(sEmail, nNIP, bEstado) VALUES(user, md5(nip), 1);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'ACCESOS', CONCAT('Registro de NIP por el usuario', user));
+  END;
+//
+
+delimiter //
+CREATE PROCEDURE updateStatusAccess(IN user varchar(60), IN nip int(11))
+  BEGIN
+    UPDATE accesos
+    SET bEstado = 0
+    WHERE sEmail = user AND nNIP = md5(nip);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'UPDATE', current_date, 'ACCESOS', CONCAT('Invalidó un NIP por exceso de intentos de validacion el  usuario ', user));
+  END;
+

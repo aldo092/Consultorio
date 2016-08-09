@@ -1,6 +1,7 @@
 <?php
 $sErr = "";
 $sEmail = "";
+$nNum = 0;
     if(isset($_COOKIE['cUser']) && !empty($_COOKIE['cUser'])){
         $sEmail = $_COOKIE['cUser'];
     }else{
@@ -51,7 +52,7 @@ $sEmail = "";
                 <form id="frm" role="form" action="Controllers/validateNIP.php" method="post">
                     <h1>Ingrese su NIP </h1>
                     <div>
-                        <input type="text" name="txtNip" min="0" pattern="^[0-9]{4}$" maxlength="4" class="form-control" placeholder="NIP" required=""/>
+                        <input type="text" name="txtNum" min="0" pattern="^[0-9]{4}$" maxlength="4" class="form-control" placeholder="NIP" required=""/>
                     </div>
                     <div>
                         <input type="submit" value="Validar" class="btn btn-default" />

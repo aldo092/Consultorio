@@ -9,6 +9,7 @@ include_once ("../Class/Usuarios.php");
 $sEmail = "";
 $sPass = "";
 $sErr = "";
+$nNum = 0;
 $oUser = new Usuarios();
 
 if(isset($_POST["txtEmail"]) && !empty($_POST["txtEmail"]) &&
@@ -20,9 +21,10 @@ if(isset($_POST["txtEmail"]) && !empty($_POST["txtEmail"]) &&
     
         if ($oUser->buscarEmailPass($sEmail)) {
             setcookie('cUser',$sEmail,time()+300);
+            setcookie('cIntentos', $nNum, time()+240);
             header("Location: ../Controllers/controlNIP.php");
         } else {
-            $sErr = "Datos Incorrectos, regrese a la pantalla de inicio de sesión";
+            $sErr = "Datos Incorrectos, el usuario no existe";
         }
         }else{
             $sErr = "Faltan datos, regrese a la pantalla de inicio de sesión";

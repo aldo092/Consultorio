@@ -67,13 +67,13 @@ class Accesos
             throw new Exception("Accesos->buscarNIP(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call equalsNIP('".$this->getUsuario()->getEmail()."','".$this->getNIP()."');";
+                $sQuery = "call equalsNIP('".$this->getUsuario()->getEmail()."',".$this->getNIP().");";
                 $rst = $oAD->ejecutaQuery($sQuery);
                 $oAD->Desconecta();
             }
             if($rst){
                 $value = $rst[0][1];
-                if($this->getNIP() == $value){
+                if($value != ""){
                     $bRet = true;
                 }else{
                     throw new Exception("Accesos->buscarNIP(): intento de acceso incorrecto");
@@ -86,7 +86,7 @@ class Accesos
     }
 
     function generatorAccess(){
-        $nNum = random_int(1000,9999);
+        $nNum =  rand(1000,9999);
         return $nNum;
     }
 
@@ -100,12 +100,12 @@ class Accesos
             throw new Exception("Accesos->checkAccess(): error, value is null");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call checkValue('".$value."')";
+                $sQuery = "call checkValue(".$value.")";
                 $rst = $oAD->ejecutaQuery($sQuery);
                 $oAD->Desconecta();
                 if($rst){
                     $result = $rst[0][0];
-                    if($value == $result){
+                    if($result != ""){
                         $bRet = true;
                     }
                 }
@@ -114,25 +114,41 @@ class Accesos
         return $bRet;
     }
 
-    function insertaAcceso($usuario){
+    function insertaAcceso(){
         $oAD = new AccesoDatos();
         $sQuery = "";
         $sNum = 0;
         $nAfe = 0;
-        if($usuario == ""){
+        if($this->getUsuario()->getEmail() == ""){
             throw new Exception("Accesos->insertaAcceso(): no tiene permisos para realizar esta operación");
         }else{
             do{
                 $sNum = $this->generatorAccess();
                 if($this->checkAccess($sNum) == false){
                     if($oAD->Conecta()){
-                        $sQuery = "call insertaAcceso('".$usuario."','".$sNum."');";
+                        $sQuery = "call insertaAcceso('".$this->getUsuario()->getEmail()."',".$sNum.");";
                         $nAfe = $oAD->ejecutaComando($sQuery);
                         $oAD->Desconecta();
                         $this->setNIP($sNum);
                     }
                 }
             }while($nAfe != 1);
+        }
+        return $nAfe;
+    }
+
+    function updateStatus(){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $nAfe = -1;
+        if($this->getNIP() == 0){
+            throw new Exception("Accesos->updateStatus(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call updateStatusAccess(".$this->getNIP().");";
+                $nAfe = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
         }
         return $nAfe;
     }
