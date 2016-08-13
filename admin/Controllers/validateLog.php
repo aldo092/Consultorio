@@ -27,7 +27,7 @@ if(isset($_POST["txtEmail"]) && !empty($_POST["txtEmail"]) &&
             $sErr = "Datos Incorrectos, el usuario no existe";
         }
         }else{
-            $sErr = "Faltan datos, regrese a la pantalla de inicio de sesión";
+            $sErr = "Faltan datos, regristre todos los campos";
          }
 
     if($sErr != "")

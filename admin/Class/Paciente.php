@@ -21,6 +21,8 @@ class Paciente
     private $sCP="";
     private $bEstadoCivil;
     private $oExpediente;
+    private $sSexo="";
+    private $cCorreo="";
 
 
     public function getExpediente()
@@ -141,6 +143,31 @@ class Paciente
         $this->bEstadoCivil = $bEstadoCivil;
         return $this;
     }
+
+    public function getSexo()
+    {
+      return $this->sSexo;
+    }
+
+    public function setSexo($sSexo)
+    {
+        $this->sSexo=$sSexo;
+        return $this;
+    }
+
+    public function getCorreo()
+    {
+        return $this->cCorreo;
+    }
+
+    public function setCorreo($cCorreo)
+    {
+        $this->cCorreo=$cCorreo;
+        return $this;
+    }
+
+
+
 
     function buscarTodos(){
         $oAD = new AccesoDatos();

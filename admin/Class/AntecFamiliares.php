@@ -13,6 +13,7 @@ class AntecFamiliares
 {
     private $oAD=null;
     private $oExpediente=null;
+
     private $sAlcoholismo="";
     private $sAlergias="";
     private $sAsma="";
@@ -23,6 +24,7 @@ class AntecFamiliares
     private $sHipertension="";
     private $sDrogradiccion="";
     private $sTabaquismo;
+
     private $oPaciente = null;
 
     public function getPaciente()
@@ -34,7 +36,7 @@ class AntecFamiliares
     {
         $this->oPaciente = $oPaciente;
     }
-    
+
     public function getAD()
     {
         return $this->oAD;
@@ -186,5 +188,26 @@ class AntecFamiliares
         return $bRet;
     }
 
+    function insertar(){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = 0;
+        if($oAD->Conecta()){
+            $sQuery = "call inserta_AntecedenteFam(40,
+            '".$this->getAlcoholismo()."',
+				'".$this->getAlergias()."',
+				'".$this->getAsma()."',
+				'".$this->getCancer()."',
+				'".$this->getCongenitos()."',
+				'".$this->getConvulsiones()."',
+				'".$this->getDiabetes()."',
+				'".$this->getHipertension()."',
+				'".$this->getDrogradiccion()."',
+				'".$this->getTabaquismo()."');";
 
+            $i = $oAD->ejecutaComando($sQuery);
+            $oAD->Desconecta();
+        }
+        return $i;
+    }
 }
