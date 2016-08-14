@@ -20,12 +20,9 @@ CREATE PROCEDURE inserta_AnteNoPatologicos(nNumero int,sReligion VARCHAR(50),bTa
   END //
 
 DELIMITER //
-CREATE PROCEDURE  inserta_AntecenteFam(IN user VARCHAR(60),IN nNumero int,  IN sAlcoholismo VARCHAR(50), IN sAlergias VARCHAR(200), IN SAsma VARCHAR(50), IN sCancer VARCHAR(50), IN sCongenitos VARCHAR(50), IN sConvulsiones VARCHAR(50),IN sDiabetes VARCHAR(50),
-  IN sHipertension VARCHAR(50),IN sDrogadiccion VARCHAR(50),IN sTabaquismo VARCHAR(50))
+CREATE PROCEDURE  inserta_AntecenteFam(nNumero int, sAlcoholismo VARCHAR(50), sAlergias VARCHAR(200), SAsma VARCHAR(50), sCancer VARCHAR(50), sCongenitos VARCHAR(50), sConvulsiones VARCHAR(50),sDiabetes VARCHAR(50),sHipertension VARCHAR(50),sDrogadiccion VARCHAR(50),sTabaquismo VARCHAR(50))
 BEGIN
-   INSERT INTO AntecedenteFam(nNumero, sAlcoholismo, sAlergias, sAsma, sCancer, sCongenitos, sConvulsiones, sDiabetes, sHipertension, sDrogadiccion, sTabaquismo) VALUES (nNumero,sAlergias,SAsma, sCancer,sCongenitos,sConvulsiones,sDiabetes,sHipertension,sDrogadiccion, sTabaquismo);
-   INSERT INTO bitacora(sEmail,sAccion,DfechaAccion,sTabla,sDescripcionAccion)
-     VALUES(user,'INSERT',current_date,'AntecedenteFam',concat('inserto nuevos antecedentes familiares el usuario'user));
+  INSERT INTO AntecedenteFam(nNumero, sAlcoholismo, sAlergias, sAsma, sCancer, sCongenitos, sConvulsiones, sDiabetes, sHipertension, sDrogadiccion, sTabaquismo) VALUES (nNumero,sAlergias,SAsma, sCancer,sCongenitos,sConvulsiones,sDiabetes,sHipertension,sDrogadiccion, sTabaquismo);
 END //
 
 /*Fecha de creación 6 de agosto */
@@ -78,14 +75,15 @@ CREATE PROCEDURE insertarPersonal(IN user varchar(60), IN nombre varchar(40), IN
 
 /*Fecha de creación 9 de agosto*/
 delimiter //
-CREATE PROCEDURE equalNIP(IN user varchar(60), nip int(11))
+CREATE PROCEDURE equalsNIP(IN user varchar(60), nip int(11))
   BEGIN
-    SELECT accesoss.Email, accesos.nNIP FROM accesos WHERE accesos.sEmail = user AND accesos.nNIP = md5(nip);
+    SELECT accesos.sEmail, accesos.nNIP FROM accesos WHERE accesos.sEmail = user AND accesos.nNIP = md5(nip);
 
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES(user, 'SELECT', current_date, 'ACCESOS', CONCAT('Búsqueda de identificador personal por el usuario ', user));
   END;
 //
+
 
 delimiter //
 CREATE PROCEDURE checkValue(IN nip int(11))
@@ -104,24 +102,3 @@ CREATE PROCEDURE insertaAcceso(IN user varchar(60), IN nip int(11))
   END;
 //
 
-delimiter //
-CREATE PROCEDURE updateStatusAccess(IN user varchar(60), IN nip int(11))
-  BEGIN
-    UPDATE accesos
-    SET bEstado = 0
-    WHERE sEmail = user AND nNIP = md5(nip);
-
-    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
-    VALUES(user, 'UPDATE', current_date, 'ACCESOS', CONCAT('Invalidó un NIP por exceso de intentos de validacion el  usuario ', user));
-  END;
-
-delimiter //
-CREATE PROCEDURE insertarPaciente(IN user varchar(60),IN curp varchar(18),IN nombre varchar(50), IN apepa varchar(50), IN apema varchar(50),IN sexo char(1),IN fecha date, IN telefono varchar(13),IN direccion varchar(100),IN  cp varchar(5), IN correo varchar(50), IN estadocivil varchar(50))
-  BEGIN
-    INSERT INTO paciente(sCurpPaciente,sNombre,sApPaterno,sApMaterno,sSexo,dFecNacimiento,sTelefono,sDireccion,sCP,sEmail,sEstadoCivil)
-           VALUES (curp, nombre,apepa,apema,sexo,fecha,telefono,direccion,cp,correo,estadocivil);
-
-    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
-    VALUES(user, 'INSERT', current_date, 'paciente', CONCAT('Se insertó un nuevo paciente', nombre, ' ', apepa, ' ', apema));
-  END;
-//

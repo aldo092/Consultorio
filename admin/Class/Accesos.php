@@ -8,6 +8,8 @@
  */
 include_once ("AccesoDatos.php");
 include_once ("Usuarios.php");
+require ("../PHPMailer/class.phpmailer.php");
+require ("../PHPMailer/class.smtp.php");
 class Accesos
 {
     private $oAD = null;
@@ -60,30 +62,27 @@ class Accesos
     function buscarAcceso(){
         $oAD = new AccesoDatos();
         $sQuery = "";
-        $bRet = true;
+        $bRet = false;
         $value = "";
         $rst = null;
         if($this->getUsuario()->getEmail() == "" && $this->getNIP() == 0){
             throw new Exception("Accesos->buscarNIP(): error, faltan datos");
-        }else{
-            if($oAD->Conecta()){
+        }else {
+            if ($oAD->Conecta()) {
                 $sQuery = "call equalsNIP('".$this->getUsuario()->getEmail()."',".$this->getNIP().");";
                 $rst = $oAD->ejecutaQuery($sQuery);
                 $oAD->Desconecta();
             }
-            if($rst){
-                $value = $rst[0][1];
-                if($value != ""){
+            if ($rst) {
+                $this->setNIP($rst[0][1]);
+                if ($this->getNIP() != "") {
                     $bRet = true;
-                }else{
-                    throw new Exception("Accesos->buscarNIP(): intento de acceso incorrecto");
                 }
-            }else{
-                throw new Exception("Accesos->buscarNIP(): intento de acceso incorrecto, el nip no está registrado");
             }
         }
         return $bRet;
     }
+
 
     function generatorAccess(){
         $nNum =  rand(1000,9999);
@@ -145,13 +144,56 @@ class Accesos
             throw new Exception("Accesos->updateStatus(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call updateStatusAccess(".$this->getNIP().");";
+                $sQuery = "call updateStatusAccess('".$this->getUsuario()->getEmail()."');";
                 $nAfe = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }
         }
         return $nAfe;
     }
+    
+    function email(){
+        $bRet = false;
+        $mail = new PHPMailer();
+        $body = '<table width="537" height="662" align="center" bgcolor="#ffe4c4" title="Violación de Seguridad">
+                              <tbody>
+                                <tr>
+                                  <td width="557">
+                                      <p>Estimado usuario '.$this->getUsuario()->getEmail().', excedió el límite de intentos permitidos con su código de acceso.</p>
+                                      <p>Como medida de seguridad, su código de acceso actual fué deshabilitado. Para accesar nuevamente al sistema, su nuevo código de seguridad
+                                      es el siguiente: NIP: '.$this->getNIP().'.</p>
+                                      <p>Recuerde que cuenta con un máximo de 3 intentos antes de que el código vigente sea bloqueado.</p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>SISTEMA DE EXPEDIENTE ELECTRÓNICO</td>
+                                </tr>
+                              </tbody>
+                            </table>';
 
-
+        $body .= "";
+        $mail->IsSMTP();
+        $mail->CharSet = "UTF-8";
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 465;
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = "ssl";
+        $mail->SMTPDebug = 1;
+        $mail->From   = "sisalpasoft@gmail.com";
+        $mail->FromName = "Sistema de Expediente Electrónico";
+        $mail->Subject = "Notificación de Acceso Denegado";
+        $mail->AltBody = "Leer";
+        $mail->MsgHTML($body);
+        $mail->AddAddress($_COOKIE['cUser']);
+        $mail->SMTPAuth = true;
+        $mail->Username = "sisalpasoft@gmail.com";
+        $mail->Password = "sisalpasoft1234";
+        if($mail->Send()){
+            $bRet = true;
+        }else{
+            die();
+            
+        }
+        return $bRet;
+    }
 }

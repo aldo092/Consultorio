@@ -1,9 +1,10 @@
 <?php
 $sErr = "";
 $sEmail = "";
-$nNum = 0;
+$nNum = 1;
     if(isset($_COOKIE['cUser']) && !empty($_COOKIE['cUser'])){
         $sEmail = $_COOKIE['cUser'];
+        $sInt = $_COOKIE['cIntentos'];
     }else{
         $sErr = "Aún no ha ingresado datos de inicio de sesión";
     }
@@ -31,14 +32,6 @@ $nNum = 0;
 
     <!-- Custom Theme Style -->
     <link href="../../build/css/custom.min.css" rel="stylesheet">
-    <script>
-        function validar(frm) {
-            if (frm.txtNip.value.length!=4) {
-                alert('error, introduzca la cantidad correcta de números');
-                frm.txtNip.focus();
-            }
-        }
-    </script>
 </head>
 
 <body class="login">
@@ -49,14 +42,19 @@ $nNum = 0;
     <div class="login_wrapper">
         <div class="animate form login_form">
             <section class="login_content">
-                <form id="frm" role="form" action="Controllers/validateNIP.php" method="post">
+                <form id="frm" role="form" action="validateNIP.php" method="post">
                     <h1>Ingrese su NIP </h1>
+                    <h6><?php echo ($sInt > 0 && $sInt <=3 ? 'NIP INCORRECTO' : ''); ?></h6>
                     <div>
                         <input type="text" name="txtNum" min="0" pattern="^[0-9]{4}$" maxlength="4" class="form-control" placeholder="NIP" required=""/>
                     </div>
                     <div>
                         <input type="submit" value="Validar" class="btn btn-default" />
 
+                    </div>
+                    <br/>
+                    <div>
+                        <h5>Número de intentos <?php echo $_COOKIE['cIntentos']; ?></h5>
                     </div>
 
                     <div class="clearfix"></div>
