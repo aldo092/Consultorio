@@ -20,7 +20,7 @@ $oAcceso = new Accesos();
         $oAcceso->setNIP($_POST['txtNum']);
 
            if($oAcceso->buscarAcceso()){
-               header("Location: Controllers/controlSe.php");
+               header("Location: controlSe.php");
            }else{
                $nNum = $_COOKIE['cIntentos'];
                if($nNum == 3){
