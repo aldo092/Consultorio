@@ -8,13 +8,6 @@ USE consultorio;
 
 
 
-CREATE TABLE Perfil (
-  sClavePerfil VARCHAR(15) NOT NULL,
-  sDescripcion VARCHAR(100) NOT NULL,
-  PRIMARY KEY (sClavePerfil)
-);
-
-
 CREATE TABLE Menu (
   nClave INT AUTO_INCREMENT NOT NULL,
   sDescripcion VARCHAR(200) NOT NULL,
@@ -29,13 +22,6 @@ CREATE TABLE Funcion (
   sRutaPag VARCHAR(300) NOT NULL,
   nPadre INT NOT NULL,
   PRIMARY KEY (nClaveFuncion)
-);
-
-
-CREATE TABLE Perfil_funcion (
-  sClavePerfil VARCHAR(15) NOT NULL,
-  nClaveFuncion INT NOT NULL,
-  PRIMARY KEY (sClavePerfil, nClaveFuncion)
 );
 
 
@@ -73,9 +59,16 @@ CREATE TABLE Usuarios (
 );
 
 
+CREATE TABLE Usuarios_funcion (
+  sEmail VARCHAR(60) NOT NULL,
+  nClaveFuncion INT NOT NULL,
+  PRIMARY KEY (sEmail, nClaveFuncion)
+);
+
+
 CREATE TABLE Accesos (
   sEmail VARCHAR(60) NOT NULL,
-  nNIP VARCHAR(150) NOT NULL,
+  nNIP INT NOT NULL,
   bEstado SMALLINT NOT NULL,
   PRIMARY KEY (sEmail, nNIP)
 );
@@ -89,13 +82,6 @@ CREATE TABLE Bitacora (
   sTabla VARCHAR(100) NOT NULL,
   sDescripcionAccion text NOT NULL,
   PRIMARY KEY (nClaveAccion)
-);
-
-
-CREATE TABLE Usuario_perfil (
-  sEmail VARCHAR(60) NOT NULL,
-  sClavePerfil VARCHAR(15) NOT NULL,
-  PRIMARY KEY (sEmail, sClavePerfil)
 );
 
 
@@ -281,18 +267,6 @@ CREATE TABLE Seguro (
 );
 
 
-ALTER TABLE Usuario_perfil ADD CONSTRAINT perfil_usuario_perfil_fk
-FOREIGN KEY (sClavePerfil)
-REFERENCES Perfil (sClavePerfil)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
-
-ALTER TABLE Perfil_funcion ADD CONSTRAINT perfil_perfil_funcion_fk
-FOREIGN KEY (sClavePerfil)
-REFERENCES Perfil (sClavePerfil)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
-
 ALTER TABLE Menu ADD CONSTRAINT menu_menu_fk
 FOREIGN KEY (nPadre)
 REFERENCES Menu (nClave)
@@ -305,7 +279,7 @@ REFERENCES Menu (nClave)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-ALTER TABLE Perfil_funcion ADD CONSTRAINT funcion_perfil_funcion_fk
+ALTER TABLE Usuarios_funcion ADD CONSTRAINT funcion_perfil_funcion_fk
 FOREIGN KEY (nClaveFuncion)
 REFERENCES Funcion (nClaveFuncion)
   ON DELETE NO ACTION
@@ -335,12 +309,6 @@ REFERENCES Usuarios (sEmail)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-ALTER TABLE Usuario_perfil ADD CONSTRAINT usuarios_usuario_perfil_fk
-FOREIGN KEY (sEmail)
-REFERENCES Usuarios (sEmail)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
-
 ALTER TABLE Bitacora ADD CONSTRAINT usuarios_bitacora_fk
 FOREIGN KEY (sEmail)
 REFERENCES Usuarios (sEmail)
@@ -348,6 +316,12 @@ REFERENCES Usuarios (sEmail)
   ON UPDATE NO ACTION;
 
 ALTER TABLE Accesos ADD CONSTRAINT usuarios_accesos_fk
+FOREIGN KEY (sEmail)
+REFERENCES Usuarios (sEmail)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE Usuarios_funcion ADD CONSTRAINT usuarios_perfil_funcion_fk
 FOREIGN KEY (sEmail)
 REFERENCES Usuarios (sEmail)
   ON DELETE NO ACTION
@@ -471,5 +445,41 @@ BEGIN
   INSERT INTO AntecedenteFam(nNumero, sAlcoholismo, sAlergias, sAsma, sCancer, sCongenitos, sConvulsiones, sDiabetes, sHipertension, sDrogadiccion, sTabaquismo) VALUES (nNumero,sAlergias,SAsma, sCancer,sCongenitos,sConvulsiones,sDiabetes,sHipertension,sDrogadiccion, sTabaquismo);
 END //
 
+/*Menús del Sistema */
+INSERT INTO menu (sDescripcion) values ('Pacientes');
+INSERT INTO menu (sDescripcion) values ('Usuarios');
+INSERT INTO menu (sDescripcion) values ('Citas');
+INSERT INTO menu (sDescripcion) values ('Reportes');
+INSERT INTO menu (sDescripcion) values ('Estudios');
+INSERT INTO menu (sDescripcion) values ('Bitácora');
+INSERT INTO menu (sDescripcion) values ('Seguro');
+INSERT INTO menu (sDescripcion) values ('Consultorios');
+INSERT INTO menu (sDescripcion) values ('Personal');
+INSERT INTO menu (sDescripcion) values ('Otros');
 
-
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Registrar Pacientes', 'Sesiones/Pacientes/registroPacientes.php',1);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Registrar Antecedentes', 'Sesiones/Pacientes/antecedentes.php',1);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Control de Estudios', 'Sesiones/Estudios/controlEstudios.php',5);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Control de Usuarios', 'Sesiones/Usuarios/controlUsuarios.php',2);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Gestión de Roles de Usuario', 'Sesiones/Usuarios/gestionRoles.php',2);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Registrar Cita', 'Sesiones/Citas/registrarCitas.php',3);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Consultar Citas', 'Sesiones/Citas/consultarCitas.php',3);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Cancelar Cita', 'Sesiones/Citas/cancelarCitas.php',3);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Reportes de Estudios', 'Sesiones/Reportes/generarReporte.php',4);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Registrar Consultorio', 'Sesiones/Consultorios/registrarConsultorio.php',8);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Control de Aseguradoras', 'Sesiones/Seguro/controlSeguros.php',7);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Control de Personal', 'Sesiones/Personal/controlPersonal.php',9);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Consultar Bitácora del Sistema', 'Sesiones/Otros/consultarBitacora.php',6);
