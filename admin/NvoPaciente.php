@@ -1,3 +1,22 @@
+<?php
+
+error_reporting(E_ALL);
+include_once ("Class/Usuarios.php");
+session_start();
+$oUser = new Usuarios();
+$sErr = "";
+    if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
+        $oUser = $_SESSION['sUser'];
+    }else{
+        $sErr = "Acceso denegado, inicie sesión";
+    }
+
+    if($sErr != ""){
+        header("Location: error.php?sError=".$sErr);
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -63,7 +82,7 @@
                             </li>
                             <li><a><i class="fa fa-edit"></i> Pacientes <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="NvoPaciente.html">Registro de Pacientes</a></li>
+                                    <li><a href="NvoPaciente.php">Registro de Pacientes</a></li>
 
 
                                 </ul>
@@ -146,7 +165,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Nombre <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="nombre" required="required" class="form-control col-md-7 col-xs-12">
+                            <input type="text" id="nombre" name="nombre" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 
@@ -173,15 +192,18 @@
                         </div>
                     </div>
 
+
+
+
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Sexo</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div id="sexo" class="btn-group" data-toggle="buttons">
                                 <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                    <input type="radio" name="sexo" value="Masculino" data-parsley-multiple="sexo"> &nbsp; Masculino&nbsp;
+                                    <input type="radio" name="sexo" value="M" data-parsley-multiple="sexo"> &nbsp; Masculino&nbsp;
                                 </label>
                                 <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                    <input type="radio" name="sexo" value="femenino" data-parsley-multiple="sexo"> Femenino
+                                    <input type="radio" name="sexo" value="F" data-parsley-multiple="sexo"> Femenino
                                 </label>
                             </div>
                         </div>
@@ -224,7 +246,7 @@
                     <div class="form-group">
                         <label for="edocivil" class="control-label col-md-3 col-sm-3 col-xs-12">Estado Civil</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="edocivil" class="form-control" required="true">
+                            <select id="edocivil" class="form-control" required="true" name="edocivil">
                                 <option value="">Selecciona..</option>
                                 <option value="Soltero">Soltero(a)</option>
                                 <option value="Casado">Casado</option>

@@ -243,13 +243,27 @@ class Paciente
             throw new Exception("Paciente->insertar(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call insertaPaciente('".$usuario."')";
+                $sQuery = "call insertarPaciente('aldo092@gmail.com',
+                                                 '".$this->sCurpPaciente."',
+                                                 '".$this->sNombre."',
+                                                 '".$this->sApPaterno."',
+                                                  '".$this->sApMaterno."',
+                                                  '".$this->sSexo."',
+                                                  '".$this->dFechaNacimiento."',
+                                                  '".$this->sTelefono."',
+                                                  '".$this->sDireccion."',
+                                                  '".$this->sCP."',
+                                                  '".$this->cCorreo."',
+                                                  '".$this->bEstadoCivil."');";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }
         }
         return $i;
     }
+
+
+
 
 
 }

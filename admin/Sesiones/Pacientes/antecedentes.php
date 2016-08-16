@@ -1,3 +1,22 @@
+<?php
+
+error_reporting(E_ALL);
+include_once ("Class/Usuarios.php");
+session_start();
+$oUser = new Usuarios();
+$sErr = "";
+if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
+$oUser = $_SESSION['sUser'];
+}else{
+$sErr = "Acceso denegado, inicie sesión";
+}
+
+if($sErr != ""){
+header("Location: error.php?sError=".$sErr);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -63,7 +82,7 @@
                             </li>
                             <li><a><i class="fa fa-edit"></i> Pacientes <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="../../NvoPaciente.html">Registro de Pacientes</a></li>
+                                    <li><a href="../../NvoPaciente.php">Registro de Pacientes</a></li>
 
 
                                 </ul>
