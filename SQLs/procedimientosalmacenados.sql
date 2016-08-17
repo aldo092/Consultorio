@@ -101,4 +101,13 @@ CREATE PROCEDURE insertaAcceso(IN user varchar(60), IN nip int(11))
     VALUES(user, 'INSERT', current_date, 'ACCESOS', CONCAT('Registro de NIP por el usuario', user));
   END;
 //
+delimiter //
+CREATE PROCEDURE insertarPaciente(IN user varchar(60),IN curp varchar(18),IN nombre varchar(50), IN apepa varchar(50), IN apema varchar(50),IN sexo char(1),IN fecha date, IN telefono varchar(13),IN direccion varchar(100),IN  cp varchar(5), IN correo varchar(50), IN estadocivil varchar(50))
+  BEGIN
+    INSERT INTO paciente(sCurpPaciente,sNombre,sApPaterno,sApMaterno,sSexo,dFecNacimiento,sTelefono,sDireccion,sCP,sEmail,sEstadoCivil)
+    VALUES (curp, nombre,apepa,apema,sexo,fecha,telefono,direccion,cp,correo,estadocivil);
 
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'paciente', CONCAT('Se insertó un nuevo paciente ', nombre, ' ', apepa, ' ', apema));
+  END;
+//
