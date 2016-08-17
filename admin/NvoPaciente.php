@@ -210,10 +210,10 @@ $sErr = "";
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha de Nacimiento <span class="required">*</span>
+                        <label for="birthday" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha de Nacimiento <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="birthday" class="date-picker form-control col-md-7 col-xs-12 active" required="required" type="text" name="nacimiento">
+                            <input id="birthday" class="date-picker form-control col-md-7 col-xs-12 active" required="required" type="text" name="birthday">
                         </div>
                     </div>
 
@@ -251,7 +251,7 @@ $sErr = "";
                                 <option value="Soltero">Soltero(a)</option>
                                 <option value="Casado">Casado</option>
                                 <option value="Viudo">Viudo</option>
-                                <option value="unionlibre">Unión Libre</option>
+                                <option value="union_libre">Unión Libre</option>
 
                             </select>
                         </div>
@@ -563,7 +563,7 @@ $sErr = "";
             buttonClasses: ['btn btn-default'],
             applyClass: 'btn-small btn-primary',
             cancelClass: 'btn-small',
-            format: 'MM/DD/YYYY',
+            format: 'YYYY/MM/DD',
             separator: ' to ',
             locale: {
                 applyLabel: 'Submit',
@@ -572,7 +572,7 @@ $sErr = "";
                 toLabel: 'To',
                 customRangeLabel: 'Custom',
                 daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                 firstDay: 1
             }
         };

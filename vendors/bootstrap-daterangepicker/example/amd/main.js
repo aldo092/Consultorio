@@ -79,15 +79,15 @@ $(document).ready(function() {
 
     if ($('#locale').is(':checked')) {
       options.locale = {
-        format: 'MM/DD/YYYY HH:mm',
+        format: 'YYYY/MM/DD',
         separator: ' - ',
         applyLabel: 'Apply',
         cancelLabel: 'Cancel',
         fromLabel: 'From',
         toLabel: 'To',
         customRangeLabel: 'Custom',
-        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
-        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi','Sa'],
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         firstDay: 1
       };
     }
