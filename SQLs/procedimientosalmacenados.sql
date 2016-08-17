@@ -111,3 +111,14 @@ CREATE PROCEDURE insertarPaciente(IN user varchar(60),IN curp varchar(18),IN nom
     VALUES(user, 'INSERT', current_date, 'paciente', CONCAT('Se insertó un nuevo paciente ', nombre, ' ', apepa, ' ', apema));
   END;
 //
+
+delimiter //
+CREATE PROCEDURE insertarExpediente(IN user varchar(60),IN nExpediente varchar(20),IN Curp varchar(18))
+  BEGIN
+    INSERT INTO expediente(nNumero,sCurpPaciente)
+    VALUES (nExpediente, Curp);
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'expediente', CONCAT('Se insertó una nueva clave de expediente ', nExpediente, 'para el paciente  ', Curp));
+  END;
+//
+

@@ -42,10 +42,6 @@ $edocivil="";
 $oPaciente= new Paciente();
 $Err="";
 $sMsj="";
-$Año=date("y");//mes actual 2 digitos
-$Mes=date("m");//mes actual 2 digitos
-$Dia=date("d");//dia actual 2 digitos
-$Clave="";
 $Nexpediente="";
 $oExpediente= new Expediente();
 
@@ -75,7 +71,7 @@ if(isset($_COOKIE['cUser']) && !empty($_COOKIE['cUser'])&&
     $correo = $_POST["email"];
     $edocivil = $_POST["edocivil"];
 
-    $Nexpediente=substr($curp,-8,3);
+    $Nexpediente=date("y").date("m").date("d").$Nexpediente=substr($curp,4,6).$Nexpediente=substr($curp,0,4).$Nexpediente=substr($curp,13,5);
 
 
     $oPaciente->setNombre($nombre);
@@ -98,7 +94,11 @@ if(isset($_COOKIE['cUser']) && !empty($_COOKIE['cUser'])&&
 
     if ($oPaciente->insertar($oUser)) {
         $sMsj = "Registro  de nuevo paciente correcto";
-        header("Location:../exito.php?sMensaje=".$sMsj);
+        if ($oExpediente->insertarExpediente($oUser)){
+            header("Location:../exito.php?sMensaje=".$sMsj);
+
+
+        }
 
     } else {
         $sErr = "error al guardar el nuevo paciente";
