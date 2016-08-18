@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(E_ALL);
-include_once ("Class/Usuarios.php");
+include_once("Class/Usuarios.php");
 session_start();
 $oUser = new Usuarios();
 $sErr = "";
@@ -29,20 +29,20 @@ $sErr = "";
     <title>Consultorio Médico</title>
 
     <!-- Bootstrap -->
-    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
-    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="../../../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
-    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <link href="../../../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- bootstrap-progressbar -->
-    <link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <link href="../../../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
     <!-- JQVMap -->
-    <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <link href="../../../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
 
     <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="../../../build/css/custom.min.css" rel="stylesheet">
 </head>
 
 <body class="nav-md">
@@ -59,7 +59,7 @@ $sErr = "";
                 <!-- menu profile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <img src="images/img.png" alt="..." class="img-circle profile_img">
+                        <img src="../../images/img.png" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Bienvenido</span>
@@ -82,7 +82,7 @@ $sErr = "";
                             </li>
                             <li><a><i class="fa fa-edit"></i> Pacientes <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="NvoPaciente.php">Registro de Pacientes</a></li>
+                                    <li><a href="registroPacientes.php">Registro de Pacientes</a></li>
 
 
                                 </ul>
@@ -122,12 +122,12 @@ $sErr = "";
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="images/img.png" alt="">Usuario
+                                <img src="../../images/img.png" alt="">Usuario
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
 
-                                <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i>Salir de la Sesión</a></li>
+                                <li><a href="../../login.html"><i class="fa fa-sign-out pull-right"></i>Salir de la Sesión</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -159,7 +159,7 @@ $sErr = "";
             </div>
             <div class="x_content">
                 <br>
-                <form action="Controllers/ctrlpaciente.php" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" >
+                <form action="../../Controllers/ctrlpaciente.php" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" >
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Nombre <span class="required">*</span>
@@ -288,44 +288,44 @@ $sErr = "";
         </div></div>
 
 <!-- jQuery -->
-<script src="../vendors/jquery/dist/jquery.min.js"></script>
+<script src="../../../vendors/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap -->
-<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- FastClick -->
-<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<script src="../../../vendors/fastclick/lib/fastclick.js"></script>
 <!-- NProgress -->
-<script src="../vendors/nprogress/nprogress.js"></script>
+<script src="../../../vendors/nprogress/nprogress.js"></script>
 <!-- Chart.js -->
-<script src="../vendors/Chart.js/dist/Chart.min.js"></script>
+<script src="../../../vendors/Chart.js/dist/Chart.min.js"></script>
 <!-- gauge.js -->
-<script src="../vendors/gauge.js/dist/gauge.min.js"></script>
+<script src="../../../vendors/gauge.js/dist/gauge.min.js"></script>
 <!-- bootstrap-progressbar -->
-<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<script src="../../../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
 <!-- iCheck -->
-<script src="../vendors/iCheck/icheck.min.js"></script>
+<script src="../../../vendors/iCheck/icheck.min.js"></script>
 <!-- Skycons -->
-<script src="../vendors/skycons/skycons.js"></script>
+<script src="../../../vendors/skycons/skycons.js"></script>
 <!-- Flot -->
-<script src="../vendors/Flot/jquery.flot.js"></script>
-<script src="../vendors/Flot/jquery.flot.pie.js"></script>
-<script src="../vendors/Flot/jquery.flot.time.js"></script>
-<script src="../vendors/Flot/jquery.flot.stack.js"></script>
-<script src="../vendors/Flot/jquery.flot.resize.js"></script>
+<script src="../../../vendors/Flot/jquery.flot.js"></script>
+<script src="../../../vendors/Flot/jquery.flot.pie.js"></script>
+<script src="../../../vendors/Flot/jquery.flot.time.js"></script>
+<script src="../../../vendors/Flot/jquery.flot.stack.js"></script>
+<script src="../../../vendors/Flot/jquery.flot.resize.js"></script>
 <!-- Flot plugins -->
-<script src="js/flot/jquery.flot.orderBars.js"></script>
-<script src="js/flot/date.js"></script>
-<script src="js/flot/jquery.flot.spline.js"></script>
-<script src="js/flot/curvedLines.js"></script>
+<script src="../../js/flot/jquery.flot.orderBars.js"></script>
+<script src="../../js/flot/date.js"></script>
+<script src="../../js/flot/jquery.flot.spline.js"></script>
+<script src="../../js/flot/curvedLines.js"></script>
 <!-- JQVMap -->
-<script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>
-<script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-<script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<script src="../../../vendors/jqvmap/dist/jquery.vmap.js"></script>
+<script src="../../../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="../../../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
 <!-- bootstrap-daterangepicker -->
-<script src="js/moment/moment.min.js"></script>
-<script src="js/datepicker/daterangepicker.js"></script>
+<script src="../../js/moment/moment.min.js"></script>
+<script src="../../js/datepicker/daterangepicker.js"></script>
 
 <!-- Custom Theme Scripts -->
-<script src="../build/js/custom.min.js"></script>
+<script src="../../../build/js/custom.min.js"></script>
 
         <!-- bootstrap-daterangepicker -->
         <script>
