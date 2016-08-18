@@ -86,7 +86,7 @@ if($sErr != ""){
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-home"></i> Principal<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="index.php">Principal</a></li>
+                                    <li><a href="menuprincipal.html">Principal</a></li>
                                 </ul>
                             </li>
                             <?php
@@ -108,6 +108,28 @@ if($sErr != ""){
                                 }
                             }
                             ?>
+                            <li><a><i class="fa fa-edit"></i> Pacientes <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="Sesiones/Pacientes/registroPacientes.php">Registro de Pacientes</a></li>
+
+
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-desktop"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="NUsuario.html">Crear Usuario</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-table"></i> Estudios <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="tables.html">Estudios</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-bar-chart-o"></i> Reportes<span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="reportes.html">Reportes</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
 

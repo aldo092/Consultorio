@@ -82,7 +82,7 @@ header("Location: error.php?sError=".$sErr);
                             </li>
                             <li><a><i class="fa fa-edit"></i> Pacientes <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="../../NvoPaciente.php">Registro de Pacientes</a></li>
+                                    <li><a href="registroPacientes.php">Registro de Pacientes</a></li>
 
 
                                 </ul>
