@@ -105,3 +105,42 @@ CREATE PROCEDURE insertarAntPat (IN user VARCHAR(60),IN Expediente varchar(20), 
       END ;
 //
 
+delimiter //
+CREATE PROCEDURE buscarPermisos(IN user varchar(60))
+  BEGIN
+    SELECT distinct menu.nClave, menu.sDescripcion as Descrip
+    FROM menu
+      LEFT OUTER JOIN funcion
+        ON funcion.nPadre = menu.nClave
+      LEFT OUTER JOIN funcion_rol
+        ON funcion_rol.nClaveFuncion = funcion.nClaveFuncion
+      LEFT OUTER JOIN roles
+        ON roles.nIdRol = funcion_rol.nIdRol
+      LEFT OUTER JOIN usuario_rol
+        ON usuario_rol.nIdRol = roles.nIdRol
+      LEFT OUTER JOIN usuarios
+        ON usuarios.sEmail = usuario_rol.sEmail
+    WHERE usuarios.sEmail = user;
+  END;
+//
+
+
+delimiter //
+CREATE PROCEDURE buscarFunciones(IN user varchar(60), IN menu int(11))
+  BEGIN
+    SELECT funcion.nClaveFuncion, funcion.sDescripcion, funcion.sRutaPag, funcion.nPadre
+    FROM funcion
+      LEFT OUTER JOIN menu
+        ON menu.nClave = funcion.nPadre
+      LEFT OUTER JOIN funcion_rol
+        ON funcion_rol.nClaveFuncion = funcion.nClaveFuncion
+      LEFT OUTER JOIN roles
+        ON roles.nIdRol = funcion_rol.nIdRol
+      LEFT OUTER JOIN usuario_rol
+        ON usuario_rol.nIdRol = roles.nIdRol
+      LEFT OUTER JOIN usuarios
+        ON usuarios.sEmail = usuario_rol.sEmail
+    WHERE menu.nClave = menu AND usuarios.sEmail = user;
+
+  END;
+//
