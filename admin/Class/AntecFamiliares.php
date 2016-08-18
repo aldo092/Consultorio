@@ -12,8 +12,8 @@ include_once ("Paciente.php");
 class AntecFamiliares
 {
     private $oAD=null;
-    private $oExpediente=null;
 
+    private $oExpediente="";
     private $sAlcoholismo="";
     private $sAlergias="";
     private $sAsma="";
@@ -192,22 +192,27 @@ class AntecFamiliares
         $oAD = new AccesoDatos();
         $sQuery = "";
         $i = 0;
-        if($oAD->Conecta()){
-            $sQuery = "call inserta_AntecedenteFam(40,
-            '".$this->getAlcoholismo()."',
-				'".$this->getAlergias()."',
-				'".$this->getAsma()."',
-				'".$this->getCancer()."',
-				'".$this->getCongenitos()."',
-				'".$this->getConvulsiones()."',
-				'".$this->getDiabetes()."',
-				'".$this->getHipertension()."',
-				'".$this->getDrogradiccion()."',
-				'".$this->getTabaquismo()."');";
-
-            $i = $oAD->ejecutaComando($sQuery);
-            $oAD->Desconecta();
+        if($this->getExpediente() == ""){
+            throw new Exception("Paciente->insertar(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call insertarAntFam('aldo092@gmail.com',
+                                                 '".$this->oExpediente."',
+                                                  '".$this->sAlcoholismo."',
+                                                  '".$this->sAlergias."',
+                                                   '".$this->sAsma."',
+                                                  '".$this->sCancer."',
+                                                  '".$this->sCongenitos."',
+                                                  '".$this->sConvulsiones."',
+                                                  '".$this->sDiabetes."',
+                                                  '".$this->sHipertension."',
+                                                  '".$this->sDrogradiccion."',
+                                                  '".$this->sTabaquismo."');";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
         }
         return $i;
     }
+
 }

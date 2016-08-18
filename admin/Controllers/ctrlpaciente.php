@@ -8,6 +8,9 @@
 
 error_reporting(E_ALL);
 include_once ("../Class/Usuarios.php");
+include_once ("../Class/Paciente.php");
+include_once ("../Class/Expediente.php");
+
 session_start();
 $oUser = new Usuarios();
 $sErr = "";
@@ -21,12 +24,6 @@ $sErr = "";
         header("Location: error.php?sError=".$sErr);
     }
 
-
-
-
-
-include_once ("../Class/Paciente.php");
-include_once ("../Class/Expediente.php");
 
 $curp="";
 $nombre="";
@@ -93,8 +90,9 @@ if(isset($_COOKIE['cUser']) && !empty($_COOKIE['cUser'])&&
     $oExpediente->setNumero($Nexpediente);
 
     if ($oPaciente->insertar($oUser)) {
-        $sMsj = "Registro  de nuevo paciente correcto";
         if ($oExpediente->insertarExpediente($oUser)){
+            $sMsj = "Registro  de nuevo paciente correcto";
+
             header("Location:../exito.php?sMensaje=".$sMsj);
 
 

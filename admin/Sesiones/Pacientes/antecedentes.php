@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(E_ALL);
-include_once ("Class/Usuarios.php");
+include_once ("../../Class/Usuarios.php");
 session_start();
 $oUser = new Usuarios();
 $sErr = "";
@@ -345,7 +345,7 @@ header("Location: error.php?sError=".$sErr);
 
                                     <div role="tabpanel" class="tab-pane fade " id="tab_content2"
                                          aria-labelledby="home-tab">
-                                        <form class="form-horizontal" role="form">
+                                        <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntPat.php">
                                             <div class="form-group ">
                                                 <div class="col-md-4 col-md-offset-4">
 
@@ -411,13 +411,12 @@ header("Location: error.php?sError=".$sErr);
                                                     <div class="form-group">
                                                         <label class="control-label col-xs-7">Padece Diabetes</label>
                                                         <div class="col-xs-5">
-                                                            <select class="form-control input-sm">
-                                                                <option></option>
-                                                                <option></option>
-                                                                <option>No</option>
-                                                                <option>Tipo 1</option>
-                                                                <option>Tipo 2</option>
-                                                                <option>Durante gestación</option>
+                                                            <select class="form-control input-sm"name="diabetes">
+
+                                                                <option value="""">No</option>
+                                                                <option value="Tipo1">Tipo 1</option>
+                                                                <option value="Tipo2">Tipo 2</option>
+                                                                <option value="Gestacion">Durante gestación</option>
 
                                                             </select>
                                                         </div>
@@ -427,8 +426,8 @@ header("Location: error.php?sError=".$sErr);
 
                                                     <label class="control-label col-xs-7">Describa sus alergías</label>
                                                     <div class="col-xs-5">
-                                                        <input class="form-control input-sm" type="text"
-                                                               placeholder="deje en blanco si no tiene alergias">
+                                                        <input class="form-control input-sm" type="text" name ="alergias"
+                                                               placeholder="ninguna">
                                                     </div>
 
                                                     <div class="form-group">

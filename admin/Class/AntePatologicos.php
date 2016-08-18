@@ -138,20 +138,26 @@ class AntePatologicos
         return $bRet;
     }
 
-    function insertarAntecPatologicos($usuario){
+    function insertar($usuario){
         $oAD = new AccesoDatos();
         $sQuery = "";
-        $i = -1;
-        if($this->getExpediente()->getNumero() == 0){
-            throw new Exception("AntePatologicos->insertarAntecPatologicos('".$usuario."'): error, faltan datos");
+        $i = 0;
+        if($this->getExpediente() == ""){
+            throw new Exception("Paciente->insertar(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call insertarAntePatologicos";
+                $sQuery = "call insertarAntPat('aldo092@gmail.com',
+                                                 '".$this->oExpediente."',
+                                                 '".$this->sAlergias."',
+                                                 '".$this->sCardiopatias."',
+                                                  '".$this->sTransfusiones."',
+                                                  '".$this->sDiabetico."',
+                                                  '".$this->sCardiovasculares."',
+                                                  '".$this->sHTA."');";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }
         }
         return $i;
-    }
-
+        }
 }

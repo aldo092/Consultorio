@@ -7,6 +7,7 @@
  */
 include_once ("../Class/AntecFamiliares.php");
 
+$Expediente="";
 $Alcoholismo="";
 $fumador="";
 $Drogradicto="";
@@ -20,7 +21,8 @@ $Cancer="";
 $oAntFam=new AntecFamiliares();
 $sErr="";
 
-if(isset($_POST["alcoholismo"]) && !empty($_POST["alcoholismo"]) &&
+if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
+    isset($_POST["alcoholismo"]) && !empty($_POST["alcoholismo"]) &&
     isset($_POST["tabaquismo"]) && !empty($_POST["tabaquismo"])&&
     isset($_POST["drogas"]) && !empty($_POST["drogas"])&&
     isset($_POST["asma"]) && !empty($_POST["asma"])&&
@@ -31,6 +33,7 @@ if(isset($_POST["alcoholismo"]) && !empty($_POST["alcoholismo"]) &&
     isset($_POST["congenitos"]) && !empty($_POST["congenitos"])&&
     isset($_POST["cancer"]) && !empty($_POST["cancer"])) {
 
+    $Expediente = $_POST["nExpediente"];
     $Alcoholismo = $_POST["alcoholismo"];
     $fumador = $_POST["tabaquismo"];
     $Drogradicto = $_POST["drogas"];
@@ -42,6 +45,7 @@ if(isset($_POST["alcoholismo"]) && !empty($_POST["alcoholismo"]) &&
     $defectosCongenito = $_POST["congenitos"];
     $Cancer = $_POST["cancer"];
 
+    $oAntFam->setExpediente($Expediente);
     $oAntFam->setAlcoholismo($Alcoholismo);
     $oAntFam->setTabaquismo($fumador);
     $oAntFam->setDrogradiccion($Drogradicto);
@@ -54,17 +58,18 @@ if(isset($_POST["alcoholismo"]) && !empty($_POST["alcoholismo"]) &&
     $oAntFam->setCancer($Cancer);
 
     if ($oAntFam->insertar()){
-        $sErr="Registro Correcto";
-    } else{
-        $sErr="error al guardar la info";
+        $sMsj = "Registro  de antecedentes familiares del expediente ".$Expediente." correcto";
+        header("Location:../exito.php?sMensaje=".$sMsj);
+    } else {
+        $sErr = "error al guardar el nuevo paciente";
     }
-}
-else{
-    $sErr = "Faltan datos";
+
+}else{
+    $sErr = "Faltan datos, registre todos los campos";
 }
 
 if($sErr != "")
     header("Location: ../error.php?sError=".$sErr);
-
 ?>
+    }
 
