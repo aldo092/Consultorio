@@ -483,3 +483,26 @@ INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
 VALUES ('Control de Personal', 'Sesiones/Personal/controlPersonal.php',9);
 INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
 VALUES ('Consultar Bitácora del Sistema', 'Sesiones/Otros/consultarBitacora.php',6);
+
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(3,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(4,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(5,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(9,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(10,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(11,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(12,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(13,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,2);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,2);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,2);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,2);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,2);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(9,2);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,3);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,3);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,3);

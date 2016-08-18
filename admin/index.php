@@ -7,18 +7,23 @@
  */
 error_reporting(E_ALL);
 include_once ("Class/Usuarios.php");
+require_once ("Class/Menu.php");
 session_start();
 $oUser = new Usuarios();
 $sErr = "";
-    if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
-        $oUser = $_SESSION['sUser'];
-    }else{
-        $sErr = "Acceso denegado, inicie sesión";
-    }
+$arrMenus = null;
+if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
+    $oUser = $_SESSION['sUser'];
+    $oMenu = new Menu();
+    $oMenu->setUsuario($oUser);
+    $arrMenus = $oMenu->buscarMenuUsuario();
+}else{
+    $sErr = "Acceso denegado, inicie sesión";
+}
 
-    if($sErr != ""){
-        header("Location: error.php?sError=".$sErr);
-    }
+if($sErr != ""){
+    header("Location: error.php?sError=".$sErr);
+}
 
 ?>
 <!DOCTYPE html>
@@ -81,31 +86,28 @@ $sErr = "";
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-home"></i> Principal<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="menuprincipal.html">Principal</a></li>
+                                    <li><a href="index.php">Principal</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-edit"></i> Pacientes <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="NvoPaciente.php">Registro de Pacientes</a></li>
-
-
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-desktop"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="NUsuario.html">Crear Usuario</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-table"></i> Estudios <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="tables.html">Estudios</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-bar-chart-o"></i> Reportes<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="reportes.html">Reportes</a></li>
-                                </ul>
-                            </li>
+                            <?php
+                            if($arrMenus != null){
+                                foreach ($arrMenus as $vRow){
+                                    ?>
+                                    <li><a><i class="fa fa-home"></i> <?php echo $vRow->getDescrip(); ?><span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <?php
+                                            foreach ($vRow->getArrFunciones() as $sub){
+                                                ?>
+                                                <li><a href="<?php echo $sub->getRutaPag(); ?>"><?php echo $sub->getDescripcion();?></a></li>
+                                                <?php
+                                            }
+                                            ?>
+                                        </ul>
+                                    </li>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </ul>
                     </div>
 

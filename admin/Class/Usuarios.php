@@ -7,7 +7,6 @@
  * Time: 03:37 PM
  */
 include_once ("AccesoDatos.php");
-include_once ("Perfil.php");
 class Usuarios
 {
     private $oAD = null;
@@ -15,7 +14,6 @@ class Usuarios
     private $sEmail = "";
     private $sPassword = "";
     private $dFechaRegistro;
-    private $arrPerfil = null;
     private $oPersonal = null;
 
 

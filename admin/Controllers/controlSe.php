@@ -9,18 +9,20 @@ include_once ("../Class/Usuarios.php");
 session_start();
 $oUser = null;
 $sErr = "";
-    if(isset($_COOKIE['cUser']) && !empty($_COOKIE['cUser'])){
-        $oUser = new Usuarios();
-        $oUser->setEmail($_COOKIE['cUser']);
-        $_SESSION['sUser'] = $oUser;
-        header("Location: ../index.php");
-    }else{
-        $sErr = "Error, no tiene permiso de acceso";
-    }
+if(isset($_COOKIE['cUser']) && !empty($_COOKIE['cUser'])){
+    $oUser = new Usuarios();
+    $oUser->setEmail($_COOKIE['cUser']);
+    setcookie('cUser',"",time()-40);
+    setcookie('cIntentos',"",time()-40);
+    $_SESSION['sUser'] = $oUser;
+    header("Location: ../index.php");
+}else{
+    $sErr = "Error, no tiene permiso de acceso";
+}
 
-    if($sErr != ""){
-        header("Location: ../error.php?sError=".$sErr);
-    }
+if($sErr != ""){
+    header("Location: ../error.php?sError=".$sErr);
+}
 
 ?>
 
