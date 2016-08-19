@@ -6,8 +6,6 @@ ALTER SCHEMA `consultorio`  DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_spa
 USE consultorio;
 
 
-
-
 CREATE TABLE Menu (
   nClave INT AUTO_INCREMENT NOT NULL,
   sDescripcion VARCHAR(200) NOT NULL,
@@ -29,6 +27,13 @@ CREATE TABLE Roles (
   nIdRol INT AUTO_INCREMENT NOT NULL,
   sDescripcion VARCHAR(200) NOT NULL,
   PRIMARY KEY (nIdRol)
+);
+
+
+CREATE TABLE funcion_rol (
+  nClaveFuncion INT NOT NULL,
+  nIdRol INT NOT NULL,
+  PRIMARY KEY (nClaveFuncion, nIdRol)
 );
 
 
@@ -59,10 +64,10 @@ CREATE TABLE Usuarios (
 );
 
 
-CREATE TABLE Usuarios_funcion (
+CREATE TABLE usuario_rol (
   sEmail VARCHAR(60) NOT NULL,
-  nClaveFuncion INT NOT NULL,
-  PRIMARY KEY (sEmail, nClaveFuncion)
+  nIdRol INT NOT NULL,
+  PRIMARY KEY (sEmail, nIdRol)
 );
 
 
@@ -93,7 +98,6 @@ CREATE TABLE Personal (
   sTelefono VARCHAR(15),
   sSexo CHAR(1),
   sCURP VARCHAR(18),
-  nIdRol INT NOT NULL,
   sEmail VARCHAR(60),
   bEstatus SMALLINT DEFAULT 1 NOT NULL,
   PRIMARY KEY (nIdPersonal)
@@ -162,10 +166,36 @@ CREATE TABLE Paciente (
 );
 
 
+CREATE TABLE Expediente (
+  nNumero VARCHAR(20) NOT NULL,
+  sCurpPaciente VARCHAR(18) NOT NULL,
+  PRIMARY KEY (nNumero)
+);
+
+
+CREATE TABLE Seguro (
+  nIdAseguradora INT NOT NULL,
+  nNumero VARCHAR(20) NOT NULL,
+  dFechaVigencia DATE NOT NULL,
+  PRIMARY KEY (nIdAseguradora, nNumero)
+);
+
+
+CREATE TABLE Cita (
+  nFolioCita BIGINT AUTO_INCREMENT NOT NULL,
+  nIdConsultorio SMALLINT NOT NULL,
+  nClaveHorario SMALLINT NOT NULL,
+  nNumero VARCHAR(20) NOT NULL,
+  dFecRegistro DATETIME NOT NULL,
+  dFechaCita DATETIME NOT NULL,
+  PRIMARY KEY (nFolioCita, nIdConsultorio, nClaveHorario)
+);
+
+
 CREATE TABLE EstudioRealizado (
   nIdEstudioReal INT AUTO_INCREMENT NOT NULL,
   nClaveInterna INT NOT NULL,
-  sCurpPaciente VARCHAR(18) NOT NULL,
+  nNumero VARCHAR(20) NOT NULL,
   dFechaRealizado DATE NOT NULL,
   sImpresionDiagnostica text,
   sRutaArchivo text,
@@ -173,7 +203,7 @@ CREATE TABLE EstudioRealizado (
 );
 
 
-CREATE TABLE Facturas (
+CREATE TABLE ReciboCobro (
   nIdFactura INT AUTO_INCREMENT NOT NULL,
   nIdEstudioReal INT NOT NULL,
   nClaveInterna INT NOT NULL,
@@ -182,33 +212,15 @@ CREATE TABLE Facturas (
 );
 
 
-CREATE TABLE Cita (
-  nFolioCita BIGINT AUTO_INCREMENT NOT NULL,
-  nIdConsultorio SMALLINT NOT NULL,
-  nClaveHorario SMALLINT NOT NULL,
-  sCurpPaciente VARCHAR(18) NOT NULL,
-  dFecRegistro DATETIME NOT NULL,
-  dFechaCita DATETIME NOT NULL,
-  PRIMARY KEY (nFolioCita, nIdConsultorio, nClaveHorario)
-);
-
-
-CREATE TABLE Expediente (
-  nNumero INT AUTO_INCREMENT NOT NULL,
-  sCurpPaciente VARCHAR(18) NOT NULL,
-  PRIMARY KEY (nNumero)
-);
-
-
 CREATE TABLE AnteGinecoObstetricos (
-  nNumero INT NOT NULL,
+  nNumero VARCHAR(20) NOT NULL,
   nGestaciones INT,
   nPartos INT,
   nClaveAnticonceptivo INT NOT NULL,
   nAbortos INT,
   sIVSA SMALLINT,
   nParejasSexuales SMALLINT,
-  sETS VARCHAR(60),
+  sETS VARCHAR(200),
   nCesareas INT,
   dUltPapanicolau DATE,
   PRIMARY KEY (nNumero)
@@ -216,54 +228,46 @@ CREATE TABLE AnteGinecoObstetricos (
 
 
 CREATE TABLE AntePatologicos (
-  nNumero INT NOT NULL,
+  nNumero VARCHAR(20) NOT NULL,
   sAlergias VARCHAR(200),
   sCardiopatias VARCHAR(100),
-  sTranfusiones VARCHAR(50),
+  sTranfusiones CHAR(2),
   sDiabetico VARCHAR(50),
-  sCardioVasculares VARCHAR(50),
-  sHTA VARCHAR(50),
+  sCardioVasculares CHAR(2),
+  sHTA CHAR(2),
   PRIMARY KEY (nNumero)
 );
 
 
 CREATE TABLE AnteNoPatologicos (
-  nNumero INT NOT NULL,
-  sReligion VARCHAR(50),
-  bTabaquismo CHAR(1),
+  nNumero VARCHAR(20) NOT NULL,
+  sReligion VARCHAR(100),
+  bTabaquismo CHAR(2),
   sEscolaridad VARCHAR(50),
-  sOcupacion VARCHAR(50),
-  bAlcoholismo VARCHAR(50),
-  sDrogas VARCHAR(50),
-  bAguaPotable CHAR(1),
-  bElectricidad CHAR(1),
-  bDrenaje CHAR(1),
-  bServSanit CHAR(1),
+  sOcupacion VARCHAR(100),
+  bAlcoholismo VARCHAR(2),
+  sDrogas CHAR(2),
+  bAguaPotable CHAR(2),
+  bElectricidad CHAR(2),
+  bDrenaje CHAR(2),
+  bServSanit CHAR(2),
   PRIMARY KEY (nNumero)
 );
 
 
 CREATE TABLE AntecedenteFam (
-  nNumero INT NOT NULL,
-  sAlcoholismo VARCHAR(50),
-  sAlergias VARCHAR(200),
-  sAsma VARCHAR(50),
-  sCancer VARCHAR(50),
-  sCongenitos VARCHAR(50),
-  sConvulsiones VARCHAR(50),
-  sDiabetes VARCHAR(50),
-  sHipertension VARCHAR(50),
-  sDrogadiccion VARCHAR(50),
-  sTabaquismo VARCHAR(50),
+  nNumero VARCHAR(20) NOT NULL,
+  sAlcoholismo CHAR(2),
+  sAlergias CHAR(2),
+  sAsma CHAR(2),
+  sCancer CHAR(2),
+  sCongenitos CHAR(2),
+  sConvulsiones CHAR(2),
+  sDiabetes CHAR(2),
+  sHipertension CHAR(2),
+  sDrogadiccion CHAR(2),
+  sTabaquismo CHAR(2),
   PRIMARY KEY (nNumero)
-);
-
-
-CREATE TABLE Seguro (
-  nIdAseguradora INT NOT NULL,
-  sCurpPaciente VARCHAR(18) NOT NULL,
-  dFechaVigencia DATE NOT NULL,
-  PRIMARY KEY (nIdAseguradora, sCurpPaciente)
 );
 
 
@@ -279,13 +283,19 @@ REFERENCES Menu (nClave)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-ALTER TABLE Usuarios_funcion ADD CONSTRAINT funcion_perfil_funcion_fk
+ALTER TABLE funcion_rol ADD CONSTRAINT funcion_perfil_funcion_fk
 FOREIGN KEY (nClaveFuncion)
 REFERENCES Funcion (nClaveFuncion)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-ALTER TABLE Personal ADD CONSTRAINT roles_personal_fk
+ALTER TABLE usuario_rol ADD CONSTRAINT roles_usuario_rol_fk
+FOREIGN KEY (nIdRol)
+REFERENCES Roles (nIdRol)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE funcion_rol ADD CONSTRAINT roles_usuarios_funcion_fk
 FOREIGN KEY (nIdRol)
 REFERENCES Roles (nIdRol)
   ON DELETE NO ACTION
@@ -321,7 +331,7 @@ REFERENCES Usuarios (sEmail)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-ALTER TABLE Usuarios_funcion ADD CONSTRAINT usuarios_perfil_funcion_fk
+ALTER TABLE usuario_rol ADD CONSTRAINT usuarios_usuario_rol_fk
 FOREIGN KEY (sEmail)
 REFERENCES Usuarios (sEmail)
   ON DELETE NO ACTION
@@ -363,33 +373,9 @@ REFERENCES Aseguradora (nIdAseguradora)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-ALTER TABLE Seguro ADD CONSTRAINT paciente_pacienteasegurado_fk
-FOREIGN KEY (sCurpPaciente)
-REFERENCES Paciente (sCurpPaciente)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
-
 ALTER TABLE Expediente ADD CONSTRAINT paciente_expediente_fk
 FOREIGN KEY (sCurpPaciente)
 REFERENCES Paciente (sCurpPaciente)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
-
-ALTER TABLE Cita ADD CONSTRAINT paciente_cita_fk
-FOREIGN KEY (sCurpPaciente)
-REFERENCES Paciente (sCurpPaciente)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
-
-ALTER TABLE EstudioRealizado ADD CONSTRAINT paciente_estudiorealizad_fk
-FOREIGN KEY (sCurpPaciente)
-REFERENCES Paciente (sCurpPaciente)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
-
-ALTER TABLE Facturas ADD CONSTRAINT estudiorealizad_facturas_fk
-FOREIGN KEY (nIdEstudioReal, nClaveInterna)
-REFERENCES EstudioRealizado (nIdEstudioReal, nClaveInterna)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
@@ -417,33 +403,41 @@ REFERENCES Expediente (nNumero)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
+ALTER TABLE EstudioRealizado ADD CONSTRAINT expediente_estudiorealizado_fk
+FOREIGN KEY (nNumero)
+REFERENCES Expediente (nNumero)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
 
-delimiter //
-CREATE PROCEDURE inserta_paciente(sCurp varchar(18), sNombre VARCHAR(50),sApPat VARCHAR(50), sApMat VARCHAR(50), sSexo CHAR(1), dFecha DATE,
-  sTel VARCHAR(13), sDireccion VARCHAR(100), sCP CHAR(5), sEmail VARCHAR(50),sEstadoCivil VARCHAR(50) )
-  BEGIN
-    INSERT INTO Paciente(sCurpPaciente,sNombre,sApPaterno,sApMaterno,sSexo,dFecNacimiento,sTelefono,sDireccion,sCP,sEmail,sEstadoCivil) VALUES (sCurp, sNombre,sApPat,sApMat, sSexo,dFecha,sTel,sDireccion,sCP,sEmail,sEstadoCivil);
-  END;
-//
+ALTER TABLE Cita ADD CONSTRAINT expediente_cita_fk
+FOREIGN KEY (nNumero)
+REFERENCES Expediente (nNumero)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
 
-delimiter //
-CREATE PROCEDURE  inserta_AntePatologicos( nNumero INT, sAlergias VARCHAR(200),sCardiopatias VARCHAR(100), sTransfusiones VARCHAR(50),sDiabetico VARCHAR(50),sCardiovascular VARCHAR(50),sHTA VARCHAR(50))
-  BEGIN
-    INSERT INTO AntePatologicos(nNumero, sAlergias, sCardiopatias, sTranfusiones, sDiabetico, sCardioVasculares, sHTA) VALUES (nNumero,sAlergias,sCardiopatias,sTranfusiones,sDiabetico,sCardiovascular,sHTA);
-    END ;
-//
+ALTER TABLE Seguro ADD CONSTRAINT expediente_seguro_fk
+FOREIGN KEY (nNumero)
+REFERENCES Expediente (nNumero)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
 
-DELIMITER //
-CREATE PROCEDURE inserta_AnteNoPatologicos(nNumero int,sReligion VARCHAR(50),bTabaquismo CHAR(1),sEscolaridad VARCHAR(50),sOcupacion VARCHAR(50),bAlcoholismo VARCHAR(50), SDrogas VARCHAR(50), bAgua CHAR(1),bElectricidad CHAR(1), bDrenaje CHAR(1))
-  BEGIN
-    INSERT INTO AnteNoPatologicos(nNumero, sReligion, bTabaquismo, sEscolaridad, sOcupacion, bAlcoholismo, sDrogas, bAguaPotable, bElectricidad, bDrenaje) VALUES (nNumero,sReligion,bTabaquismo,sEscolaridad,sOcupacion,bAlcoholismo,SDrogas,bAgua,bElectricidad,bDrenaje );
-  END //
+ALTER TABLE ReciboCobro ADD CONSTRAINT estudiorealizad_facturas_fk
+FOREIGN KEY (nIdEstudioReal, nClaveInterna)
+REFERENCES EstudioRealizado (nIdEstudioReal, nClaveInterna)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
 
-DELIMITER //
-CREATE PROCEDURE  inserta_AntecenteFam(nNumero int, sAlcoholismo VARCHAR(50), sAlergias VARCHAR(200), SAsma VARCHAR(50), sCancer VARCHAR(50), sCongenitos VARCHAR(50), sConvulsiones VARCHAR(50),sDiabetes VARCHAR(50),sHipertension VARCHAR(50),sDrogadiccion VARCHAR(50),sTabaquismo VARCHAR(50))
-BEGIN
-  INSERT INTO AntecedenteFam(nNumero, sAlcoholismo, sAlergias, sAsma, sCancer, sCongenitos, sConvulsiones, sDiabetes, sHipertension, sDrogadiccion, sTabaquismo) VALUES (nNumero,sAlergias,SAsma, sCancer,sCongenitos,sConvulsiones,sDiabetes,sHipertension,sDrogadiccion, sTabaquismo);
-END //
+INSERT INTO roles(sDescripcion) VALUES('ADMINISTRADOR');
+INSERT INTO roles(sDescripcion) VALUES('MEDICO');
+INSERT INTO roles(sDescripcion) VALUES('RECEPCIONISTA');
+
+INSERT INTO Usuarios(sEmail, sPassword, dFechaRegistro)
+VALUES ('sisalpasolft@gmail.com',md5('acm1pt'), CURRENT_DATE());
+
+INSERT INTO Personal(sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCURP, sEmail, bEstatus)
+VALUES ('Sistema','Expediente','Electrónico', '2717493689','M','LALP920516HVZLPB07','sisalpasolft@gmail.com' ,1);
+
+INSERT INTO Accesos(sEmail, nNIP, bEstado) VALUES ('sisalpasolft@gmail.com',md5(3728),1);
 
 /*Menús del Sistema */
 INSERT INTO menu (sDescripcion) values ('Pacientes');
@@ -506,3 +500,4 @@ INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(9,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,3);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,3);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,3);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,3);

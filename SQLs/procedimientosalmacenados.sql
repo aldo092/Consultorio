@@ -9,7 +9,6 @@ CREATE PROCEDURE buscarEmailPassUser(IN user varchar(60), IN email varchar(60), 
   END;
 //
 
-call buscarEmailPassUser('llarena_92@hotmail.com','llarena_92@hotmail.com','pablo123');
 
 delimiter //
 CREATE PROCEDURE  insertarUsuario(IN user varchar(60), IN email varchar(60), IN pass varchar(30))
