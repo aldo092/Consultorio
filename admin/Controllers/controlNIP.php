@@ -46,7 +46,7 @@ $nNum = 1;
                     <h1>Ingrese su NIP </h1>
                     <h6><?php echo ($sInt > 0 && $sInt <=3 ? 'NIP INCORRECTO' : ''); ?></h6>
                     <div>
-                        <input type="text" name="txtNum" min="0" pattern="^[0-9]{4}$" maxlength="4" class="form-control" placeholder="NIP" required=""/>
+                        <input type="password" name="txtNum" min="0" pattern="^[0-9]{4}$" maxlength="4" class="form-control" placeholder="NIP" required=""/>
                     </div>
                     <div>
                         <input type="submit" value="Validar" class="btn btn-default" />

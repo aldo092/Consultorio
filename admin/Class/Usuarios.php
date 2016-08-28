@@ -7,6 +7,7 @@
  * Time: 03:37 PM
  */
 include_once ("AccesoDatos.php");
+include_once ("Personal.php");
 class Usuarios
 {
     private $oAD = null;
@@ -132,6 +133,31 @@ class Usuarios
                 $oAD->Desconecta();
                 if($rst){
                     $this->setEmail($rst[0][0]);
+                    $bRet = true;
+                }
+            }
+        }
+        return $bRet;
+    }
+
+    function buscarDatosBasicos(){
+        $oAD = new AccesoDatos();
+        $rst = null;
+        $sQuery = "";
+        $bRet = false;
+        if($this->getEmail() == ""){
+            throw new Exception("Usuarios: buscarDatosBasicos(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarDatosUsuario('".$this->getEmail()."');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+                if($rst){
+                    $this->setPersonal(new Personal());
+                    $this->getPersonal()->setNombres($rst[0][0]);
+                    $this->getPersonal()->setApPaterno($rst[0][1]);
+                    $this->getPersonal()->setApMaterno($rst[0][2]);
+                    $this->getPersonal()->setEstatus($rst[0][3]);
                     $bRet = true;
                 }
             }

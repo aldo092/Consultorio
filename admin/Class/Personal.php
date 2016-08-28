@@ -7,6 +7,9 @@
  * Time: 07:31 PM
  */
 include_once ("AccesoDatos.php");
+include_once ("Roles.php");
+include_once ("Medico.php");
+include_once ("Usuarios.php");
 class Personal
 {
     private $oAD = null;
@@ -18,7 +21,73 @@ class Personal
     private $sPuesto="";
     private $sSexo="";
     private $sCURP="";
+    private $bEstatus=0;
+    private $oRol = null;
+    private $sEmail = "";
+    private $sImagen = "";
+    private $oMedico = null;
+    private $oUsuario = null;
 
+
+    public function getUsuario()
+    {
+        return $this->oUsuario;
+    }
+
+    public function setUsuario($oUsuario)
+    {
+        $this->oUsuario = $oUsuario;
+    }
+    
+    public function getMedico()
+    {
+        return $this->oMedico;
+    }
+    
+    public function setMedico($oMedico)
+    {
+        $this->oMedico = $oMedico;
+    }
+    
+    public function getImagen()
+    {
+        return $this->sImagen;
+    }
+
+    public function setImagen($sImagen)
+    {
+        $this->sImagen = $sImagen;
+    }
+
+    public function getEmail()
+    {
+        return $this->sEmail;
+    }
+
+    public function setEmail($sEmail)
+    {
+        $this->sEmail = $sEmail;
+    }
+
+    public function getRol()
+    {
+        return $this->oRol;
+    }
+
+    public function setRol($oRol)
+    {
+        $this->oRol = $oRol;
+    }
+
+    public function getEstatus()
+    {
+        return $this->bEstatus;
+    }
+
+    public function setEstatus($bEstatus)
+    {
+        $this->bEstatus = $bEstatus;
+    }
 
     public function getAD()
     {
@@ -125,14 +194,17 @@ class Personal
         if($rst){
             foreach ($rst as $vRowTemp){
                 $oPer = new Personal();
+                $oPer->setRol(new Roles());
                 $oPer->setIdPersonal($vRowTemp[0]);
                 $oPer->setNombres($vRowTemp[1]);
                 $oPer->setApPaterno($vRowTemp[2]);
                 $oPer->setApMaterno($vRowTemp[3]);
                 $oPer->setTelefono($vRowTemp[4]);
-                $oPer->setPuesto($vRowTemp[5]);
-                $oPer->setSexo($vRowTemp[6]);
-                $oPer->setCURP($vRowTemp[7]);
+                $oPer->setSexo($vRowTemp[5]);
+                $oPer->setCURP($vRowTemp[6]);
+                $oPer->setEmail($vRowTemp[7]);
+                $oPer->setEstatus($vRowTemp[8]);
+                $oPer->getRol()->setDescripcion($vRowTemp[9]);
                 $vObj[$i] = $oPer;
                 $i = $i + 1;
             }
@@ -140,6 +212,39 @@ class Personal
             $vObj = false;
         }
         return $vObj;
+    }
+
+    function buscarDatosPorPersona(){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $bRet = false;
+        $rst = null;
+        if($this->getIdPersonal() == 0){
+            throw new Exception("Personal->buscarDatosPorPersona(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscaDatosPersona(".$this->getIdPersonal().");";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+                if($rst){
+                    $oMedico = new Medico();
+                    $this->setRol(new Roles());
+                    $this->setIdPersonal($rst[0][0]);
+                    $this->setNombres($rst[0][1]);
+                    $this->setApPaterno($rst[0][2]);
+                    $this->setApMaterno($rst[0][3]);
+                    $this->setTelefono($rst[0][4]);
+                    $this->setSexo($rst[0][5]);
+                    $this->setCURP($rst[0][6]);
+                    $this->setEmail($rst[0][7]);
+                    $this->setEstatus($rst[0][8]);
+                    $this->getRol()->setDescripcion($rst[0][9]);
+                    $this->setMedico($oMedico->buscarDatosMedico($this->getIdPersonal()));
+                    $bRet = true;
+                }
+            }
+        }
+        return $bRet;
     }
 
     function insertarPersonal($usuario){
@@ -170,6 +275,23 @@ class Personal
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }
+        }
+        return $i;
+    }
+
+    function insertaPersonalMedico($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($oAD->Conecta()){
+            $sQuery = "call insertaPersonalMedico('".$usuario."', '".$this->getNombres()."', '".$this->getApPaterno()."',
+            '".$this->getApMaterno()."','".$this->getTelefono()."','".$this->getSexo()."','".$this->getCURP()."',
+            ".$this->getRol()->getIdRol().", '".$this->getEmail()."','".$this->getUsuario()->getPassword()."',
+            '".$this->getMedico()->getNumCedula()."','".$this->getMedico()->getFechaExpedicionCed()."',
+            '".$this->getMedico()->getNumCedEsp()."','".$this->getMedico()->getFecExpedCedEsp()."',
+            '".$this->getMedico()->getNumTelefono1()."','".$this->getMedico()->getEspecialidad()."');";
+            $i = $oAD->ejecutaComando($sQuery);
+            $oAD->Desconecta();
         }
         return $i;
     }

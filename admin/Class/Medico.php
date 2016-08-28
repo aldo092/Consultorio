@@ -13,11 +13,11 @@ class Medico
     private $oAD = null;
     private $oPersonal = null;
     private $sNumCedula = "";
-    private $dFechaExpedicionCed;
+    private $dFechaExpedicionCed=null;
     private $sNumCedEsp = "";
-    private $dFecExpedCedEsp;
-    private $sNumTelefono1;
-    private $sNumTelefono2;
+    private $dFecExpedCedEsp=null;
+    private $sNumTelefono1="";
+    private $sNumTelefono2="";
     private $sEspecialidad="";
 
 
@@ -109,6 +109,31 @@ class Medico
     public function setEspecialidad($sEspecialidad)
     {
         $this->sEspecialidad = $sEspecialidad;
+    }
+
+    function buscarDatosMedico($nPersonal){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $rst = null;
+        //$oMedico = null;
+        if($nPersonal == 0){
+            throw new Exception("Medico->buscarDatosMedico(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarDatosMedico(".$nPersonal.");";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+                if($rst){
+                    $this->setNumCedula($rst[0][0]);
+                    $this->setFechaExpedicionCed($rst[0][1]);
+                    $this->setNumCedEsp($rst[0][2]);
+                    $this->setFecExpedCedEsp($rst[0][3]);
+                    $this->setNumTelefono1($rst[0][4]);
+                    $this->setEspecialidad($rst[0][5]);
+                }
+            }
+        }
+        return $this;
     }
 
 }
