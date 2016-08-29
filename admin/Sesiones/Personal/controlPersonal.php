@@ -44,7 +44,7 @@ if($sErr != ""){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Consultorio Médico</title>
+    <title>Consultorio Médico - Control de Personal</title>
 
     <!-- Bootstrap -->
     <link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -211,7 +211,6 @@ if($sErr != ""){
                                                 <td><?php echo $vRT->getRol()->getDescripcion();?></td>
                                                 <td>
                                                     <input type="submit" value="Modificar" class="btn btn-warning" onClick="txtIdPersona.value=<?php echo $vRT->getIdPersonal();?>; txtOp.value='m';txtRol.value='<?php echo $vRT->getRol()->getDescripcion();?>';">
-                                                    <input type="submit" value="Eliminar" class="btn btn-danger" onClick="txtIdPersona.value=<?php echo $vRT->getIdPersonal();?>; txtOp.value='e'">
                                                 </td>
                                             </tr>
                                 <?php

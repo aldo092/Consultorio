@@ -75,7 +75,7 @@ if($sErr != ""){
                 <!-- menu profile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <img src="images/icn1.jpg" alt="..." class="img-circle profile_img">
+                        <img src="../admin/imagenesperfiles/<?php echo $oUser->getPersonal()->getImagen();?>" alt="..."  class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Bienvenido</span>

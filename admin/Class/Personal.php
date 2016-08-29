@@ -239,6 +239,8 @@ class Personal
                     $this->setEmail($rst[0][7]);
                     $this->setEstatus($rst[0][8]);
                     $this->getRol()->setDescripcion($rst[0][9]);
+                    $this->setImagen($rst[0][10]);
+                    $this->getRol()->setIdRol($rst[0][11]);
                     $this->setMedico($oMedico->buscarDatosMedico($this->getIdPersonal()));
                     $bRet = true;
                 }
@@ -252,16 +254,17 @@ class Personal
         $sQuery = "";
         $i = -1;
         if($oAD->Conecta()){
-            $sQuery = "call insertaPersonal('".$usuario."','".$this->getNombres()."',
+            $sQuery = "call insertarPersonal('".$usuario."','".$this->getNombres()."',
             '".$this->getApPaterno()."','".$this->getApMaterno()."','".$this->getTelefono()."',
-            '".$this->getPuesto()."','".$this->getSexo()."','".$this->getCURP()."');";
+            '".$this->getSexo()."','".$this->getCURP()."',".$this->getRol()->getIdRol().",
+            '".$this->getEmail()."','".$this->getUsuario()->getPassword()."','".$this->getImagen()."');";
             $i = $oAD->ejecutaComando($sQuery);
             $oAD->Desconecta();
         }
         return $i;
     }
 
-    function modificarPersonal($usuario){
+    function modificarPersonalyPass($usuario){
         $oAD = new AccesoDatos();
         $sQuery = "";
         $i = -1;
@@ -269,9 +272,9 @@ class Personal
             throw new Exception("Personal->modificarPersonal(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call modificarPersonal('".$usuario."',".$this->getIdPersonal().", '".$this->getNombres()."',
+                $sQuery = "call modificaPersonal1('".$usuario."',".$this->getIdPersonal().", '".$this->getNombres()."',
                 '".$this->getApPaterno()."','".$this->getApMaterno()."','".$this->getTelefono()."',
-                '".$this->getPuesto()."','".$this->getSexo()."','".$this->getCURP()."');";
+                '".$this->getUsuario()->getPassword()."',".$this->getEstatus().");";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }
@@ -289,11 +292,65 @@ class Personal
             ".$this->getRol()->getIdRol().", '".$this->getEmail()."','".$this->getUsuario()->getPassword()."',
             '".$this->getMedico()->getNumCedula()."','".$this->getMedico()->getFechaExpedicionCed()."',
             '".$this->getMedico()->getNumCedEsp()."','".$this->getMedico()->getFecExpedCedEsp()."',
-            '".$this->getMedico()->getNumTelefono1()."','".$this->getMedico()->getEspecialidad()."');";
+            '".$this->getMedico()->getNumTelefono1()."','".$this->getMedico()->getEspecialidad()."','".$this->getImagen()."');";
             $i = $oAD->ejecutaComando($sQuery);
             $oAD->Desconecta();
         }
         return $i;
     }
+
+    function modificaPersonal($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getIdPersonal() == 0){
+            throw new Exception("Personal->modificaPersonalyPass(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call modificaPersonal2('".$usuario."',".$this->getIdPersonal().",'".$this->getNombres()."','".$this->getApPaterno()."',
+                '".$this->getApMaterno()."','".$this->getTelefono()."',".$this->getEstatus().");";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
+    }
+
+    function modificaPersonalMedicoyPass($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getIdPersonal() == 0){
+            throw new Exception("Personal->modificaPersonalMedicoyPass(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call modificarPersonalMedico1('".$usuario."','".$this->getIdPersonal()."','".$this->getNombres()."','".$this->getApPaterno()."',
+                '".$this->getApMaterno()."','".$this->getTelefono()."','".$this->getUsuario()->getPassword()."','".$this->getMedico()->getNumCedula()."',
+                '".$this->getMedico()->getNumCedEsp()."','".$this->getMedico()->getNumTelefono1()."','".$this->getMedico()->getEspecialidad()."',".$this->getEstatus().");";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
+    }
+
+    function modificaPersonalMedico($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getIdPersonal() == 0){
+            throw new Exception("Personal->modificaPersonalMedico(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call modificarPersonalMedico2('".$usuario."','".$this->getIdPersonal()."','".$this->getNombres()."','".$this->getApPaterno()."',
+                '".$this->getApMaterno()."','".$this->getTelefono()."','".$this->getMedico()->getNumCedula()."','".$this->getMedico()->getNumCedEsp()."',
+                '".$this->getMedico()->getNumTelefono1()."','".$this->getMedico()->getEspecialidad()."',".$this->getEstatus().")";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
+    }
+
 
 }

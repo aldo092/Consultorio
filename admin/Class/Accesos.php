@@ -136,6 +136,29 @@ class Accesos
         return $nAfe;
     }
 
+    function insertaAcceso2($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $sNum = 0;
+        $nAfe = 0;
+        if($this->getUsuario()->getEmail() == ""){
+            throw new Exception("Accesos->insertaAcceso2(): no tiene permisos para realizar esta operación");
+        }else{
+            do{
+                $sNum = $this->generatorAccess();
+                if($this->checkAccess($sNum) == false){
+                    if($oAD->Conecta()){
+                        $sQuery = "call insertaAcceso2('".$usuario."', '".$this->getUsuario()->getEmail()."',".$sNum.");";
+                        $nAfe = $oAD->ejecutaComando($sQuery);
+                        $oAD->Desconecta();
+                        $this->setNIP($sNum);
+                    }
+                }
+            }while($nAfe != 1);
+        }
+        return $nAfe;
+    }
+
     function updateStatus(){
         $oAD = new AccesoDatos();
         $sQuery = "";
@@ -193,6 +216,50 @@ class Accesos
         }else{
             die();
             
+        }
+        return $bRet;
+    }
+
+    function emailRegistro($mailDes){
+        $bRet = false;
+        $mail = new PHPMailer();
+        $body = '<table width="537" height="662" align="center" bgcolor="#ffe4c4" title="Violación de Seguridad">
+                              <tbody>
+                                <tr>
+                                  <td width="557">
+                                      <p>Estimado usuario '.$this->getUsuario()->getEmail().', nos complace darle la bienvenida al Sistema de Expediente Electrónico.</p>
+                                      <p>El código que usted deberá utilizar para accesar es el siguiente: NIP: '.$this->getNIP().'.</p>
+                                      <p>Recuerde que cuenta con un máximo de 3 intentos antes de que el código vigente sea bloqueado.</p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>SISTEMA DE EXPEDIENTE ELECTRÓNICO</td>
+                                </tr>
+                              </tbody>
+                            </table>';
+
+        $body .= "";
+        $mail->IsSMTP();
+        $mail->CharSet = "UTF-8";
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 465;
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = "ssl";
+        $mail->SMTPDebug = 1;
+        $mail->From   = "sisalpasoft@gmail.com";
+        $mail->FromName = "Sistema de Expediente Electrónico";
+        $mail->Subject = "Registro exitoso";
+        $mail->AltBody = "Leer";
+        $mail->MsgHTML($body);
+        $mail->AddAddress($mailDes);
+        $mail->SMTPAuth = true;
+        $mail->Username = "sisalpasoft@gmail.com";
+        $mail->Password = "sisalpasoft1234";
+        if($mail->Send()){
+            $bRet = true;
+        }else{
+            die();
+
         }
         return $bRet;
     }

@@ -2,7 +2,11 @@
 delimiter //
 CREATE PROCEDURE buscarEmailPassUser(IN user varchar(60), IN email varchar(60), spass varchar(30))
   BEGIN
-    SELECT  usuarios.sEmail FROM usuarios WHERE usuarios.sEmail = email AND usuarios.sPassword = md5(spass);
+    SELECT  usuarios.sEmail FROM usuarios
+      LEFT OUTER JOIN personal
+        ON personal.sEmail = usuarios.sEmail
+    WHERE usuarios.sEmail = email AND usuarios.sPassword = md5(spass)
+          AND personal.bEstatus = 1;
 
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES(user, 'SELECT', current_date, 'USUARIOS', CONCAT('Búsqueda de datos de inicio de sesión por el usuario ',user));
@@ -32,12 +36,14 @@ CREATE PROCEDURE insertaRol(IN user varchar(60), IN descripcion varchar(200))
 
 delimiter //
 CREATE PROCEDURE insertarPersonal(IN user varchar(60), IN nombre varchar(40), IN apPaterno varchar(40), IN apMaterno varchar(40), IN telefono VARCHAR(15),
-                                  IN sexo char(1), IN curp varchar(18), IN rol int(11), IN email varchar(60), IN pass  varchar(30))
+                                  IN sexo char(1), IN curp varchar(18), IN rol int(11), IN email varchar(60), IN pass  varchar(30), IN imagen varchar(200))
   BEGIN
     call insertarUsuario(user, email, pass);
 
-    INSERT INTO Personal(sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCurp, nIdRol, sEmail, bEstatus)
-    VALUES (nombre, apPaterno, apMaterno, telefono, sexo, curp, rol, email, 1);
+    INSERT INTO Personal(sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCurp, sEmail, bEstatus, sImagen)
+    VALUES (nombre, apPaterno, apMaterno, telefono, sexo, curp, email, 1, imagen);
+
+    call insertaUserRol(user, email, rol);
 
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES(user, 'INSERT', current_date, 'PERSONAL', CONCAT('Se insertó un nuevo colega  ', nombre, ' ', apPaterno, ' ', apMaterno));
@@ -73,6 +79,17 @@ CREATE PROCEDURE insertaAcceso(IN user varchar(60), IN nip int(11))
     VALUES(user, 'INSERT', current_date, 'ACCESOS', CONCAT('Registro de NIP por el usuario', user));
   END;
 //
+
+delimiter //
+CREATE PROCEDURE insertaAcceso2(IN us1 varchar(60), IN user varchar(60), IN nip int(11))
+  BEGIN
+    INSERT INTO accesos(sEmail, nNIP, bEstado) VALUES(user, md5(nip), 1);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(us1, 'INSERT', current_date, 'ACCESOS', CONCAT('Registro de NIP por el usuario', us1));
+  END;
+//
+
 delimiter //
 CREATE PROCEDURE insertarPaciente(IN user varchar(60),IN curp varchar(18),IN nombre varchar(50), IN apepa varchar(50), IN apema varchar(50),IN sexo char(1),IN fecha date, IN telefono varchar(13),IN direccion varchar(100),IN  cp varchar(5), IN correo varchar(50), IN estadocivil varchar(50))
   BEGIN
@@ -147,7 +164,7 @@ CREATE PROCEDURE buscarFunciones(IN user varchar(60), IN menu int(11))
 delimiter //
 CREATE PROCEDURE buscarDatosUsuario(IN email varchar(60))
   BEGIN
-    Select sNombres, sApPaterno, sApMaterno, bEstatus
+    Select sNombres, sApPaterno, sApMaterno, bEstatus, sImagen
     FROM Personal
       LEFT OUTER JOIN Usuarios
         ON usuarios.sEmail = personal.sEmail
@@ -200,21 +217,24 @@ CREATE PROCEDURE buscarDatosMedico(IN idPersonal int(11))
 delimiter //
 CREATE PROCEDURE insertaPersonalMedico(IN user varchar(60), IN nombre varchar(40), IN apPaterno varchar(40), IN apMaterno varchar(40), IN telefono VARCHAR(15),
                                        IN sexo char(1), IN curp varchar(18), IN rol int(11), IN email varchar(60), IN pass  varchar(30), IN numced varchar(20), IN fechacedula date,
-                                       IN numcedesp varchar(20), IN feccedesp date, IN numtel varchar(15), IN especialidad varchar(100))
+                                       IN numcedesp varchar(20), IN feccedesp date, IN numtel varchar(15), IN especialidad varchar(100), IN imagen varchar(200))
   BEGIN
     call insertarUsuario(user, email, pass);
 
-    INSERT INTO Personal(sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCurp, nIdRol, sEmail, bEstatus)
-    VALUES (nombre, apPaterno, apMaterno, telefono, sexo, curp, rol, email, 1);
+    INSERT INTO Personal(sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCurp, nIdRol, sEmail, bEstatus, sImagen)
+    VALUES (nombre, apPaterno, apMaterno, telefono, sexo, curp, email, 1, imagen);
 
     SET @nPersonal = (SELECT LAST_INSERT_ID());
 
     call insertaMedico(user, @nPersonal, numced, fechacedula, numcedesp, feccedesp, numtel, especialidad);
 
+    call insertaUserRol(user, email, rol);
+
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES(user, 'INSERT', current_date, 'PERSONAL', CONCAT('Se insertó un nuevo colega  ', nombre, ' ', apPaterno, ' ', apMaterno));
   END;
 //
+
 
 delimiter //
 CREATE PROCEDURE modificaPersonal1(IN user varchar(60), IN idpersonal int(11), IN nombres varchar(40), IN appaterno varchar(40), IN apmaterno varchar(40),
@@ -266,7 +286,7 @@ CREATE PROCEDURE modificarPersonalMedico1(IN user varchar(60), IN idpersonal int
     WHERE nIdPersonal = idpersonal;
 
     UPDATE medico
-    SET sNumCedula = numced, sNumCedEsp = numcedesp, sNumTelefono1 = numtel1, sNumTelefono2 = numtel2, sEspecialidad = especialidad
+    SET sNumCedula = numced, sNumCedEsp = numcedesp, sNumTelefono1 = numtel1, sNumTelefono2 = numtel1, sEspecialidad = especialidad
     WHERE nIdPersonal = idpersonal;
 
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
@@ -291,7 +311,7 @@ CREATE PROCEDURE modificarPersonalMedico2(IN user varchar(60), IN idpersonal int
     WHERE nIdPersonal = idpersonal;
 
     UPDATE medico
-    SET sNumCedula = numced, sNumCedEsp = numcedesp, sNumTelefono1 = numtel1, sNumTelefono2 = numtel2, sEspecialidad = especialidad
+    SET sNumCedula = numced, sNumCedEsp = numcedesp, sNumTelefono1 = numtel1, sNumTelefono2 = numtel1, sEspecialidad = especialidad
     WHERE nIdPersonal = idpersonal;
 
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
@@ -300,5 +320,31 @@ CREATE PROCEDURE modificarPersonalMedico2(IN user varchar(60), IN idpersonal int
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES(user, 'UPDATE', current_date, 'medico', concat('Modificación de datos del médico con clave ',idpersonal));
 
+  END;
+//
+
+delimiter //
+CREATE PROCEDURE buscaDatosPersona(IN idpersona int(11))
+  BEGIN
+    SELECT Personal.nIdPersonal, Personal.sNombres, Personal.sApPaterno, Personal.sApMaterno, Personal.sTelefono, Personal.sSexo,
+      Personal.sCURP, Personal.sEmail, Personal.bEstatus, Roles.sDescripcion, Personal.sImagen, Roles.nIdRol
+    FROM Personal
+      LEFT OUTER JOIN usuarios
+        ON usuarios.sEmail = Personal.sEmail
+      LEFT OUTER JOIN usuario_rol
+        ON usuario_rol.sEmail = usuarios.sEmail
+      LEFT OUTER JOIN roles
+        ON roles.nIdRol = usuario_rol.nIdRol
+    WHERE Personal.nIdPersonal = idpersona;
+  END;
+//
+
+delimiter //
+CREATE PROCEDURE insertaUserRol(IN user varchar(30), IN email varchar(60), rol int(11))
+  BEGIN
+    INSERT INTO usuario_rol(sEmail, nIdRol) VALUES (email, rol);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'usuario_rol', 'Inserción de un usuario y el rol que desempeña');
   END;
 //

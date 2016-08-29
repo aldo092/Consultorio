@@ -100,6 +100,7 @@ CREATE TABLE Personal (
   sCURP VARCHAR(18),
   sEmail VARCHAR(60),
   bEstatus SMALLINT DEFAULT 1 NOT NULL,
+  sImagen VARCHAR(200),
   PRIMARY KEY (nIdPersonal)
 );
 
@@ -427,6 +428,25 @@ REFERENCES EstudioRealizado (nIdEstudioReal, nClaveInterna)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
+ALTER TABLE personal
+DROP FOREIGN KEY usuarios_personal_fk;
+ALTER TABLE personal
+ADD CONSTRAINT usuarios_personal_fk
+FOREIGN KEY (sEmail)
+REFERENCES usuarios(sEmail)
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION;
+
+ALTER TABLE medico
+DROP FOREIGN KEY personal_medico_fk;
+ALTER TABLE medico
+ADD CONSTRAINT personal_medico_fk
+FOREIGN KEY (nIdPersonal)
+REFERENCES personal(nIdPersonal)
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION;
+
+
 INSERT INTO roles(sDescripcion) VALUES('ADMINISTRADOR');
 INSERT INTO roles(sDescripcion) VALUES('MEDICO');
 INSERT INTO roles(sDescripcion) VALUES('RECEPCIONISTA');
@@ -438,6 +458,8 @@ INSERT INTO Personal(sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCURP, 
 VALUES ('Sistema','Expediente','Electrónico', '2717493689','M','LALP920516HVZLPB07','sisalpasolft@gmail.com' ,1);
 
 INSERT INTO Accesos(sEmail, nNIP, bEstado) VALUES ('sisalpasolft@gmail.com',md5(3728),1);
+
+INSERT INTO usuario_rol (sEmail, nIdRol) VALUES('sisalpasolft@gmail.com',1);
 
 /*Menús del Sistema */
 INSERT INTO menu (sDescripcion) values ('Pacientes');

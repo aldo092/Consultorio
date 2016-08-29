@@ -15,6 +15,7 @@ $oUser = new Usuarios();
 $oPersonal = new Personal();
 $oRol = new Roles();
 $sErr = "";
+$sErr2 = "";
 $arrMenus = null;
 $arrRol = null;
 $nCve = 0;
@@ -47,10 +48,10 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
             $oPersonal->setIdPersonal($nCve);
             try {
                 if (!$oPersonal->buscarDatosPorPersona())
-                    $sErr = "Colaborador no registrado";
+                    $sErr2 = "Colaborador no registrado";
             } catch (Exception $e) {
                 error_log($e->getFile() . " " . $e->getLine() . " " . $e->getMessage(),0);
-                $sErr = "Error en base de datos, comunicarse con el administrador";
+                $sErr2 = "Error en base de datos, comunicarse con el administrador";
             }
         }
 
@@ -68,7 +69,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
         }
 
     }else{
-        $sErr = "Faltan datos";
+        $sErr2 = "Faltan datos";
     }
 }else{
     $sErr = "Acceso denegado, inicie sesión";
@@ -76,6 +77,8 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
 
 if($sErr != ""){
     header("Location: error.php?sError=".$sErr);
+}else if($sErr2 != ""){
+    header("Location: error2.php?sError=".$sErr2);
 }
 ?>
 <!DOCTYPE html>
@@ -87,7 +90,7 @@ if($sErr != ""){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Consultorio Médico</title>
+    <title>Consultorio Médico - Panel de Información</title>
 
     <!-- Bootstrap -->
     <link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -206,7 +209,7 @@ if($sErr != ""){
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Lista de Personal que labora en el Consultorio</h2>
+                        <h2>Panel de información</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -221,12 +224,29 @@ if($sErr != ""){
                     </div>
                     <div class="row">
                         <div class="x_content">
-                            <form action="../../Controllers/altaPersonal.php"  method="post" class="form-horizontal form-label-left">
+                            <form action="../../Controllers/altaPersonal.php" enctype="multipart/form-data"  method="post" class="form-horizontal form-label-left">
                                 <input type="hidden" name="txtRol" value="<?php echo $sRolDesc;?>">
                                 <input type="hidden" name="txtClave" value="<?php echo ($sOp == 'a' ? '' : $oPersonal->getIdPersonal()); ?>">
                                 <input type="hidden" id="txtOp" name="txtOp" value="<?php echo $sOp;?>">
+                                <input type="hidden" id="miRol" name="miRol" value="<?php echo $oPersonal->getRol()->getIdRol();?>">
+                                <?php
+                                    if($sOp != 'a'){
+                                        ?>
+                                        <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                                            <div class="profile_img">
+                                                <div id="crop-avatar">
+                                                    <!-- Current avatar -->
+                                                    <img src="../../imagenesperfiles/<?php echo $oPersonal->getImagen();?>" width="150" height="150" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/><br/><br/><br/><br/><br/><br/><br/>
+                                        <?php
+                                    }
+                                ?>
+
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtNombre">Nombres(s) <span class="required">*</span>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtNombre">Nombre(s) <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id="txtNombre" name="txtNombre" required="required" class="form-control col-md-7 col-xs-12"
@@ -455,14 +475,14 @@ if($sErr != ""){
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                 <input type="text" id="txtEstAct" name="txtEstAct" class="form-control col-md-7 col-xs-12"
-                                                       value="<?php echo ($oPersonal->getEstatus() == 1 ? 'Activo':'Inactivo');?>" disabled>
+                                                       value="<?php echo ($oPersonal->getEstatus() == 1 ? 'Activo':'Inactivo');?>" readonly="true">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estatus">Estatus<span class="required">*</span>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estatus">Estatus</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select id="estatus" name="estatus" class="form-control" required>
+                                                <select id="estatus" name="estatus" class="form-control">
                                                     <option value="">Seleccione</option>
                                                     <option value="1">Activo</option>
                                                     <option value="0">Inactivo</option>
@@ -583,6 +603,21 @@ if($sErr != ""){
                     });
                     $(".contenido").show();
                 }else{
+                    $("#txtCedula").attr({
+                        required : false
+                    });
+                    $("#dCedula").attr({
+                        required : false
+                    });
+                    $("#txtCedEsp").attr({
+                        required : false
+                    });
+                    $("#dCedulaEsp").attr({
+                        required : false
+                    });
+                    $("#txtEspecialidad").attr({
+                        required : false
+                    });
                     $(".contenido").hide();
                 }
             });

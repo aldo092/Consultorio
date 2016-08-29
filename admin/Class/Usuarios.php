@@ -158,6 +158,7 @@ class Usuarios
                     $this->getPersonal()->setApPaterno($rst[0][1]);
                     $this->getPersonal()->setApMaterno($rst[0][2]);
                     $this->getPersonal()->setEstatus($rst[0][3]);
+                    $this->getPersonal()->setImagen($rst[0][4]);
                     $bRet = true;
                 }
             }
