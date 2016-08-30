@@ -23,6 +23,10 @@ class Paciente
     private $oExpediente;
     private $sSexo="";
     private $cCorreo="";
+    private $sLocalidad = "";
+    private $sMunicipio = "";
+    private $Estado = "";
+
 
 
     public function getExpediente()

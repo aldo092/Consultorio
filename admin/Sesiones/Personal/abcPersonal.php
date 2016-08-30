@@ -14,6 +14,7 @@ session_start();
 $oUser = new Usuarios();
 $oPersonal = new Personal();
 $oRol = new Roles();
+$oPersonal->setRol(new Roles());
 $sErr = "";
 $sErr2 = "";
 $arrMenus = null;
