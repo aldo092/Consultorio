@@ -196,16 +196,27 @@ class AntecNoPatologicos
         }
         return $bRet;
     }
-    
-    function insertarAntecedentes($usuario){
+
+    function insertar($usuario){
         $oAD = new AccesoDatos();
         $sQuery = "";
         $i = -1;
-        if($this->getExpediente()->getNumero() == 0){
-            throw new Exception("AntecNoPatologicos->insertarAntecedentes(): error, faltan datos");
+        if($this->getExpediente() == ""){
+            throw new Exception("Paciente->insertar(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call insertarAntecNoPatologicos('".$usuario."')";
+                $sQuery = "call insertarAntNoPat ('".$usuario."',
+                                                  '".$this->oExpediente."',
+                                                  '".$this->sReligion."',
+                                                  '".$this->bTabaquismo."',
+                                                 '".$this->sEscolaridad."',
+                                                   '".$this->sOcupacion."',
+                                                  '".$this->bAlcoholismo."',
+                                                  '".$this->sDrogas."',
+                                                  '".$this->bAguaPotable."',
+                                                  '".$this->bElectricidad."',
+                                                  '".$this->bDrenaje."',
+                                                  '".$this->bServSan."');";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }

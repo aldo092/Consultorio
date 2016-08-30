@@ -111,15 +111,6 @@ CREATE PROCEDURE insertarExpediente(IN user varchar(60),IN nExpediente varchar(2
   END;
 //
 
-DELIMITER //
-CREATE PROCEDURE insertarAntPat (IN user VARCHAR(60),IN Expediente varchar(20), IN Alergia VARCHAR(200),IN Cardiopatia VARCHAR(100), IN Transfusiones VARCHAR(50), Diabetes VARCHAR(50), IN Cardiovascular VARCHAR(50), IN HTA VARCHAR(50))
-  BEGIN
-    INSERT INTO antepatologicos(nNumero, sAlergias, sCardipatias,sTransfusiones, sDiabetico, sCardioVasculares, sHTA)
-      VALUES( Expediente, Alergia,Cardiopatia,Transfusiones,Diabetes,Cardiovascular,HTA);
-    INSERT INTO bitacora(sEmail, sAccion,dFechaAccion,sTabla,sDescripcionAccion)
-      VALUES (user,'INSERT', current_date,'antepatologicos',CONCAT('se insertaron los antecedentes patologicos del expediente ', Expediente));
-      END ;
-//
 
 delimiter //
 CREATE PROCEDURE buscarPermisos(IN user varchar(60))
@@ -192,7 +183,7 @@ CREATE PROCEDURE buscarTodosRoles()
   BEGIN
     SELECT * FROM roles;
   END;
-
+//
 delimiter //
 CREATE PROCEDURE insertaMedico(IN user varchar(60), IN idPersona int(11), IN numcedula varchar(20),IN feccedula date, IN cedespe varchar(20),
                                IN feccedesp date, IN snumtel varchar(15), IN especialidad varchar(100))
@@ -347,4 +338,52 @@ CREATE PROCEDURE insertaUserRol(IN user varchar(30), IN email varchar(60), rol i
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES(user, 'INSERT', current_date, 'usuario_rol', 'Inserción de un usuario y el rol que desempeña');
   END;
+//
+
+
+/*Fecha de creación 29 de agosto*/
+
+DELIMITER //
+CREATE PROCEDURE BuscaTodosPacientesExpediente()
+  BEGIN
+    select e.nNumero, e.sCurpPaciente, p.sNombre, p.sApPaterno, p.sApMaterno from expediente  e ,paciente p where e.sCurpPaciente=p.SCurpPaciente;
+
+  END //
+
+/*Fecha de creación 30 de agosto Procedimientos Almacenados de Antecedentes de pacientes*/
+
+DELIMITER //
+CREATE PROCEDURE insertarAntFam (IN user VARCHAR(60),IN Expediente varchar(20), IN Alcoholismo CHAR(2),IN Alergias CHAR(2), IN Asma CHAR(2), IN Cancer CHAR(2), IN Congenitos CHAR(2), IN Convulsiones CHAR(2), IN Diabetes CHAR(2),
+  IN Hipertension CHAR(2), IN Drogas CHAR(2), IN Tabaquismo CHAR(2))
+  BEGIN
+    INSERT INTO antecedentefam(nNumero, sAlcoholismo, sAlergias,sAsma, sCancer, sCongenitos, sConvulsiones,sDiabetes,sHipertension,sDrogadiccion, sTabaquismo)
+    VALUES( Expediente, Alcoholismo,Alergias,Asma,Cancer,Congenitos, Convulsiones,Diabetes,Hipertension,Drogas,Tabaquismo);
+    INSERT INTO bitacora(sEmail, sAccion,dFechaAccion,sTabla,sDescripcionAccion)
+    VALUES (user,'INSERT', current_date,'antecedentefam',CONCAT('se insertaron los antecedentes familiares del expediente ', Expediente));
+  END ;
+//
+
+DELIMITER //
+CREATE PROCEDURE insertarAntPat (IN user VARCHAR(60),IN Expediente varchar(20), IN Alergia VARCHAR(2),IN Cardiopatia VARCHAR(100), IN Transfusiones CHAR(2), IN Diabetes VARCHAR(50), IN Cardiovascular CHAR(2), IN HTA CHAR(2))
+  BEGIN
+    INSERT INTO antepatologicos(nNumero, sAlergias, sCardiopatias,sTranfusiones, sDiabetico, sCardioVasculares, sHTA)
+    VALUES( Expediente, Alergia,Cardiopatia,Transfusiones,Diabetes,Cardiovascular,HTA);
+
+    INSERT INTO bitacora(sEmail, sAccion,dFechaAccion,sTabla,sDescripcionAccion)
+    VALUES (user,'INSERT', current_date,'antepatologicos',CONCAT('se insertaron los antecedentes patologicos del expediente ', Expediente));
+  END ;
+//
+
+
+DELIMITER //
+CREATE PROCEDURE insertarAntNoPat(IN user VARCHAR(60),IN Expediente VARCHAR(20), IN Religion VARCHAR(100), IN Tabaquismo CHAR(2),IN Escolaridad VARCHAR(50),IN Ocupacion VARCHAR(100), IN Alcoholismo CHAR(2), IN Drogas CHAR(2),IN Agua CHAR(2), IN Electridad CHAR(2),IN Drenaje CHAR(2), IN Wc CHAR(2))
+  BEGIN
+    INSERT INTO antenopatologicos(nNumero, sReligion, bTabaquismo, sEscolaridad, sOcupacion, bAlcoholismo, sDrogas, bAguaPotable, bElectricidad, bDrenaje, bServSanit)
+
+    VALUES (Expediente, Religion, Tabaquismo, Escolaridad, Ocupacion, Alcoholismo, Drogas, Agua, Electridad, Drenaje, Wc);
+
+    INSERT INTO bitacora(sEmail, sAccion,dFechaAccion,sTabla,sDescripcionAccion)
+    VALUES (user,'INSERT', current_date,'antenopatologicos',CONCAT('se insertaron los antecedentes no patologicos del expediente ', Expediente));
+
+  END ;
 //

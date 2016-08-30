@@ -100,7 +100,7 @@ if($sErr != ""){
                             if($arrMenus != null){
                                 foreach ($arrMenus as $vRow){
                                     ?>
-                                    <li><a><i class="fa fa-home"></i> <?php echo $vRow->getDescrip(); ?><span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-square"></i> <?php echo $vRow->getDescrip(); ?><span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <?php
                                             foreach ($vRow->getArrFunciones() as $sub){

@@ -141,12 +141,12 @@ class AntePatologicos
     function insertar($usuario){
         $oAD = new AccesoDatos();
         $sQuery = "";
-        $i = 0;
+        $i = -1;
         if($this->getExpediente() == ""){
             throw new Exception("Paciente->insertar(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call insertarAntPat('aldo092@gmail.com',
+                $sQuery = "call insertarAntPat('".$usuario."',
                                                  '".$this->oExpediente."',
                                                  '".$this->sAlergias."',
                                                  '".$this->sCardiopatias."',

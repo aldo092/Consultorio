@@ -188,7 +188,7 @@ class AntecFamiliares
         return $bRet;
     }
 
-    function insertar(){
+    function insertar($usuario){
         $oAD = new AccesoDatos();
         $sQuery = "";
         $i = 0;
@@ -196,7 +196,7 @@ class AntecFamiliares
             throw new Exception("Paciente->insertar(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call insertarAntFam('aldo092@gmail.com',
+                $sQuery = "call insertarAntFam('".$usuario."',
                                                  '".$this->oExpediente."',
                                                   '".$this->sAlcoholismo."',
                                                   '".$this->sAlergias."',

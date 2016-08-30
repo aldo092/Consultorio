@@ -1,22 +1,44 @@
 <?php
 
+
 error_reporting(E_ALL);
 include_once ("../../Class/Usuarios.php");
+require_once ("../../Class/Menu.php");
+require_once ("../../Class/Paciente.php");
+require_once ("../../Class/Personal.php");
+
 session_start();
 $oUser = new Usuarios();
 $sErr = "";
+$arrMenus = null;
+$Expediente ="";
+$oPersonal = new Personal();
+$sNombre = "";
+
+
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
-$oUser = $_SESSION['sUser'];
+    if(isset($_POST["txtExpediente"]) && !empty($_POST["txtExpediente"])){
+        $Expediente = $_POST['txtExpediente'];
+
+        $oUser = $_SESSION['sUser'];
+        $oMenu = new Menu();
+        $oMenu->setUsuario($oUser);
+        $arrMenus = $oMenu->buscarMenuUsuario();
+        if ($oUser->buscarDatosBasicos()) {
+            $sNombre = $oUser->getPersonal()->getNombres() . " " . $oUser->getPersonal()->getApPaterno() . " " . $oUser->getPersonal()->getApMaterno();
+        }
 }else{
-$sErr = "Acceso denegado, inicie sesión";
+    $sErr = "Faltan datos";
+}
+}else{
+    $sErr = "Acceso denegado, inicie sesión";
 }
 
 if($sErr != ""){
-header("Location: error.php?sError=".$sErr);
+    header("Location: error.php?sError=".$sErr);
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,7 +48,7 @@ header("Location: error.php?sError=".$sErr);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Consultorio Médico</title>
+    <title>Consultorio Médico - Panel de Información</title>
 
     <!-- Bootstrap -->
     <link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -41,8 +63,11 @@ header("Location: error.php?sError=".$sErr);
     <!-- JQVMap -->
     <link href="../../../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
 
+
     <!-- Custom Theme Style -->
     <link href="../../../build/css/custom.min.css" rel="stylesheet">
+
+
 </head>
 
 <body class="nav-md">
@@ -51,7 +76,7 @@ header("Location: error.php?sError=".$sErr);
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="menuprincipal.html" class="site_title"><i class="fa fa-plus-square"></i> <span>Control Médico</span></a>
+                    <a href="../../index.php" class="site_title"><i class="fa fa-plus-square"></i> <span>Control Médico</span></a>
                 </div>
 
                 <div class="clearfix"></div>
@@ -63,7 +88,7 @@ header("Location: error.php?sError=".$sErr);
                     </div>
                     <div class="profile_info">
                         <span>Bienvenido</span>
-                        <h2>Usuario</h2>
+                        <h2><?php echo $sNombre; ?></h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -77,41 +102,36 @@ header("Location: error.php?sError=".$sErr);
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-home"></i> Principal<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="menuprincipal.html">Principal</a></li>
+                                    <li><a href="../../index.php">Principal</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-edit"></i> Pacientes <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="registroPacientes.php">Registro de Pacientes</a></li>
-
-
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-desktop"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="NUsuario.html">Crear Usuario</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-table"></i> Estudios <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="tables.html">Estudios</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-bar-chart-o"></i> Reportes<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="reportes.html">Reportes</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                            <?php
+                            if($arrMenus != null){
+                                foreach ($arrMenus as $vRow){
+                                    ?>
+                                    <li><a><i class="fa fa-square-o"></i> <?php echo $vRow->getDescrip(); ?><span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <?php
+                                            foreach ($vRow->getArrFunciones() as $sub){
+                                                ?>
+                                                <?php
+                                                ?>
+                                                <li><a href="../../<?php echo $sub->getRutaPag(); ?>"><?php echo $sub->getDescripcion();?></a></li>
+                                                <?php
+                                            }
+                                            ?>
+                                        </ul>
+                                    </li>
+                                    <?php
+                                }
+                            }
+                            ?>
                     </div>
-
 
                 </div>
 
             </div>
         </div>
-    </div>
-    </div>
 
         <!-- top navigation -->
         <div class="top_nav">
@@ -124,19 +144,19 @@ header("Location: error.php?sError=".$sErr);
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="../../images/img.png" alt="">Usuario
+                                <img src="../../images/img.png" alt=""><?php echo $oUser->getEmail(); ?>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
 
-                                <li><a href="../../login.html"><i class="fa fa-sign-out pull-right"></i>Salir de la Sesión</a></li>
+                                <li><a href="../../Controllers/logout.php"><i class="fa fa-sign-out pull-right"></i>Salir de la Sesión</a></li>
                             </ul>
                         </li>
                     </ul>
                 </nav>
             </div>
         </div>
-
+    </div>
 
         <!-- /top navigation -->
 
@@ -165,27 +185,28 @@ header("Location: error.php?sError=".$sErr);
                                     <li role="presentation" class="active"><a href="#tab_content1" id="AntFam"
                                                                               role="tab" data-toggle="tab"
                                                                               aria-expanded="true">Antecentes
-                                        Familiares</a>
+                                            Familiares</a>
                                     </li>
                                     <li role="presentation" class=""><a href="#tab_content2" role="tab" id="AntPat"
                                                                         data-toggle="tab" aria-expanded="false">Antecedentes
-                                        Patológicos</a>
+                                            Patológicos</a>
                                     </li>
                                     <li role="presentation" class=""><a href="#tab_content3" role="tab" id="AntNPat"
                                                                         data-toggle="tab" aria-expanded="false">Antecedentes
-                                        No patológicos</a>
+                                            No patológicos</a>
                                     </li>
                                     <li role="presentation" class=""><a href="#tab_content4" role="tab" id="AntGin"
-                                                                        data-toggle="tab" aria-expanded="false">Antecentes
-                                        ginecoobstetricos</a>
+                                                                        data-toggle="tab" aria-expanded="false" disabled>Antecentes
+                                            ginecoobstetricos</a>
                                     </li>
                                 </ul>
                                 <div id="myTabContent" class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
                                          aria-labelledby="home-tab">
 
-                                        <form class="form-horizontal" role="form" method="post"
-                                              action="../../Controllers/CtrlAntFam.php">
+                                        <form class="form-horizontal" role="form" method="post" action="../../Controllers/CtrlAntFam.php">
+                                         <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
+
                                             <div class="form-group ">
                                                 <div class="col-md-4 col-md-offset-4">
 
@@ -334,7 +355,7 @@ header("Location: error.php?sError=".$sErr);
 
                                                     <div class="form-group">
                                                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                                            <button type="submit" class="btn btn-success">Guardar
+                                                            <button type="submit" class="btn btn-success" > Guardar
                                                             </button>
                                                         </div>
                                                     </div>
@@ -346,6 +367,8 @@ header("Location: error.php?sError=".$sErr);
                                     <div role="tabpanel" class="tab-pane fade " id="tab_content2"
                                          aria-labelledby="home-tab">
                                         <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntPat.php">
+                                            <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
+
                                             <div class="form-group ">
                                                 <div class="col-md-4 col-md-offset-4">
 
@@ -381,19 +404,12 @@ header("Location: error.php?sError=".$sErr);
 
                                                     <div class="form-group">
                                                         <label class="control-label col-xs-7">Padece Cardiopatía</label>
-                                                        <div class="col-xs-2">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="cardiopatia" value="si"> si
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-xs-2">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="cardipatia" value="no"> no
-                                                            </label>
+                                                        <div class="col-xs-5">
+                                                            <input class="form-control input-sm" type="text" name="cardiopatia" >
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Ha recibido trnasfusiones
+                                                        <label class="control-label col-xs-7">Ha recibido transfusiones
                                                             de sangre</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
@@ -413,7 +429,7 @@ header("Location: error.php?sError=".$sErr);
                                                         <div class="col-xs-5">
                                                             <select class="form-control input-sm"name="diabetes">
 
-                                                                <option value="""">No</option>
+                                                                <option value="No">No</option>
                                                                 <option value="Tipo1">Tipo 1</option>
                                                                 <option value="Tipo2">Tipo 2</option>
                                                                 <option value="Gestacion">Durante gestación</option>
@@ -426,8 +442,7 @@ header("Location: error.php?sError=".$sErr);
 
                                                     <label class="control-label col-xs-7">Describa sus alergías</label>
                                                     <div class="col-xs-5">
-                                                        <input class="form-control input-sm" type="text" name ="alergias"
-                                                               placeholder="ninguna">
+                                                        <input class="form-control input-sm" type="text" name ="alergias">
                                                     </div>
 
                                                     <div class="form-group">
@@ -444,7 +459,9 @@ header("Location: error.php?sError=".$sErr);
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content3"
                                          aria-labelledby="home-tab">
 
-                                        <form class="form-horizontal" role="form">
+                                        <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntNoPat.php">
+                                            <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
+
                                             <div class="form-group ">
                                                 <div class="col-md-4 col-md-offset-4">
 
@@ -519,7 +536,7 @@ header("Location: error.php?sError=".$sErr);
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Cuenta con serivicio de
+                                                        <label class="control-label col-xs-7">Cuenta con servicio de
                                                             drenaje</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
@@ -534,22 +551,35 @@ header("Location: error.php?sError=".$sErr);
                                                     </div>
 
                                                     <div class="form-group">
+                                                        <label class="control-label col-xs-7">Cuenta con servicios sanitarios (baño, regadera)</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="water" value="si"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="water" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
                                                         <label class="control-label col-xs-7">Cual es su mayor Grado de
                                                             estudios</label>
                                                         <div class="col-xs-5">
-                                                            <select class="form-control input-sm">
-                                                                <option></option>
-                                                                <option>sin estudios</option>
-                                                                <option>primaria completa</option>
-                                                                <option>primaria incompleta</option>
-                                                                <option>secundaria completa</option>
-                                                                <option>secundaria incompleta</option>
-                                                                <option>preparatoria completa</option>
-                                                                <option>preparatoria incompleta</option>
-                                                                <option>universidad completa</option>
-                                                                <option>universidad incompleta</option>
-                                                                <option>maestría</option>
-                                                                <option>doctorado</option>
+                                                            <select class="form-control input-sm" name="estudios">
+                                                                <option value="sin_estudio">sin estudios</option>
+                                                                <option value="primaria_completa">primaria completa</option>
+                                                                <option value="primaria_trunca">primaria incompleta</option>
+                                                                <option value="secundaria_completa">secundaria completa</option>
+                                                                <option value="secundaria_trunca">secundaria incompleta</option>
+                                                                <option value="preparatoria_completa">preparatoria completa</option>
+                                                                <option value="preparatoria_trunca">preparatoria incompleta</option>
+                                                                <option value="universidad_completa">universidad completa</option>
+                                                                <option value="universidad_trunca">universidad incompleta</option>
+                                                                <option value="maestria">maestría</option>
+                                                                <option value="doctorado">doctorado</option>
                                                             </select>
                                                         </div>
 
@@ -558,20 +588,19 @@ header("Location: error.php?sError=".$sErr);
                                                         <label class="control-label col-xs-7">Cual es su
                                                             religión</label>
                                                         <div class="col-xs-5">
-                                                            <select class="form-control input-sm">
-                                                                <option></option>
-                                                                <option>ateo</option>
-                                                                <option>católico</option>
-                                                                <option>cristiano</option>
-                                                                <option>Testigo de jehová</option>
-                                                                <option>musulman</option>
-                                                                <option>budista</option>
-                                                                <option>Luz del mundo</option>
-                                                                <option>Anglicano</option>
-                                                                <option>Ortodoxo</option>
-                                                                <option>Judio</option>
-                                                                <option>Evangelista</option>
-                                                                <option>Mormón</option>
+                                                            <select class="form-control input-sm" name="religion">
+                                                                <option value="ateo">ateo</option>
+                                                                <option value="catolico">católico</option>
+                                                                <option value="cristiano">cristiano</option>
+                                                                <option value="TestigoJehova">Testigo de jehová</option>
+                                                                <option value="musulman">musulman</option>
+                                                                <option value="budista">budista</option>
+                                                                <option value="luzMundo">Luz del mundo</option>
+                                                                <option value="anglicano">Anglicano</option>
+                                                                <option value="ortodoxo">Ortodoxo</option>
+                                                                <option value="judio">Judío</option>
+                                                                <option value="evangelista">Evangelista</option>
+                                                                <option value="mormon">Mormón</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -580,8 +609,8 @@ header("Location: error.php?sError=".$sErr);
                                                         <label class="control-label col-xs-7">Cúal es su
                                                             ocupación</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="text"
-                                                                   placeholder="ocupación">
+                                                            <input class="form-control input-sm" type="text" name="ocupacion">
+
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -598,448 +627,254 @@ header("Location: error.php?sError=".$sErr);
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content4"
                                          aria-labelledby="home-tab">
 
-                                    <form class="form-horizontal" role="form">
-                                        <div class="form-group ">
-                                            <div class="col-md-4 col-md-offset-4">
-                                                <div class="form-group">
-                                                    <label class="control-label col-xs-7">¿Cuantas gestaciones ha
-                                                        tenido?</label>
-                                                    <div class="col-xs-5">
-                                                        <input class="form-control input-sm" type="number"
-                                                               id="gestaciones">
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group ">
+                                                <div class="col-md-4 col-md-offset-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Cuantas gestaciones ha
+                                                            tenido?</label>
+                                                        <div class="col-xs-5">
+                                                            <input class="form-control input-sm" type="number"
+                                                                   id="gestaciones">
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <label class="control-label col-xs-7">¿Cuantas partos ha
-                                                        tenido?</label>
-                                                    <div class="col-xs-5">
-                                                        <input class="form-control input-sm" type="number" id="partos">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Cuantas partos ha
+                                                            tenido?</label>
+                                                        <div class="col-xs-5">
+                                                            <input class="form-control input-sm" type="number" id="partos">
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <label class="control-label col-xs-7">¿Cuantas abortos ha
-                                                        tenido?</label>
-                                                    <div class="col-xs-5">
-                                                        <input class="form-control input-sm" type="number" id="abortos">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Cuantas abortos ha
+                                                            tenido?</label>
+                                                        <div class="col-xs-5">
+                                                            <input class="form-control input-sm" type="number" id="abortos">
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <label class="control-label col-xs-7">¿A que edad comenzó su vida
-                                                        sexual activa?</label>
-                                                    <div class="col-xs-5">
-                                                        <input class="form-control input-sm" type="number" id="ivsa">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿A que edad comenzó su vida
+                                                            sexual activa?</label>
+                                                        <div class="col-xs-5">
+                                                            <input class="form-control input-sm" type="number" id="ivsa">
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <label class="control-label col-xs-7">¿Cuantas parejas sexuales ha
-                                                        tenido?</label>
-                                                    <div class="col-xs-5">
-                                                        <input class="form-control input-sm" type="number" id="parejas">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Cuantas parejas sexuales ha
+                                                            tenido?</label>
+                                                        <div class="col-xs-5">
+                                                            <input class="form-control input-sm" type="number" id="parejas">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="control-label col-xs-7">¿Ha tenido ETS?</label>
-                                                    <div class="col-xs-2">
-                                                        <label class="radio-inline">
-                                                            <input type="radio" name="ets" value="si"> si
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Ha tenido ETS?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="ets" value="si"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="ets" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Cuantas cesareas ha
+                                                            tenido?</label>
+                                                        <div class="col-xs-5">
+                                                            <input class="form-control input-sm" type="number"
+                                                                   id="cesareas">
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">Fecha de último
+                                                            papanicolau </span>
                                                         </label>
+                                                        <div class=" col-xs-5">
+                                                            <input id="birthday"
+                                                                   class="date-picker form-control col-md-7 col-xs-12 active"
+                                                                   required="required" type="text">
+                                                        </div>
                                                     </div>
-                                                    <div class="col-xs-2">
-                                                        <label class="radio-inline">
-                                                            <input type="radio" name="ets" value="no"> no
-                                                        </label>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">Método anticonceptivo que
+                                                            utiliza</label>
+                                                        <div class="col-xs-5">
+                                                            <select class="form-control input-sm" id="anticonceptivo">
+                                                                <option></option>
+
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-xs-7">¿Cuantas cesareas ha
-                                                        tenido?</label>
-                                                    <div class="col-xs-5">
-                                                        <input class="form-control input-sm" type="number"
-                                                               id="cesareas">
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-xs-7">Fecha de último
-                                                        papanicolau </span>
-                                                </label>
-                                                <div class=" col-xs-5">
-                                                    <input id="birthday"
-                                                           class="date-picker form-control col-md-7 col-xs-12 active"
-                                                           required="required" type="text">
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-xs-7">Método anticonceptivo que
-                                                    utiliza</label>
-                                                <div class="col-xs-5">
-                                                    <select class="form-control input-sm" id="anticonceptivo">
-                                                        <option></option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </form>
                                     </div>
-                                </form>
-                             </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
+
+        <!-- /page content -->
+
+    <footer>
+        <div class="pull-right">
+            <h1> </h1>
+        </div>
+        <div class="clearfix"></div>
+    </footer>
+    <!-- /footer content -->
+</div>
+</div>
 
 
-        <!-- jQuery -->
-        <script src="../../../vendors/jquery/dist/jquery.min.js"></script>
-        <!-- Bootstrap -->
-        <script src="../../../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-        <!-- FastClick -->
-        <script src="../../../vendors/fastclick/lib/fastclick.js"></script>
-        <!-- NProgress -->
-        <script src="../../../vendors/nprogress/nprogress.js"></script>
-        <!-- Chart.js -->
-        <script src="../../../vendors/Chart.js/dist/Chart.min.js"></script>
-        <!-- gauge.js -->
-        <script src="../../../vendors/gauge.js/dist/gauge.min.js"></script>
-        <!-- bootstrap-progressbar -->
-        <script src="../../../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-        <!-- iCheck -->
-        <script src="../../../vendors/iCheck/icheck.min.js"></script>
-        <!-- Skycons -->
-        <script src="../../../vendors/skycons/skycons.js"></script>
-        <!-- Flot -->
-        <script src="../../../vendors/Flot/jquery.flot.js"></script>
-        <script src="../../../vendors/Flot/jquery.flot.pie.js"></script>
-        <script src="../../../vendors/Flot/jquery.flot.time.js"></script>
-        <script src="../../../vendors/Flot/jquery.flot.stack.js"></script>
-        <script src="../../../vendors/Flot/jquery.flot.resize.js"></script>
-        <!-- Flot plugins -->
-        <script src="../../js/flot/jquery.flot.orderBars.js"></script>
-        <script src="../../js/flot/date.js"></script>
-        <script src="../../js/flot/jquery.flot.spline.js"></script>
-        <script src="../../js/flot/curvedLines.js"></script>
-        <!-- JQVMap -->
-        <script src="../../../vendors/jqvmap/dist/jquery.vmap.js"></script>
-        <script src="../../../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-        <script src="../../../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-        <!-- bootstrap-daterangepicker -->
-        <script src="../../js/moment/moment.min.js"></script>
-        <script src="../../js/datepicker/daterangepicker.js"></script>
-
-        <!-- Custom Theme Scripts -->
-        <script src="../../../build/js/custom.min.js"></script>
-
-        <!-- bootstrap-daterangepicker -->
-        <script>
-            $(document).ready(function() {
-                $('#birthday').daterangepicker({
-                    singleDatePicker: true,
-                    calender_style: "picker_4"
-                }, function(start, end, label) {
-                    console.log(start.toISOString(), end.toISOString(), label);
-                });
-            });
-        </script>
-        <!-- /bootstrap-daterangepicker -->
-
-        <!-- Parsley -->
-        <script>
+<!-- jQuery -->
+<script src="../../../vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../../../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../../../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../../../vendors/nprogress/nprogress.js"></script>
+<!-- Chart.js -->
+<script src="../../../vendors/Chart.js/dist/Chart.min.js"></script>
+<!-- gauge.js -->
+<script src="../../../vendors/gauge.js/dist/gauge.min.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../../../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../../../vendors/iCheck/icheck.min.js"></script>
+<!-- Skycons -->
+<script src="../../../vendors/skycons/skycons.js"></script>
+<!-- jquery.inputmask -->
+<script src="../../../vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+<!-- Flot -->
+<script src="../../../vendors/Flot/jquery.flot.js"></script>
+<script src="../../../vendors/Flot/jquery.flot.pie.js"></script>
+<script src="../../../vendors/Flot/jquery.flot.time.js"></script>
+<script src="../../../vendors/Flot/jquery.flot.stack.js"></script>
+<script src="../../../vendors/Flot/jquery.flot.resize.js"></script>
+<!-- Flot plugins -->
+<script src="../../js/flot/jquery.flot.orderBars.js"></script>
+<script src="../../js/flot/date.js"></script>
+<script src="../../js/flot/jquery.flot.spline.js"></script>
+<script src="../../js/flot/curvedLines.js"></script>
+<!-- JQVMap -->
+<script src="../../../vendors/jqvmap/dist/jquery.vmap.js"></script>
+<script src="../../../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="../../../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="../../js/moment/moment.min.js"></script>
+<script src="../../js/datepicker/daterangepicker.js"></script>
 
 
-            $(document).ready(function() {
-                $.listen('parsley:field:validate', function() {
-                    validateFront();
-                });
-                $('#demo-form2 .btn').on('click', function() {
-                    $('#demo-form2').parsley().validate();
-                    validateFront();
-                });
-                var validateFront = function() {
-                    if (true === $('#demo-form2').parsley().isValid()) {
-                        $('.bs-callout-info').removeClass('hidden');
-                        $('.bs-callout-warning').addClass('hidden');
-                    } else {
-                        $('.bs-callout-info').addClass('hidden');
-                        $('.bs-callout-warning').removeClass('hidden');
-                    }
-                };
-            });
-            try {
-                hljs.initHighlightingOnLoad();
-            } catch (err) {}
-        </script>
-        <!-- /Parsley -->
+<!-- Custom Theme Scripts -->
+<script src="../../../build/js/custom.min.js"></script>
 
+<!-- validator -->
+<script src="../../../vendors/validator/validator.js"></script>
 
-
-        <!-- Flot -->
-        <script>
-            $(document).ready(function() {
-                var data1 = [
-                    [gd(2012, 1, 1), 17],
-                    [gd(2012, 1, 2), 74],
-                    [gd(2012, 1, 3), 6],
-                    [gd(2012, 1, 4), 39],
-                    [gd(2012, 1, 5), 20],
-                    [gd(2012, 1, 6), 85],
-                    [gd(2012, 1, 7), 7]
-                ];
-
-                var data2 = [
-                    [gd(2012, 1, 1), 82],
-                    [gd(2012, 1, 2), 23],
-                    [gd(2012, 1, 3), 66],
-                    [gd(2012, 1, 4), 9],
-                    [gd(2012, 1, 5), 119],
-                    [gd(2012, 1, 6), 6],
-                    [gd(2012, 1, 7), 9]
-                ];
-                $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
-                    data1, data2
-                ], {
-                    series: {
-                        lines: {
-                            show: false,
-                            fill: true
-                        },
-                        splines: {
-                            show: true,
-                            tension: 0.4,
-                            lineWidth: 1,
-                            fill: 0.4
-                        },
-                        points: {
-                            radius: 0,
-                            show: true
-                        },
-                        shadowSize: 2
-                    },
-                    grid: {
-                        verticalLines: true,
-                        hoverable: true,
-                        clickable: true,
-                        tickColor: "#d5d5d5",
-                        borderWidth: 1,
-                        color: '#fff'
-                    },
-                    colors: ["rgba(38, 185, 154, 0.38)", "rgba(3, 88, 106, 0.38)"],
-                    xaxis: {
-                        tickColor: "rgba(51, 51, 51, 0.06)",
-                        mode: "time",
-                        tickSize: [1, "day"],
-                        //tickLength: 10,
-                        axisLabel: "Date",
-                        axisLabelUseCanvas: true,
-                        axisLabelFontSizePixels: 12,
-                        axisLabelFontFamily: 'Verdana, Arial',
-                        axisLabelPadding: 10
-                    },
-                    yaxis: {
-                        ticks: 8,
-                        tickColor: "rgba(51, 51, 51, 0.06)",
-                    },
-                    tooltip: false
-                });
-
-                function gd(year, month, day) {
-                    return new Date(year, month - 1, day).getTime();
+<script language="JavaScript" type="text/javascript">
+    $(document).ready(function(){
+        if($("#txtOp").val()=='a'){
+            $(".contenido").hide();
+            $("#rol").change(function(){
+                if($("#rol").val() == '2'){
+                    $("#txtCedula").attr({
+                        required : true
+                    });
+                    $("#dCedula").attr({
+                        required : true
+                    });
+                    $("#txtCedEsp").attr({
+                        required : true
+                    });
+                    $("#dCedulaEsp").attr({
+                        required : true
+                    });
+                    $("#txtEspecialidad").attr({
+                        required : true
+                    });
+                    $(".contenido").show();
+                }else{
+                    $("#txtCedula").attr({
+                        required : false
+                    });
+                    $("#dCedula").attr({
+                        required : false
+                    });
+                    $("#txtCedEsp").attr({
+                        required : false
+                    });
+                    $("#dCedulaEsp").attr({
+                        required : false
+                    });
+                    $("#txtEspecialidad").attr({
+                        required : false
+                    });
+                    $(".contenido").hide();
                 }
             });
-        </script>
-        <!-- /Flot -->
+        }else if($("#txtOp").val()=='e'){
+            $("#rol").attr('disabled','disabled');
+            $(".contenido").hide();
+        }else if($("#txtRolActual").val() == 'MEDICO'  && $("#txtOp").val()=='m'){
+            $(".contenido").show();
+        }else if($("#txtRolActual").val() != 'MEDICO' && $("#txtOp").val() == 'm'){
+            $(".contenido").hide();
+        }
+    });
+</script>
 
-        <!-- JQVMap -->
-        <script>
-            $(document).ready(function(){
-                $('#world-map-gdp').vectorMap({
-                    map: 'world_en',
-                    backgroundColor: null,
-                    color: '#ffffff',
-                    hoverOpacity: 0.7,
-                    selectedColor: '#666666',
-                    enableZoom: true,
-                    showTooltip: true,
-                    values: sample_data,
-                    scaleColors: ['#E6F2F0', '#149B7E'],
-                    normalizeFunction: 'polynomial'
-                });
-            });
-        </script>
-        <!-- /JQVMap -->
+<!-- jquery.inputmask -->
+<script>
+    $(document).ready(function() {
+        $(":input").inputmask();
+    });
+</script>
+<!-- /jquery.inputmask -->
 
-        <!-- Skycons -->
-        <script>
-            $(document).ready(function() {
-                var icons = new Skycons({
-                            "color": "#73879C"
-                        }),
-                        list = [
-                            "clear-day", "clear-night", "partly-cloudy-day",
-                            "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
-                            "fog"
-                        ],
-                        i;
+<!-- validator -->
+<script>
+    // initialize the validator function
+    //validator.message.date = 'not a real date';
 
-                for (i = list.length; i--;)
-                    icons.set(list[i], list[i]);
+    // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+    $('form')
+        .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+        .on('change', 'select.required', validator.checkField)
+        .on('keypress', 'input[required][pattern]', validator.keypress);
 
-                icons.play();
-            });
-        </script>
-        <!-- /Skycons -->
+    $('.multi.required').on('keyup blur', 'input', function() {
+        validator.checkField.apply($(this).siblings().last()[0]);
+    });
 
-        <!-- Doughnut Chart -->
-        <script>
-            $(document).ready(function(){
-                var options = {
-                    legend: false,
-                    responsive: false
-                };
+    $('form').submit(function(e) {
+        e.preventDefault();
+        var submit = true;
 
-                new Chart(document.getElementById("canvas1"), {
-                    type: 'doughnut',
-                    tooltipFillColor: "rgba(51, 51, 51, 0.55)",
-                    data: {
-                        labels: [
-                            "Symbian",
-                            "Blackberry",
-                            "Other",
-                            "Android",
-                            "IOS"
-                        ],
-                        datasets: [{
-                            data: [15, 20, 30, 10, 30],
-                            backgroundColor: [
-                                "#BDC3C7",
-                                "#9B59B6",
-                                "#E74C3C",
-                                "#26B99A",
-                                "#3498DB"
-                            ],
-                            hoverBackgroundColor: [
-                                "#CFD4D8",
-                                "#B370CF",
-                                "#E95E4F",
-                                "#36CAAB",
-                                "#49A9EA"
-                            ]
-                        }]
-                    },
-                    options: options
-                });
-            });
-        </script>
-        <!-- /Doughnut Chart -->
+        // evaluate the form using generic validaing
+        if (!validator.checkAll($(this))) {
+            submit = false;
+        }
 
-        <!-- bootstrap-daterangepicker -->
-        <script>
-            $(document).ready(function() {
+        if (submit)
+            this.submit();
 
-                var cb = function(start, end, label) {
-                    console.log(start.toISOString(), end.toISOString(), label);
-                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                };
-
-                var optionSet1 = {
-                    startDate: moment().subtract(29, 'days'),
-                    endDate: moment(),
-                    minDate: '01/01/2012',
-                    maxDate: '12/31/2015',
-                    dateLimit: {
-                        days: 60
-                    },
-                    showDropdowns: true,
-                    showWeekNumbers: true,
-                    timePicker: false,
-                    timePickerIncrement: 1,
-                    timePicker12Hour: true,
-                    ranges: {
-                        'Today': [moment(), moment()],
-                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                        'This Month': [moment().startOf('month'), moment().endOf('month')],
-                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                    },
-                    opens: 'left',
-                    buttonClasses: ['btn btn-default'],
-                    applyClass: 'btn-small btn-primary',
-                    cancelClass: 'btn-small',
-                    format: 'MM/DD/YYYY',
-                    separator: ' to ',
-                    locale: {
-                        applyLabel: 'Submit',
-                        cancelLabel: 'Clear',
-                        fromLabel: 'From',
-                        toLabel: 'To',
-                        customRangeLabel: 'Custom',
-                        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                        firstDay: 1
-                    }
-                };
-                $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
-                $('#reportrange').daterangepicker(optionSet1, cb);
-                $('#reportrange').on('show.daterangepicker', function() {
-                    console.log("show event fired");
-                });
-                $('#reportrange').on('hide.daterangepicker', function() {
-                    console.log("hide event fired");
-                });
-                $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
-                    console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
-                });
-                $('#reportrange').on('cancel.daterangepicker', function(ev, picker) {
-                    console.log("cancel event fired");
-                });
-                $('#options1').click(function() {
-                    $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
-                });
-                $('#options2').click(function() {
-                    $('#reportrange').data('daterangepicker').setOptions(optionSet2, cb);
-                });
-                $('#destroy').click(function() {
-                    $('#reportrange').data('daterangepicker').remove();
-                });
-            });
-        </script>
-        <!-- /bootstrap-daterangepicker -->
-
-        <!-- gauge.js -->
-        <script>
-            var opts = {
-                lines: 12,
-                angle: 0,
-                lineWidth: 0.4,
-                pointer: {
-                    length: 0.75,
-                    strokeWidth: 0.042,
-                    color: '#1D212A'
-                },
-                limitMax: 'false',
-                colorStart: '#1ABC9C',
-                colorStop: '#1ABC9C',
-                strokeColor: '#F0F3F3',
-                generateGradient: true
-            };
-            var target = document.getElementById('foo'),
-                    gauge = new Gauge(target).setOptions(opts);
-
-            gauge.maxValue = 6000;
-            gauge.animationSpeed = 32;
-            gauge.set(3200);
-            gauge.setTextField(document.getElementById("gauge-text"));
-        </script>
-        <!-- /gauge.js -->
-
+        return false;
+    });
+</script>
+<!-- /validator -->
 </body>
 </html>
