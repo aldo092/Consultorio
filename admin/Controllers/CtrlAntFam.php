@@ -6,6 +6,22 @@
  * Time: 05:45 PM
  */
 include_once ("../Class/AntecFamiliares.php");
+include_once ("../Class/Usuarios.php");
+
+
+session_start();
+$sErr = "";
+$arrMenus = null;
+if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
+    $oUser = $_SESSION['sUser'];
+
+}else{
+    $sErr = "Acceso denegado, inicie sesión";
+}
+
+if($sErr != ""){
+    header("Location: error.php?sError=".$sErr);
+}
 
 $Expediente="";
 $Alcoholismo="";
@@ -20,6 +36,9 @@ $defectosCongenito="";
 $Cancer="";
 $oAntFam=new AntecFamiliares();
 $sErr="";
+$nAfec =0;
+$user= $_SESSION['sUser']->getEmail();
+
 
 if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     isset($_POST["alcoholismo"]) && !empty($_POST["alcoholismo"]) &&
@@ -57,19 +76,23 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     $oAntFam->setCongenitos($defectosCongenito);
     $oAntFam->setCancer($Cancer);
 
-    if ($oAntFam->insertar()){
+    $nAfec=$oAntFam->insertar($user);
+
+    if ($nAfec==1){
         $sMsj = "Registro  de antecedentes familiares del expediente ".$Expediente." correcto";
-        header("Location:../exito.php?sMensaje=".$sMsj);
+        header("Location:../mensajes.php?sMensaje=".$sMsj);
     } else {
-        $sErr = "error al guardar el nuevo paciente";
+        $sMsj = "Error al guardar los antecedente familiares del expediente".$Expediente;
+        header("Location:../mensajes.php?sMensaje=".$sMsj);
+
     }
 
 }else{
-    $sErr = "Faltan datos, registre todos los campos";
+    $sMsj = "Faltan datos, registre todos los campos";
+    header("Location:../mensajes.php?sMensaje=".$sMsj);
+
 }
 
-if($sErr != "")
-    header("Location: ../error.php?sError=".$sErr);
 ?>
-    }
+
 

@@ -53,12 +53,12 @@ class Expediente
     function insertarExpediente($usuario){
         $oAD = new AccesoDatos();
         $sQuery = "";
-        $i = 0;
+        $i = -1;
         if($this->getNumero() == ""){
             throw new Exception("Paciente->insertar(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call insertarExpediente('aldo092@gmail.com',
+                $sQuery = "call insertarExpediente('".$usuario."',
                                                  '".$this->nNumero."',
                                                  '".$this->oPaciente."');";
                 $i = $oAD->ejecutaComando($sQuery);

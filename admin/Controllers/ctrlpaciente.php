@@ -12,17 +12,19 @@ include_once ("../Class/Paciente.php");
 include_once ("../Class/Expediente.php");
 
 session_start();
-$oUser = new Usuarios();
 $sErr = "";
-    if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
-        $oUser = $_SESSION['sUser'];
-    }else{
-        $sErr = "Acceso denegado, inicie sesión";
-    }
+$arrMenus = null;
+if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
+    $oUser = $_SESSION['sUser'];
 
-    if($sErr != ""){
-        header("Location: error.php?sError=".$sErr);
-    }
+}else{
+    $sErr = "Acceso denegado, inicie sesión";
+}
+
+if($sErr != ""){
+    header("Location: error.php?sError=".$sErr);
+}
+
 
 
 $curp="";
@@ -41,20 +43,23 @@ $Err="";
 $sMsj="";
 $Nexpediente="";
 $oExpediente= new Expediente();
+$user= $_SESSION['sUser']->getEmail();
+$NAfec=0;
+$NAfec2=0;
 
 
-if(isset($_COOKIE['cUser']) && !empty($_COOKIE['cUser'])&&
+if(
     isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
-        ($_POST["ApPat"]) && !empty($_POST["ApPat"])&&
-        ($_POST["ApMat"]) && !empty($_POST["ApMat"])&&
-        ($_POST["curp"]) && !empty($_POST["curp"])&&
-        ($_POST["sexo"]) && !empty($_POST["sexo"])&&
-        ($_POST["birthday"]) && !empty($_POST["birthday"])&&
-        ($_POST["telefono"]) && !empty($_POST["telefono"])&&
-        ($_POST["direccion"]) && !empty($_POST["direccion"])&&
-        ($_POST["cp"]) && !empty($_POST["cp"])&&
-        ($_POST["email"]) && !empty($_POST["email"])&&
-        ($_POST["edocivil"]) && !empty($_POST["edocivil"])) {
+    isset($_POST["ApPat"]) && !empty($_POST["ApPat"])&&
+    isset($_POST["ApMat"]) && !empty($_POST["ApMat"])&&
+    isset($_POST["curp"]) && !empty($_POST["curp"])&&
+    isset ($_POST["sexo"]) && !empty($_POST["sexo"])&&
+    isset($_POST["birthday"]) && !empty($_POST["birthday"])&&
+    isset  ($_POST["telefono"]) && !empty($_POST["telefono"])&&
+    isset  ($_POST["direccion"]) && !empty($_POST["direccion"])&&
+    isset($_POST["cp"]) && !empty($_POST["cp"])&&
+    isset ($_POST["email"]) && !empty($_POST["email"])&&
+    isset ($_POST["edocivil"]) && !empty($_POST["edocivil"])) {
 
     $curp = $_POST["curp"];
     $nombre = $_POST["nombre"];
@@ -83,31 +88,31 @@ if(isset($_COOKIE['cUser']) && !empty($_COOKIE['cUser'])&&
     $oPaciente->setEstadoCivil($edocivil);
     $oPaciente->setCorreo($correo);
 
-
-
-
     $oExpediente->setPaciente($curp);
     $oExpediente->setNumero($Nexpediente);
 
-    if ($oPaciente->insertar($oUser)) {
-        if ($oExpediente->insertarExpediente($oUser)){
-            $sMsj = "Registro  de nuevo paciente correcto";
 
-            header("Location:../exito.php?sMensaje=".$sMsj);
+    $NAfec=$oPaciente->insertar($user);
+    $NAfec2=$oExpediente->insertarExpediente($user);
 
-
+    if ($NAfec==1 && $NAfec2==1) {
+            $sMsj = "Se agregó el paciente a la base de datos";
+            header("Location:../mensajes.php?sMensaje=".$sMsj);
         }
 
-    } else {
-        $sErr = "error al guardar el nuevo paciente";
-    }
+     else {
+        $sMsj = "Error al guardar el nuevo paciente";
+         header("Location:../mensajes.php?sMensaje=".$sMsj);
+
+
+     }
 
     }else{
-    $sErr = "Faltan datos, registre todos los campos";
+    $sMsj = "Faltan datos, registre todos los campos";
+    header("Location:../mensajes.php?sMensaje=".$sMsj);
+
 }
 
-if($sErr != "")
-    header("Location: ../error.php?sError=".$sErr);
 
 ?>
 

@@ -170,6 +170,36 @@ class Paciente
         return $this;
     }
 
+    function buscarPacientesExpediente(){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $i = 0;
+        $oPac = null;
+        if($oAD->Conecta()){
+            $sQuery = "call BuscaTodosPacientesExpediente();";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+        }
+        if($rst){
+            foreach ($rst as $vRowTemp){
+                $oPac = new Paciente();
+                $oPac->setExpediente(new Expediente());
+                $oPac->setExpediente($vRowTemp[0]);
+                $oPac->setCurpPaciente($vRowTemp[1]);
+                $oPac->setNombre($vRowTemp[2]);
+                $oPac->setApPaterno($vRowTemp[3]);
+                $oPac->setApMaterno($vRowTemp[4]);
+                $vObj[$i] = $oPac;
+                $i = $i + 1;
+            }
+        }else{
+            $vObj = false;
+        }
+        return $vObj;
+    }
+
 
 
 
@@ -242,12 +272,12 @@ class Paciente
     function insertar($usuario){
         $oAD = new AccesoDatos();
         $sQuery = "";
-        $i = 0;
+        $i = -1;
         if($this->getCurpPaciente() == ""){
             throw new Exception("Paciente->insertar(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call insertarPaciente('aldo092@gmail.com',
+                $sQuery = "call insertarPaciente('".$usuario."',
                                                  '".$this->sCurpPaciente."',
                                                  '".$this->sNombre."',
                                                  '".$this->sApPaterno."',

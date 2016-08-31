@@ -1,27 +1,26 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pablo
- * Date: 19/08/2016
- * Time: 09:05 AM
- */
+
 error_reporting(E_ALL);
 include_once ("../../Class/Usuarios.php");
 require_once ("../../Class/Menu.php");
 require_once ("../../Class/Personal.php");
+require_once ("../../Class/Paciente.php");
+
 session_start();
 $oUser = new Usuarios();
-$oPersonal = new Personal();
 $sErr = "";
 $arrMenus = null;
-$arrPersonal = null;
 $sNombre = "";
+
+$oPaciente= new Paciente();
+$arrPaciente= null;
+
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oUser = $_SESSION['sUser'];
     $oMenu = new Menu();
     $oMenu->setUsuario($oUser);
     $arrMenus = $oMenu->buscarMenuUsuario();
-    $arrPersonal = $oPersonal->buscarTodos();
+    $arrPaciente= $oPaciente->buscarPacientesExpediente();
     if($oUser->buscarDatosBasicos()){
         $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
     }else{
@@ -84,11 +83,11 @@ if($sErr != ""){
                 <!-- menu profile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <img src="../../images/icn1.jpg" alt="..." class="img-circle profile_img">
+                        <img src="../../images/img.png" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Bienvenido</span>
-                        <h2><?php echo $sNombre; ?></h2>
+                       * <h2><?php echo $sNombre; ?></h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -158,97 +157,94 @@ if($sErr != ""){
     </div>
 
 
-        <!-- /top navigation -->
+    <!-- /top navigation -->
 
-        <!-- page content -->
-        <div class="right_col" role="main">
-            <div class="">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel">
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
 
-                        <div class="x_title">
-                            <h2>Lista de Personal que labora en el Consultorio</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li class="dropdown">
-                                    <ul class="dropdown-menu" role="menu">
-                                    </ul>
-                                </li>
-                                <li></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
+                    <div class="x_title">
+                        <h2>Lista de Pacientes Registrados en el sistema</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <ul class="dropdown-menu" role="menu">
+                                </ul>
+                            </li>
+                            <li></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
 
-                        <div class="x_content">
-                            <form id="frmpersonal" action="../../Sesiones/Personal/abcPersonal.php" method="post">
-                                <input type="hidden" name="txtIdPersona">
-                                <input type="hidden" name="txtOp">
-                                <input type="hidden" name="txtRol">
-                                <p class="text-muted font-13 m-b-30">
+                    <div class="x_content">
+                        <form id="frmExpediente" action="../../Sesiones/Pacientes/antecedentes.php" method="post">
+                            <input type="hidden" name="txtExpediente">
 
-                                </p>
-                                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                            <p class="text-muted font-13 m-b-30">
+                            </p>
+
+                            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
-                                    <th>Nombre Completo</th>
+                                    <th>Expediente</th>
                                     <th>CURP</th>
-                                    <th>Usuario/Email</th>
-                                    <th>Estatus</th>
-                                    <th>Rol</th>
-                                    <th>Acción</th>
+                                    <th>Nombre</th>
+                                    <th>Accion</th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php
-                                    if($arrPersonal != null){
-                                        foreach($arrPersonal as $vRT){
-                                 ?>
-                                            <tr>
-                                                <td><?php echo $vRT->getNombres()." ".$vRT->getApPaterno()." ".$vRT->getApMaterno(); ?></td>
-                                                <td><?php echo $vRT->getCURP();?></td>
-                                                <td><?php echo $vRT->getEmail();?></td>
-                                                <td><?php echo ($vRT->getEstatus() == 1 ? 'Activo':'Inactivo');?></td>
-                                                <td><?php echo $vRT->getRol()->getDescripcion();?></td>
-                                                <td>
-                                                    <input type="submit" value="Modificar" class="btn btn-warning" onClick="txtIdPersona.value=<?php echo $vRT->getIdPersonal();?>; txtOp.value='m';txtRol.value='<?php echo $vRT->getRol()->getDescripcion();?>';">
-                                                </td>
-                                            </tr>
-                                <?php
-                                        }
-                                    }else{
-                                ?>
+                                if($arrPaciente != null){
+                                    foreach($arrPaciente as $vRT){
+                                        ?>
                                         <tr>
+                                            <td><?php echo $vRT->getExpediente();?></td>
+                                            <td><?php echo $vRT->getCURPPaciente();?></td>
+                                            <td><?php echo $vRT->getNombre()." ".$vRT->getApPaterno()." ".$vRT->getApMaterno(); ?></td>
+
                                             <td>
-                                                <p>No se encontraron registros</p>
+                                                <input type="submit" value="Agregar Antecedentes" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $vRT->getExpediente();?>'" >
+
                                             </td>
                                         </tr>
-                                <?php
+                                        <?php
                                     }
+                                }else{
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <p>No se encontraron registros</p>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
                                 ?>
                                 </tbody>
                             </table>
-                                <input type="submit" value="Agregar Colaborador" class="btn btn-primary" onClick="txtIdPersona.value='-1';txtOp.value='a'">
-                            </form>
-                        </div>
+                        </form>
+                  </div>
 
-                    </div>
-                </div>
             </div>
         </div>
-
-        <!-- /page content -->
-
-        <!-- footer content -->
-        <footer>
-            <div class="pull-right">
-                <h1> </h1>
-            </div>
-            <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
     </div>
+    </div>
+
+    <!-- /page content -->
+
+    <!-- footer content -->
+    <footer>
+        <div class="pull-right">
+            <h1> </h1>
+        </div>
+        <div class="clearfix"></div>
+    </footer>
+    <!-- /footer content -->
+</div>
 </div>
 
 <!-- jQuery -->

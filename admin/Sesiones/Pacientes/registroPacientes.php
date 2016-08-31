@@ -1,22 +1,39 @@
 <?php
 
 error_reporting(E_ALL);
-include_once("Class/Usuarios.php");
+include_once ("../../Class/Usuarios.php");
+require_once ("../../Class/Menu.php");
+require_once ("../../Class/Personal.php");
+require_once ("../../Class/Paciente.php");
+
 session_start();
 $oUser = new Usuarios();
 $sErr = "";
-    if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
-        $oUser = $_SESSION['sUser'];
+$arrMenus = null;
+$sNombre = "";
+
+$oPaciente= new Paciente();
+$arrPaciente= null;
+
+if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
+    $oUser = $_SESSION['sUser'];
+    $oMenu = new Menu();
+    $oMenu->setUsuario($oUser);
+    $arrMenus = $oMenu->buscarMenuUsuario();
+    $arrPaciente= $oPaciente->buscarPacientesExpediente();
+    if($oUser->buscarDatosBasicos()){
+        $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
     }else{
-        $sErr = "Acceso denegado, inicie sesión";
+        $sErr = "Error, datos no encontrados";
     }
+}else{
+    $sErr = "Acceso denegado, inicie sesión";
+}
 
-    if($sErr != ""){
-        header("Location: error.php?sError=".$sErr);
-    }
-
+if($sErr != ""){
+    header("Location: error.php?sError=".$sErr);
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,7 +43,7 @@ $sErr = "";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Consultorio Médico</title>
+    <title>Consultorio Médico - Control de Personal</title>
 
     <!-- Bootstrap -->
     <link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -41,6 +58,13 @@ $sErr = "";
     <!-- JQVMap -->
     <link href="../../../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
 
+    <!-- Datatables -->
+    <link href="../../../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="../../../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="../../../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="../../../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="../../../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
     <!-- Custom Theme Style -->
     <link href="../../../build/css/custom.min.css" rel="stylesheet">
 </head>
@@ -51,7 +75,7 @@ $sErr = "";
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="menuprincipal.html" class="site_title"><i class="fa fa-plus-square"></i> <span>Control Médico</span></a>
+                    <a href="../../index.php" class="site_title"><i class="fa fa-plus-square"></i> <span>Control Médico</span></a>
                 </div>
 
                 <div class="clearfix"></div>
@@ -59,11 +83,11 @@ $sErr = "";
                 <!-- menu profile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <img src="../../images/img.png" alt="..." class="img-circle profile_img">
+                        <img src="../../images/icn1.jpg" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Bienvenido</span>
-                        <h2>Usuario</h2>
+                        * <h2><?php echo $sNombre; ?></h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -77,32 +101,28 @@ $sErr = "";
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-home"></i> Principal<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="menuprincipal.html">Principal</a></li>
+                                    <li><a href="../../index.php">Principal</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-edit"></i> Pacientes <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="registroPacientes.php">Registro de Pacientes</a></li>
-
-
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-desktop"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="NUsuario.html">Crear Usuario</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-table"></i> Estudios <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="tables.html">Estudios</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-bar-chart-o"></i> Reportes<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="reportes.html">Reportes</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                            <?php
+                            if($arrMenus != null){
+                                foreach ($arrMenus as $vRow){
+                                    ?>
+                                    <li><a><i class="fa fa-square-o"></i> <?php echo $vRow->getDescrip(); ?><span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <?php
+                                            foreach ($vRow->getArrFunciones() as $sub){
+                                                ?>
+                                                <li><a href="../../<?php echo $sub->getRutaPag(); ?>"><?php echo $sub->getDescripcion();?></a></li>
+                                                <?php
+                                            }
+                                            ?>
+                                        </ul>
+                                    </li>
+                                    <?php
+                                }
+                            }
+                            ?>
                     </div>
 
 
@@ -122,170 +142,169 @@ $sErr = "";
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="../../images/img.png" alt="">Usuario
+                                <img src="../../images/img.png" alt=""><?php echo $oUser->getEmail(); ?>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
 
-                                <li><a href="../../login.html"><i class="fa fa-sign-out pull-right"></i>Salir de la Sesión</a></li>
+                                <li><a href="../../Controllers/logout.php"><i class="fa fa-sign-out pull-right"></i>Salir de la Sesión</a></li>
                             </ul>
                         </li>
                     </ul>
                 </nav>
             </div>
         </div>
+    </div>
 
-
-        <!-- /top navigation -->
+    <!-- /top navigation -->
 
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Registro de Pacientes Nuevos</h3>
+                        <h3>Registro de Pacientes Nuevos  </h3>
                     </div>
 
-        </div>
                 </div>
-                <div class="clearfix"></div>
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>favor de capturar todos los campos</h2>
-
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-                <br>
-                <form action="../../Controllers/ctrlpaciente.php" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" >
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Nombre <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="nombre" name="nombre" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ApPat">Apellido Paterno <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="ApPat" name="ApPat" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ApMat">Apellido Materno <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="ApMat" name="ApMat" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="curp" class="control-label col-md-3 col-sm-3 col-xs-12">CURP</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="curp" class="form-control col-md-7 col-xs-12" type="text" name="curp">
-                        </div>
-                    </div>
-
-
-
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Sexo</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div id="sexo" class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                    <input type="radio" name="sexo" value="M" data-parsley-multiple="sexo"> &nbsp; Masculino&nbsp;
-                                </label>
-                                <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                    <input type="radio" name="sexo" value="F" data-parsley-multiple="sexo"> Femenino
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="birthday" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha de Nacimiento <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="birthday" class="date-picker form-control col-md-7 col-xs-12 active" required="required" type="text" name="birthday">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="telefono" class="control-label col-md-3 col-sm-3 col-xs-12">Telefono</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="telefono" class="form-control col-md-7 col-xs-12" type="text" name="telefono">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="direccion" class="control-label col-md-3 col-sm-3 col-xs-12">Dirección</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="direccion" class="form-control col-md-7 col-xs-12" type="text" name="direccion">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="curp" class="control-label col-md-3 col-sm-3 col-xs-12">Código Postal</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="cp" class="form-control col-md-7 col-xs-12" type="text" name="cp">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email" class="control-label col-md-3 col-sm-3 col-xs-12">Corre Electrónico</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="email" class="form-control col-md-7 col-xs-12" type="text" name="email">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="edocivil" class="control-label col-md-3 col-sm-3 col-xs-12">Estado Civil</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="edocivil" class="form-control" required="true" name="edocivil">
-                                <option value="">Selecciona..</option>
-                                <option value="Soltero">Soltero(a)</option>
-                                <option value="Casado">Casado</option>
-                                <option value="Viudo">Viudo</option>
-                                <option value="union_libre">Unión Libre</option>
-
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="ln_solid"></div>
-                    <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button type="submit" class="btn btn-primary">Cancelar</button>
-                            <button type="submit" class="btn btn-success">Guardar</button>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-                    </div>
-                </div>
-
-        </div>
-
-        <!-- /page content -->
-
-        <!-- footer content -->
-        <footer>
-            <div class="pull-right">
-                Menú de Administrador
             </div>
             <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
-    </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>favor de capturar todos los campos</h2>
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <br>
+                            <form action="../../Controllers/ctrlpaciente.php" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" >
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Nombre <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="text" id="nombre" name="nombre" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ApPat">Apellido Paterno <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="text" id="ApPat" name="ApPat" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ApMat">Apellido Materno <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="text" id="ApMat" name="ApMat" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="curp" class="control-label col-md-3 col-sm-3 col-xs-12">CURP</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input id="curp" class="form-control col-md-7 col-xs-12" type="text" name="curp">
+                                    </div>
+                                    <a target="_blank" href="https://consultas.curp.gob.mx/CurpSP/">consultar CURP</a>
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Sexo</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div id="sexo" class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                                <input type="radio" name="sexo" value="M" data-parsley-multiple="sexo"> &nbsp; Masculino&nbsp;
+                                            </label>
+                                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                                <input type="radio" name="sexo" value="F" data-parsley-multiple="sexo"> Femenino
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="birthday" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha de Nacimiento <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input id="birthday" class="date-picker form-control col-md-7 col-xs-12 active" required="required" type="date" name="birthday">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="telefono" class="control-label col-md-3 col-sm-3 col-xs-12">Telefono</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input id="telefono" class="form-control col-md-7 col-xs-12" type="text" name="telefono">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="direccion" class="control-label col-md-3 col-sm-3 col-xs-12">Dirección</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input id="direccion" class="form-control col-md-7 col-xs-12" type="text" name="direccion">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="curp" class="control-label col-md-3 col-sm-3 col-xs-12">Código Postal</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input id="cp" class="form-control col-md-7 col-xs-12" type="text" name="cp">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email" class="control-label col-md-3 col-sm-3 col-xs-12">Correo Electrónico</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input id="email" class="form-control col-md-7 col-xs-12" type="text" name="email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edocivil" class="control-label col-md-3 col-sm-3 col-xs-12">Estado Civil</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select id="edocivil" class="form-control" required="true" name="edocivil">
+                                            <option value="">Selecciona..</option>
+                                            <option value="Soltero">Soltero(a)</option>
+                                            <option value="Casado">Casado(a)</option>
+                                            <option value="Viudo">Viudo (a)</option>
+                                            <option value="union_libre">Unión Libre</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <button type="submit" class="btn btn-primary">Cancelar</button>
+                                        <button type="submit" class="btn btn-success">Guardar</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /page content -->
+
+    <!-- footer content -->
+    <footer>
+        <div class="pull-right">
+            <h1> </h1>
+        </div>
+        <div class="clearfix"></div>
+    </footer>
+    <!-- /footer content -->
 </div>
-        </div></div>
+</div>
 
 <!-- jQuery -->
 <script src="../../../vendors/jquery/dist/jquery.min.js"></script>
@@ -324,53 +343,109 @@ $sErr = "";
 <script src="../../js/moment/moment.min.js"></script>
 <script src="../../js/datepicker/daterangepicker.js"></script>
 
+<!-- Datatables -->
+<script src="../../../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../../../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="../../../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+<script src="../../../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="../../../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="../../../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="../../../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+<script src="../../../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="../../../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+<script src="../../../vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
+<script src="../../../vendors/jszip/dist/jszip.min.js"></script>
+<script src="../../../vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="../../../vendors/pdfmake/build/vfs_fonts.js"></script>
+
 <!-- Custom Theme Scripts -->
 <script src="../../../build/js/custom.min.js"></script>
 
-        <!-- bootstrap-daterangepicker -->
-        <script>
-            $(document).ready(function() {
-                $('#birthday').daterangepicker({
-                    singleDatePicker: true,
-                    calender_style: "picker_4"
-                }, function(start, end, label) {
-                    console.log(start.toISOString(), end.toISOString(), label);
+<!-- Datatables -->
+<script>
+    $(document).ready(function() {
+        var handleDataTableButtons = function() {
+            if ($("#datatable-buttons").length) {
+                $("#datatable-buttons").DataTable({
+                    dom: "Bfrtip",
+                    buttons: [
+                        {
+                            extend: "copy",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "csv",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "excel",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "pdfHtml5",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "print",
+                            className: "btn-sm"
+                        },
+                    ],
+                    responsive: true
                 });
+            }
+        };
+
+        TableManageButtons = function() {
+            "use strict";
+            return {
+                init: function() {
+                    handleDataTableButtons();
+                }
+            };
+        }();
+
+        $('#datatable').dataTable();
+
+        $('#datatable-keytable').DataTable({
+            keys: true
+        });
+
+        $('#datatable-responsive').DataTable();
+
+        $('#datatable-scroller').DataTable({
+            ajax: "js/datatables/json/scroller-demo.json",
+            deferRender: true,
+            scrollY: 380,
+            scrollCollapse: true,
+            scroller: true
+        });
+
+        $('#datatable-fixed-header').DataTable({
+            fixedHeader: true
+        });
+
+        var $datatable = $('#datatable-checkbox');
+
+        $datatable.dataTable({
+            'order': [[ 1, 'asc' ]],
+            'columnDefs': [
+                { orderable: false, targets: [0] }
+            ]
+        });
+        $datatable.on('draw.dt', function() {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_flat-green'
             });
-        </script>
-        <!-- /bootstrap-daterangepicker -->
+        });
 
-        <!-- Parsley -->
-        <script>
+        TableManageButtons.init();
+    });
+</script>
+<!-- /Datatables -->
 
-
-            $(document).ready(function() {
-                $.listen('parsley:field:validate', function() {
-                    validateFront();
-                });
-                $('#demo-form2 .btn').on('click', function() {
-                    $('#demo-form2').parsley().validate();
-                    validateFront();
-                });
-                var validateFront = function() {
-                    if (true === $('#demo-form2').parsley().isValid()) {
-                        $('.bs-callout-info').removeClass('hidden');
-                        $('.bs-callout-warning').addClass('hidden');
-                    } else {
-                        $('.bs-callout-info').addClass('hidden');
-                        $('.bs-callout-warning').removeClass('hidden');
-                    }
-                };
-            });
-            try {
-                hljs.initHighlightingOnLoad();
-            } catch (err) {}
-        </script>
-        <!-- /Parsley -->
-
-
-
-        <!-- Flot -->
+<!-- Flot -->
 <script>
     $(document).ready(function() {
         var data1 = [
@@ -469,14 +544,14 @@ $sErr = "";
 <script>
     $(document).ready(function() {
         var icons = new Skycons({
-                    "color": "#73879C"
-                }),
-                list = [
-                    "clear-day", "clear-night", "partly-cloudy-day",
-                    "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
-                    "fog"
-                ],
-                i;
+                "color": "#73879C"
+            }),
+            list = [
+                "clear-day", "clear-night", "partly-cloudy-day",
+                "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
+                "fog"
+            ],
+            i;
 
         for (i = list.length; i--;)
             icons.set(list[i], list[i]);
@@ -563,7 +638,7 @@ $sErr = "";
             buttonClasses: ['btn btn-default'],
             applyClass: 'btn-small btn-primary',
             cancelClass: 'btn-small',
-            format: 'YYYY/MM/DD',
+            format: 'MM/DD/YYYY',
             separator: ' to ',
             locale: {
                 applyLabel: 'Submit',
@@ -572,7 +647,7 @@ $sErr = "";
                 toLabel: 'To',
                 customRangeLabel: 'Custom',
                 daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                 firstDay: 1
             }
         };
@@ -621,7 +696,7 @@ $sErr = "";
         generateGradient: true
     };
     var target = document.getElementById('foo'),
-            gauge = new Gauge(target).setOptions(opts);
+        gauge = new Gauge(target).setOptions(opts);
 
     gauge.maxValue = 6000;
     gauge.animationSpeed = 32;

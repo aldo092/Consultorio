@@ -28,6 +28,9 @@ $Diabetes="";
 $Cardiovascular="";
 $HTA="";
 $oAntPat = new AntePatologicos();
+$NAfec=0;
+$user= $_SESSION['sUser']->getEmail();
+
 
 
 if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
@@ -54,19 +57,23 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     $oAntPat->setCardiovasculares($Cardiovascular);
     $oAntPat->setHTA($HTA);
 
-    if ($oAntPat->insertar($oUser)) {
-        $sMsj = "Registro  de antecedentes familiares del expediente ".$Expediente." correcto";
-        header("Location:../exito.php?sMensaje=".$sMsj);
+    $NAfec=$oAntPat->insertar($user);
+
+    if ($NAfec==1) {
+        $sMsj = "Registro  de antecedentes patológicos del expediente ".$Expediente." correcto";
+        header("Location:../mensajes.php?sMensaje=".$sMsj);
     } else {
-        $sErr = "error al guardar el nuevo paciente";
+        $sMsj = "Error al guardar los antecedente patológicos del expediente".$Expediente;
+        header("Location:../mensajes.php?sMensaje=".$sMsj);
+
     }
 
 }else{
-    $sErr = "Faltan datos, registre todos los campos";
+    $sMsj = "Faltan datos, registre todos los campos";
+    header("Location:../mensajes.php?sMensaje=".$sMsj);
+
 }
 
-if($sErr != "")
-    header("Location: ../error.php?sError=".$sErr);
 ?>
 
 
