@@ -10,11 +10,13 @@ include_once ("../../Class/Usuarios.php");
 require_once ("../../Class/Menu.php");
 require_once ("../../Class/Personal.php");
 require_once ("../../Class/Roles.php");
+require_once ("../../Class/Funcion.php");
 session_start();
 $oUser = new Usuarios();
 $oPersonal = new Personal();
 $oRol = new Roles();
 $oPersonal->setRol(new Roles());
+$oFuncion = new Funcion();
 $sErr = "";
 $sErr2 = "";
 $arrMenus = null;
@@ -28,6 +30,7 @@ $sRolDesc = "";
 $bCampo = false;
 $bLlave = false;
 $bLlave2 = false;
+$url="".$_SERVER['REQUEST_URI'];
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     if(isset($_POST["txtIdPersona"]) && !empty($_POST["txtIdPersona"]) &&
         isset($_POST["txtOp"]) && !empty($_POST["txtOp"])){
@@ -127,7 +130,7 @@ if($sErr != ""){
                 <!-- menu profile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <img src="../../images/icn1.jpg" alt="..." class="img-circle profile_img">
+                        <img src="../../../admin/imagenesperfiles/<?php echo $oUser->getPersonal()->getImagen();?>" alt="..."  class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Bienvenido</span>

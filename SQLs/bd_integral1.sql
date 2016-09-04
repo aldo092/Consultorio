@@ -503,8 +503,6 @@ VALUES ('Consultar Bitácora del Sistema', 'Sesiones/Otros/consultarBitacora.php
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(3,1);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(4,1);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(5,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,1);

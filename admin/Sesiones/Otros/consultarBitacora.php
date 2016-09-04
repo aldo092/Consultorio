@@ -8,15 +8,15 @@
 error_reporting(E_ALL);
 include_once ("../../Class/Usuarios.php");
 require_once ("../../Class/Menu.php");
-require_once ("../../Class/Personal.php");
+require_once ("../../Class/Bitacora.php");
 require_once ("../../Class/Funcion.php");
 session_start();
 $oUser = new Usuarios();
-$oPersonal = new Personal();
+$oBitacora = new Bitacora();
 $oFuncion = new Funcion();
 $sErr = "";
 $arrMenus = null;
-$arrPersonal = null;
+$arrBitacora = null;
 $sNombre = "";
 $url="".$_SERVER['REQUEST_URI'];
 
@@ -25,7 +25,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oMenu = new Menu();
     $oMenu->setUsuario($oUser);
     $arrMenus = $oMenu->buscarMenuUsuario();
-    $arrPersonal = $oPersonal->buscarTodos();
+    $arrBitacora = $oBitacora->consultarBitacora();
     if($oUser->buscarDatosBasicos() and $oFuncion->checkRoot($oUser->getEmail(), substr($url, 19))){
         $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
     }else{
@@ -48,7 +48,7 @@ if($sErr != ""){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Consultorio Médico - Control de Personal</title>
+    <title>Consultorio Médico - Consultar Bitácora del Sistema</title>
 
     <!-- Bootstrap -->
     <link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -162,97 +162,85 @@ if($sErr != ""){
     </div>
 
 
-        <!-- /top navigation -->
+    <!-- /top navigation -->
 
-        <!-- page content -->
-        <div class="right_col" role="main">
-            <div class="">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel">
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
 
-                        <div class="x_title">
-                            <h2>Lista de Personal que labora en el Consultorio</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li class="dropdown">
-                                    <ul class="dropdown-menu" role="menu">
-                                    </ul>
-                                </li>
-                                <li></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
+                    <div class="x_title">
+                        <h2>Lista de eventos ocurridos en el sistema en los últimos 3 meses</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <ul class="dropdown-menu" role="menu">
+                                </ul>
+                            </li>
+                            <li></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
 
-                        <div class="x_content">
-                            <form id="frmpersonal" action="../../Sesiones/Personal/abcPersonal.php" method="post">
-                                <input type="hidden" name="txtIdPersona">
-                                <input type="hidden" name="txtOp">
-                                <input type="hidden" name="txtRol">
-                                <p class="text-muted font-13 m-b-30">
-
-                                </p>
-                                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                    <div class="x_content">
+                            <p class="text-muted font-13 m-b-30">
+                                <h4>¿Qué es una Bitácora?</h4>
+                                <h6>Una bitácora, propiamente tal, es un registro que almacena los cambios del sistema,
+                                    almacenando los datos de la persona que realizó la acción, así como la fecha y una descripción del evento ocurrido.</h6>
+                            </p>
+                            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
-                                    <th>Nombre Completo</th>
-                                    <th>CURP</th>
-                                    <th>Usuario/Email</th>
-                                    <th>Estatus</th>
-                                    <th>Rol</th>
-                                    <th>Acción</th>
+                                    <th>Usuario que realizó la acción en el Sistema</th>
+                                    <th>Fecha de realización</th>
+                                    <th>Descripción del movimiento realizado</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php
-                                    if($arrPersonal != null){
-                                        foreach($arrPersonal as $vRT){
-                                 ?>
-                                            <tr>
-                                                <td><?php echo $vRT->getNombres()." ".$vRT->getApPaterno()." ".$vRT->getApMaterno(); ?></td>
-                                                <td><?php echo $vRT->getCURP();?></td>
-                                                <td><?php echo $vRT->getEmail();?></td>
-                                                <td><?php echo ($vRT->getEstatus() == 1 ? 'Activo':'Inactivo');?></td>
-                                                <td><?php echo $vRT->getRol()->getDescripcion();?></td>
-                                                <td>
-                                                    <input type="submit" value="Modificar" class="btn btn-warning" onClick="txtIdPersona.value=<?php echo $vRT->getIdPersonal();?>; txtOp.value='m';txtRol.value='<?php echo $vRT->getRol()->getDescripcion();?>';">
-                                                </td>
-                                            </tr>
-                                <?php
-                                        }
-                                    }else{
-                                ?>
+                                if($arrBitacora != null){
+                                    foreach($arrBitacora as $vRT){
+                                        ?>
                                         <tr>
-                                            <td>
-                                                <p>No se encontraron registros</p>
-                                            </td>
+                                            <td><?php echo $vRT->getEmail(); ?></td>
+                                            <td><?php echo $vRT->getFechaAccion();?></td>
+                                            <td><?php echo $vRT->getDescripcionAccion();?></td>
                                         </tr>
-                                <?php
+                                        <?php
                                     }
+                                }else{
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <p>No se encontraron registros</p>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
                                 ?>
                                 </tbody>
                             </table>
-                                <input type="submit" value="Agregar Colaborador" class="btn btn-primary" onClick="txtIdPersona.value='-1';txtOp.value='a'">
-                            </form>
-                        </div>
-
                     </div>
+
                 </div>
             </div>
         </div>
-
-        <!-- /page content -->
-
-        <!-- footer content -->
-        <footer>
-            <div class="pull-right">
-                <h1> </h1>
-            </div>
-            <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
     </div>
+
+    <!-- /page content -->
+
+    <!-- footer content -->
+    <footer>
+        <div class="pull-right">
+            <h1> </h1>
+        </div>
+        <div class="clearfix"></div>
+    </footer>
+    <!-- /footer content -->
+</div>
 </div>
 
 <!-- jQuery -->

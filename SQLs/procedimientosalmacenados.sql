@@ -387,3 +387,30 @@ CREATE PROCEDURE insertarAntNoPat(IN user VARCHAR(60),IN Expediente VARCHAR(20),
 
   END ;
 //
+
+delimiter //
+CREATE PROCEDURE checkAccess(IN usuario VARCHAR(60), IN descripcionfuncion varchar(150))
+  BEGIN
+    Select funcion.nClavefuncion
+    FROM funcion
+      LEFT OUTER JOIN funcion_rol
+        ON funcion_rol.nClaveFuncion = funcion.nClaveFuncion
+      LEFT OUTER JOIN roles
+        ON roles.nIdRol = funcion_rol.nIdRol
+      LEFT OUTER JOIN usuario_rol
+        ON usuario_rol.nIdRol = roles.nIdrol
+      LEFT OUTER JOIN usuarios
+        ON usuario_rol.sEmail =  usuarios.sEmail
+    WHERE usuarios.sEmail = usuario AND funcion.sRutaPag = descripcionfuncion;
+  END;
+//
+
+delimiter //
+CREATE PROCEDURE consultarBitacora()
+  BEGIN
+    SELECT nClaveAccion, sEmail, dFechaAccion, sTabla, sDescripcionAccion
+    FROM bitacora
+    WHERE dFechaAccion >= date_sub(curdate(), interval 3 month)
+    ORDER BY dFechaAccion DESC;
+  END;
+//

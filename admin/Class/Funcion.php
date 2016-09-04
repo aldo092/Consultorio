@@ -97,6 +97,28 @@ class Funcion
         return $vObj;
     }
 
+    function checkRoot($usuario, $sruta){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $rst = null;
+        $bRet = false;
+        if($usuario == "" and $sruta == ""){
+            throw new Exception("Funcion->checkRoot(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call checkAccess('".$usuario."','$sruta');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+                if($rst){
+                    if($rst[0][0] != ""){
+                        $bRet = true;
+                    }
+                }
+            }
+        }
+        return $bRet;
+    }
+
 }
 
 ?>
