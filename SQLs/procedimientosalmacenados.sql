@@ -1,4 +1,4 @@
-﻿/*Fecha de creación 6 de agosto */
+﻿﻿/*Fecha de creación 6 de agosto */
 delimiter //
 CREATE PROCEDURE buscarEmailPassUser(IN user varchar(60), IN email varchar(60), spass varchar(30))
   BEGIN
@@ -346,7 +346,7 @@ CREATE PROCEDURE insertaUserRol(IN user varchar(30), IN email varchar(60), rol i
 DELIMITER //
 CREATE PROCEDURE BuscaTodosPacientesExpediente()
   BEGIN
-    select e.nNumero, e.sCurpPaciente, p.sNombre, p.sApPaterno, p.sApMaterno from expediente  e ,paciente p where e.sCurpPaciente=p.SCurpPaciente;
+    select e.nNumero, e.sCurpPaciente, p.sNombre, p.sApPaterno, p.sApMaterno, p.sSexo from expediente  e ,paciente p where e.sCurpPaciente=p.SCurpPaciente;
 
   END //
 
@@ -387,30 +387,41 @@ CREATE PROCEDURE insertarAntNoPat(IN user VARCHAR(60),IN Expediente VARCHAR(20),
 
   END ;
 //
+/*31 de Agosto 2016 Procedimiento Almacenado Antecedentes Ginecoobstectricos*/
 
-delimiter //
-CREATE PROCEDURE checkAccess(IN usuario VARCHAR(60), IN descripcionfuncion varchar(150))
+DELIMITER //
+CREATE PROCEDURE insertarAntGin( IN user VARCHAR(60),IN Expediente VARCHAR(20),IN Gestaciones INT(11),IN Partos INT(11), IN Abortos INT(11),IN Ivsa INT(11),IN Parejas INT(11),IN ETS VARCHAR(200),IN  Cesareas INT(11),IN Papanicolau DATE, IN Anticonceptivo INT(11))
   BEGIN
-    Select funcion.nClavefuncion
-    FROM funcion
-      LEFT OUTER JOIN funcion_rol
-        ON funcion_rol.nClaveFuncion = funcion.nClaveFuncion
-      LEFT OUTER JOIN roles
-        ON roles.nIdRol = funcion_rol.nIdRol
-      LEFT OUTER JOIN usuario_rol
-        ON usuario_rol.nIdRol = roles.nIdrol
-      LEFT OUTER JOIN usuarios
-        ON usuario_rol.sEmail =  usuarios.sEmail
-    WHERE usuarios.sEmail = usuario AND funcion.sRutaPag = descripcionfuncion;
+    INSERT INTO anteginecoobstetricos(nNumero, nGestaciones, nPartos, nAbortos, sIVSA, nParejasSexuales, sETS, nCesareas, dUltPapanicolau, nClaveAnticonceptivo)
+      VALUES (Expediente,Gestaciones,Partos,Abortos,Ivsa,Parejas,ETS, Cesareas,Papanicolau, Anticonceptivo);
+
+    INSERT INTO bitacora(sEmail, sAccion,dFechaAccion,sTabla,sDescripcionAccion)
+    VALUES (user,'INSERT', current_date,'anteginecoobstetricos',CONCAT('se insertaron los antecedentes gineco-obstetricos del expediente ', Expediente));
+
   END;
 //
 
-delimiter //
-CREATE PROCEDURE consultarBitacora()
+/* 3 de septiembre*/
+
+DELIMITER //
+CREATE PROCEDURE buscarEstados()
   BEGIN
-    SELECT nClaveAccion, sEmail, dFechaAccion, sTabla, sDescripcionAccion
-    FROM bitacora
-    WHERE dFechaAccion >= date_sub(curdate(), interval 3 month)
-    ORDER BY dFechaAccion DESC;
+    select CVE_ENT,NOM_ENT FROM estados;
   END;
+//
+
+DELIMITER //
+CREATE PROCEDURE buscarTodosMetodosAntic()
+  BEGIN
+    SELECT nClaveAnticonceptivo,sDescripcion FROM metodoanticonceptivo;
+
+  END;
+//
+
+DELIMITER //
+CREATE PROCEDURE buscarMunicipios(IN Estado INT)
+  BEGIN
+    SELECT CVE_MUN,NOM_MUN FROM municipios WHERE CVE_ENT=Estado;
+
+  END ;
 //

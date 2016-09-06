@@ -83,7 +83,7 @@ if($sErr != ""){
                 <!-- menu profile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <img src="../../images/img.png" alt="..." class="img-circle profile_img">
+                        <img src="../../../admin/imagenesperfiles/<?php echo $oUser->getPersonal()->getImagen();?>" alt="..."  class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Bienvenido</span>
@@ -183,6 +183,7 @@ if($sErr != ""){
                     <div class="x_content">
                         <form id="frmExpediente" action="../../Sesiones/Pacientes/antecedentes.php" method="post">
                             <input type="hidden" name="txtExpediente">
+                            <input type="hidden" name="txtSexo">
 
                             <p class="text-muted font-13 m-b-30">
                             </p>
@@ -195,6 +196,7 @@ if($sErr != ""){
                                     <th>Nombre</th>
                                     <th>Accion</th>
 
+
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -206,11 +208,8 @@ if($sErr != ""){
                                             <td><?php echo $vRT->getExpediente();?></td>
                                             <td><?php echo $vRT->getCURPPaciente();?></td>
                                             <td><?php echo $vRT->getNombre()." ".$vRT->getApPaterno()." ".$vRT->getApMaterno(); ?></td>
+                                            <td><input type="submit" value="Agregar Antecedentes" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $vRT->getExpediente();?>';txtSexo.value='<?php echo $vRT->getSexo();?>'" ></td>
 
-                                            <td>
-                                                <input type="submit" value="Agregar Antecedentes" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $vRT->getExpediente();?>'" >
-
-                                            </td>
                                         </tr>
                                         <?php
                                     }

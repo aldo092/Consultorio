@@ -191,6 +191,7 @@ class Paciente
                 $oPac->setNombre($vRowTemp[2]);
                 $oPac->setApPaterno($vRowTemp[3]);
                 $oPac->setApMaterno($vRowTemp[4]);
+                $oPac->setSexo($vRowTemp[5]);
                 $vObj[$i] = $oPac;
                 $i = $i + 1;
             }

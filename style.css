@@ -57,14 +57,18 @@ a:focus{
   outline: none;
   text-decoration: none;
 }
-h1,
+h1{
+	font-family: 'Raleway', sans-serif;
+	color: white;
+}
+
+
 h2,
 h3,
 h4,
 h5,
 h6{
-	font-family: 'Raleway', sans-serif;	
-}
+	font-family: 'Raleway', sans-serif;}
 h2 {
   color: #313338;  
   font-size: 30px;
@@ -948,6 +952,7 @@ img{
 	float: left;
 	display: inline;
 	width: 100%;
+
 }
 .doctors-area {
   display: inline;
@@ -957,6 +962,7 @@ img{
 }
 .doctors-nav{
 	margin-left: -35px;
+
 }
 .doctors-nav .slick-slide {
   background-color: #ccc;
@@ -970,6 +976,7 @@ img{
 	float: left;
 	display: inline-block;
 	width: 100%;
+	margin: auto;
 }
 .doctors-nav a {
 	float: left;	

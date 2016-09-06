@@ -5,15 +5,19 @@ include_once ("../../Class/Usuarios.php");
 require_once ("../../Class/Menu.php");
 require_once ("../../Class/Personal.php");
 require_once ("../../Class/Paciente.php");
+require_once ("../../Class/Estados.php");
+
 
 session_start();
 $oUser = new Usuarios();
 $sErr = "";
 $arrMenus = null;
 $sNombre = "";
-
 $oPaciente= new Paciente();
 $arrPaciente= null;
+$oEstados=new Estados();
+$arrEdo=null;
+$arrMun=null;
 
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oUser = $_SESSION['sUser'];
@@ -21,6 +25,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oMenu->setUsuario($oUser);
     $arrMenus = $oMenu->buscarMenuUsuario();
     $arrPaciente= $oPaciente->buscarPacientesExpediente();
+    $arrEdo=$oEstados->buscarEstados();
     if($oUser->buscarDatosBasicos()){
         $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
     }else{
@@ -65,6 +70,8 @@ if($sErr != ""){
     <link href="../../../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../../../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
+
+
     <!-- Custom Theme Style -->
     <link href="../../../build/css/custom.min.css" rel="stylesheet">
 </head>
@@ -83,7 +90,7 @@ if($sErr != ""){
                 <!-- menu profile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <img src="../../images/icn1.jpg" alt="..." class="img-circle profile_img">
+                        <img src="../../../admin/imagenesperfiles/<?php echo $oUser->getPersonal()->getImagen();?>" alt="..."  class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Bienvenido</span>
@@ -213,7 +220,13 @@ if($sErr != ""){
                                     <a target="_blank" href="https://consultas.curp.gob.mx/CurpSP/">consultar CURP</a>
                                 </div>
 
-
+                                <div class="form-group">
+                                    <label for="rfc" class="control-label col-md-3 col-sm-3 col-xs-12">RFC</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input id="rfc" class="form-control col-md-7 col-xs-12" type="text" name="rfc">
+                                    </div>
+                                    <a target="_blank" href="http://www.rfc-sat.com.mx/consulta-rfc-homoclave">consultar RFC con homoclave</a>
+                                </div>
 
 
                                 <div class="form-group">
@@ -251,6 +264,43 @@ if($sErr != ""){
                                         <input id="direccion" class="form-control col-md-7 col-xs-12" type="text" name="direccion">
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="localidad" class="control-label col-md-3 col-sm-3 col-xs-12">Localidad</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input id="localidad" class="form-control col-md-7 col-xs-12" type="text" name="localidad">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="municipio" class="control-label col-md-3 col-sm-3 col-xs-12">Municipio</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select id="municipio" class="form-control" required="true" name="municipio">
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="estado" class="control-label col-md-3 col-sm-3 col-xs-12">Estado </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12" id="ajax">
+                                        <select id="estado" class="form-control" required="true" name="estado" onchange="cargaMunicipios(this.id)">
+                                            <option value="">Seleccione</option>
+
+                                            <?php
+                                            if($arrEdo != null){
+                                                foreach($arrEdo as $vRol){
+                                                    ?>
+                                                    <option value="<?php echo $vRol->getIDEstado();?>".htmlentities><?php echo $vRol->getNombreEdo();?></option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+
                                 <div class="form-group">
                                     <label for="curp" class="control-label col-md-3 col-sm-3 col-xs-12">Código Postal</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
@@ -306,6 +356,7 @@ if($sErr != ""){
 </div>
 </div>
 
+<script src="../../../vendors/AJAX/ajax.js"></script>
 <!-- jQuery -->
 <script src="../../../vendors/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap -->

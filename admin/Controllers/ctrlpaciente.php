@@ -35,6 +35,10 @@ $sexo="";
 $FechaNa="";
 $telefono="";
 $direccion="";
+$rfc="";
+$localidad="";
+$municipio="";
+$estado="";
 $cp="";
 $correo="";
 $edocivil="";
@@ -46,6 +50,7 @@ $oExpediente= new Expediente();
 $user= $_SESSION['sUser']->getEmail();
 $NAfec=0;
 $NAfec2=0;
+
 
 
 if(

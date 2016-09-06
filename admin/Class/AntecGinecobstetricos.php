@@ -175,16 +175,26 @@ class AntecGinecobstetricos
         }
         return $bRet;
     }
-    
-    function insertarGineco($usuario){
+
+    function insertar($usuario){
         $oAD = new AccesoDatos();
         $sQuery = "";
         $i = -1;
-        if($this->getExpediente()->getNumero()==0){
-            throw new Exception("AntecGinecobstetricos->insertarGineco('".$usuario."'): error, faltan datos");
+        if($this->getExpediente() == ""){
+            throw new Exception("Paciente->insertar(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "insertarAntecGineco()";
+                $sQuery = "call insertarAntGin ('".$usuario."',
+                                                  '".$this->oExpediente."',
+                                                  '".$this->nGestaciones."',
+                                                  '".$this->nPartos."',
+                                                 '".$this->nAbortos."',
+                                                   '".$this->sIVSA."',
+                                                  '".$this->nParejasSexuales."',
+                                                  '".$this->sETS."',
+                                                  '".$this->nCesareas."',
+                                                  '".$this->dUltPapanicolau."',
+                                                  '".$this->oAnticonceptivos."');";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }

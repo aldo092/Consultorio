@@ -6,6 +6,7 @@ include_once ("../../Class/Usuarios.php");
 require_once ("../../Class/Menu.php");
 require_once ("../../Class/Paciente.php");
 require_once ("../../Class/Personal.php");
+require_once ("../../Class/MetodoAnticonceptivo.php");
 
 session_start();
 $oUser = new Usuarios();
@@ -14,6 +15,8 @@ $arrMenus = null;
 $Expediente ="";
 $oPersonal = new Personal();
 $sNombre = "";
+$oAnticonceptivo= new MetodoAnticonceptivo();
+$arrAnticon=null;
 
 
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
@@ -24,6 +27,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
         $oMenu = new Menu();
         $oMenu->setUsuario($oUser);
         $arrMenus = $oMenu->buscarMenuUsuario();
+        $arrAnticon=$oAnticonceptivo->buscarTodos();
         if ($oUser->buscarDatosBasicos()) {
             $sNombre = $oUser->getPersonal()->getNombres() . " " . $oUser->getPersonal()->getApPaterno() . " " . $oUser->getPersonal()->getApMaterno();
         }
@@ -84,7 +88,7 @@ if($sErr != ""){
                 <!-- menu profile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <img src="../../images/img.png" alt="..." class="img-circle profile_img">
+                        <img src="../../../admin/imagenesperfiles/<?php echo $oUser->getPersonal()->getImagen();?>" alt="..."  class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Bienvenido</span>
@@ -182,29 +186,19 @@ if($sErr != ""){
                             <div class="x_content">
                                 <br>
                                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#tab_content1" id="AntFam"
-                                                                              role="tab" data-toggle="tab"
-                                                                              aria-expanded="true">Antecentes
-                                            Familiares</a>
+                                    <li role="presentation" class="active"><a href="#tab_content1" id="AntFam" role="tab" data-toggle="tab" aria-expanded="true">Antecentes Familiares</a>
                                     </li>
-                                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="AntPat"
-                                                                        data-toggle="tab" aria-expanded="false">Antecedentes
-                                            Patológicos</a>
+                                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="AntPat" data-toggle="tab" aria-expanded="false">Antecedentes Patológicos</a>
                                     </li>
-                                    <li role="presentation" class=""><a href="#tab_content3" role="tab" id="AntNPat"
-                                                                        data-toggle="tab" aria-expanded="false">Antecedentes
-                                            No patológicos</a>
+                                    <li role="presentation" class=""><a href="#tab_content3" role="tab" id="AntNPat" data-toggle="tab" aria-expanded="false">Antecedentes No patológicos</a>
                                     </li>
-                                    <li role="presentation" class=""><a href="#tab_content4" role="tab" id="AntGin"
-                                                                        data-toggle="tab" aria-expanded="false" disabled>Antecentes
-                                            ginecoobstetricos</a>
+                                    <li role="presentation" class=""><a href="#tab_content4" role="tab" id="AntGin"  data-toggle="tab" aria-expanded="false" >Antecentes ginecoobstetricos</a>
                                     </li>
                                 </ul>
                                 <div id="myTabContent" class="tab-content">
-                                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
-                                         aria-labelledby="home-tab">
+                                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
 
-                                        <form class="form-horizontal" role="form" method="post" action="../../Controllers/CtrlAntFam.php">
+                                        <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntFam.php">
                                          <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
 
                                             <div class="form-group ">
@@ -624,10 +618,11 @@ if($sErr != ""){
                                         </form>
                                     </div>
 
-                                    <div role="tabpanel" class="tab-pane fade" id="tab_content4"
-                                         aria-labelledby="home-tab">
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="home-tab" >
 
-                                        <form class="form-horizontal" role="form">
+                                        <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntGin.php">
+                                            <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
+
                                             <div class="form-group ">
                                                 <div class="col-md-4 col-md-offset-4">
                                                     <div class="form-group">
@@ -635,7 +630,7 @@ if($sErr != ""){
                                                             tenido?</label>
                                                         <div class="col-xs-5">
                                                             <input class="form-control input-sm" type="number"
-                                                                   id="gestaciones">
+                                                                   id="gestaciones" name="gestaciones">
                                                         </div>
                                                     </div>
 
@@ -643,7 +638,7 @@ if($sErr != ""){
                                                         <label class="control-label col-xs-7">¿Cuantas partos ha
                                                             tenido?</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="number" id="partos">
+                                                            <input class="form-control input-sm" type="number" id="partos" name="partos">
                                                         </div>
                                                     </div>
 
@@ -651,7 +646,7 @@ if($sErr != ""){
                                                         <label class="control-label col-xs-7">¿Cuantas abortos ha
                                                             tenido?</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="number" id="abortos">
+                                                            <input class="form-control input-sm" type="number" id="abortos" name="abortos">
                                                         </div>
                                                     </div>
 
@@ -659,7 +654,7 @@ if($sErr != ""){
                                                         <label class="control-label col-xs-7">¿A que edad comenzó su vida
                                                             sexual activa?</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="number" id="ivsa">
+                                                            <input class="form-control input-sm" type="number" id="ivsa" name="ivsa">
                                                         </div>
                                                     </div>
 
@@ -667,7 +662,7 @@ if($sErr != ""){
                                                         <label class="control-label col-xs-7">¿Cuantas parejas sexuales ha
                                                             tenido?</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="number" id="parejas">
+                                                            <input class="form-control input-sm" type="number" id="parejas" name="parejas">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -689,7 +684,7 @@ if($sErr != ""){
                                                             tenido?</label>
                                                         <div class="col-xs-5">
                                                             <input class="form-control input-sm" type="number"
-                                                                   id="cesareas">
+                                                                   id="cesareas" name="cesareas">
                                                         </div>
                                                     </div>
 
@@ -701,17 +696,31 @@ if($sErr != ""){
                                                         <div class=" col-xs-5">
                                                             <input id="birthday"
                                                                    class="date-picker form-control col-md-7 col-xs-12 active"
-                                                                   required="required" type="text">
+                                                                   required="required" type="date" name="papanicolau">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="control-label col-xs-7">Método anticonceptivo que
                                                             utiliza</label>
                                                         <div class="col-xs-5">
-                                                            <select class="form-control input-sm" id="anticonceptivo">
-                                                                <option></option>
+                                                            <select class="form-control input-sm" id="anticonceptivo" name="anticonceptivo">
+                                                                <?php
+                                                                if($arrAnticon != null){
+                                                                    foreach($arrAnticon as $vRol){
+                                                                        ?>
+                                                                        <option value="<?php echo $vRol-> getClaveAnticonceptivo();?>"><?php echo $vRol->getDescripcion();?></option>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
 
                                                             </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                                                <button type="submit" class="btn btn-success" > Guardar
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
