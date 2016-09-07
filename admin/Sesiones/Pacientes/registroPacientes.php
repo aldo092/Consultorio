@@ -70,7 +70,7 @@ if($sErr != ""){
     <link href="../../../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../../../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
-
+    <script type="text/javascript" src="../../../vendors/AJAX/estados.js"></script>
 
     <!-- Custom Theme Style -->
     <link href="../../../build/css/custom.min.css" rel="stylesheet">
@@ -275,8 +275,8 @@ if($sErr != ""){
                                 <div class="form-group">
                                     <label for="municipio" class="control-label col-md-3 col-sm-3 col-xs-12">Municipio</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select id="municipio" class="form-control" required="true" name="municipio">
-
+                                        <select disabled="disabled" name="municipio" id="municipio" class="form-control">
+                                            <option value="0">Seleccione</option>
                                         </select>
                                     </div>
                                 </div>
@@ -284,14 +284,14 @@ if($sErr != ""){
                                 <div class="form-group">
                                     <label for="estado" class="control-label col-md-3 col-sm-3 col-xs-12">Estado </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" id="ajax">
-                                        <select id="estado" class="form-control" required="true" name="estado" onchange="cargaMunicipios(this.id)">
+                                        <select id="estado" class="form-control" required="true" name="estado" onchange="cargaContenido(this.id)" >
                                             <option value="">Seleccione</option>
 
                                             <?php
                                             if($arrEdo != null){
                                                 foreach($arrEdo as $vRol){
                                                     ?>
-                                                    <option value="<?php echo $vRol->getIDEstado();?>".htmlentities><?php echo $vRol->getNombreEdo();?></option>
+                                                    <option value="<?php echo $vRol->getIDEstado();?>"><?php echo $vRol->getNombreEdo();?></option>
                                                     <?php
                                                 }
                                             }
@@ -356,7 +356,6 @@ if($sErr != ""){
 </div>
 </div>
 
-<script src="../../../vendors/AJAX/ajax.js"></script>
 <!-- jQuery -->
 <script src="../../../vendors/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap -->
@@ -412,6 +411,8 @@ if($sErr != ""){
 <script src="../../../vendors/pdfmake/build/vfs_fonts.js"></script>
 
 <!-- Custom Theme Scripts -->
+
+
 <script src="../../../build/js/custom.min.js"></script>
 
 <!-- Datatables -->
