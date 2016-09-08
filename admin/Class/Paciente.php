@@ -28,8 +28,7 @@ class Paciente
     private $Estado = "";
 
 
-
-    public function getExpediente()
+  public function getExpediente()
     {
         return $this->oExpediente;
     }
@@ -169,6 +168,46 @@ class Paciente
         $this->cCorreo=$cCorreo;
         return $this;
     }
+
+    public function getSLocalidad()
+    {
+        return $this->sLocalidad;
+    }
+
+
+    public function setSLocalidad($sLocalidad)
+    {
+        $this->sLocalidad = $sLocalidad;
+        return $this;
+    }
+
+
+    public function getSMunicipio()
+    {
+        return $this->sMunicipio;
+    }
+
+
+    public function setSMunicipio($sMunicipio)
+    {
+        $this->sMunicipio = $sMunicipio;
+        return $this;
+
+    }
+
+    public function getEstado()
+    {
+        return $this->Estado;
+    }
+
+
+    public function setEstado($Estado)
+    {
+        $this->Estado = $Estado;
+        return $this;
+    }
+
+
 
     function buscarPacientesExpediente(){
         $oAD = new AccesoDatos();

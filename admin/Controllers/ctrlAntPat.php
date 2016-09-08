@@ -30,6 +30,8 @@ $HTA="";
 $oAntPat = new AntePatologicos();
 $NAfec=0;
 $user= $_SESSION['sUser']->getEmail();
+$url="../admin/Sesiones/Pacientes/Pacientes.php";
+
 
 
 
@@ -61,16 +63,16 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
 
     if ($NAfec==1) {
         $sMsj = "Registro  de antecedentes patológicos del expediente ".$Expediente." correcto";
-        header("Location:../mensajes.php?sMensaje=".$sMsj);
+        header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
     } else {
         $sMsj = "Error al guardar los antecedente patológicos del expediente".$Expediente;
-        header("Location:../mensajes.php?sMensaje=".$sMsj);
+        header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
 
     }
 
 }else{
     $sMsj = "Faltan datos, registre todos los campos";
-    header("Location:../mensajes.php?sMensaje=".$sMsj);
+    header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
 
 }
 

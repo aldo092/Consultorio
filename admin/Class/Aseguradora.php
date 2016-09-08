@@ -93,4 +93,25 @@ class Aseguradora
         return $vObj;
     }
 
+
+    function insertar($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getNombre() == ""){
+            throw new Exception("Paciente->insertar(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call insertarAseguradora('".$usuario."',
+                                                 '".$this->sNombre."',
+                                                 '".$this->sTelefono."',
+                                                  '".$this->sDireccion."');";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
+    }
+
+
 }

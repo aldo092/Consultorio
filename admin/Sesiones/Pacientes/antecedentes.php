@@ -1,6 +1,4 @@
 <?php
-
-
 error_reporting(E_ALL);
 include_once ("../../Class/Usuarios.php");
 require_once ("../../Class/Menu.php");
@@ -17,11 +15,18 @@ $oPersonal = new Personal();
 $sNombre = "";
 $oAnticonceptivo= new MetodoAnticonceptivo();
 $arrAnticon=null;
-
+$Oculto="";
 
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     if(isset($_POST["txtExpediente"]) && !empty($_POST["txtExpediente"])){
         $Expediente = $_POST['txtExpediente'];
+        $Sexo= $_POST['txtSexo'];
+        if ($Sexo=="M"){
+            $Oculto="hidden";
+                    }
+                    else
+                        $Oculto="show";
+
 
         $oUser = $_SESSION['sUser'];
         $oMenu = new Menu();
@@ -44,7 +49,7 @@ if($sErr != ""){
 
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -192,8 +197,9 @@ if($sErr != ""){
                                     </li>
                                     <li role="presentation" class=""><a href="#tab_content3" role="tab" id="AntNPat" data-toggle="tab" aria-expanded="false">Antecedentes No patológicos</a>
                                     </li>
-                                    <li role="presentation" class=""><a href="#tab_content4" role="tab" id="AntGin"  data-toggle="tab" aria-expanded="false" >Antecentes ginecoobstetricos</a>
+                                    <li role="presentation" class="<?php echo $Oculto;?>"><a href="#tab_content4" role="tab" id="AntGin"  data-toggle="tab" aria-expanded="false" >Antecentes ginecoobstetricos</a>
                                     </li>
+
                                 </ul>
                                 <div id="myTabContent" class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
@@ -209,7 +215,7 @@ if($sErr != ""){
                                                             alcoholismo</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="alcoholismo" value="si"> si
+                                                                <input type="radio" name="alcoholismo" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -223,12 +229,12 @@ if($sErr != ""){
                                                             tabaquismo</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="tabaquismo" value="si"> si
+                                                                <input type="radio" name="tabaquismo" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="tabaquismo" value="no"> no
+                                                                <input type="radio" name="tabaquismo" value="no" > no
                                                             </label>
                                                         </div>
                                                     </div>
@@ -239,7 +245,7 @@ if($sErr != ""){
                                                             problemas de drogadicción</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="drogas" value="si"> si
+                                                                <input type="radio" name="drogas" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -253,7 +259,7 @@ if($sErr != ""){
                                                             asma</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="asma" value="si"> si
+                                                                <input type="radio" name="asma" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -267,12 +273,12 @@ if($sErr != ""){
                                                             diabetes</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="diabetes" value="si"> si
+                                                                <input type="radio" name="diabetes" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="diabetes" value="no"> no
+                                                                <input type="radio" name="diabetes" value="no" > no
                                                             </label>
                                                         </div>
                                                     </div>
@@ -281,12 +287,12 @@ if($sErr != ""){
                                                             hipertensión</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="hipertension" value="si"> si
+                                                                <input type="radio" name="hipertension" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="hipertension" value="no"> no
+                                                                <input type="radio" name="hipertension" value="no" > no
                                                             </label>
                                                         </div>
                                                     </div>
@@ -295,7 +301,7 @@ if($sErr != ""){
                                                             alergias</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="alergias" value="si"> si
+                                                                <input type="radio" name="alergias" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -309,7 +315,7 @@ if($sErr != ""){
                                                             presenten convulsiones</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="convulsiones" value="si"> si
+                                                                <input type="radio" name="convulsiones" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -323,12 +329,12 @@ if($sErr != ""){
                                                             defectos congenitos</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="congenitos" value="si"> si
+                                                                <input type="radio" name="congenitos" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="congenitos" value="no"> no
+                                                                <input type="radio" name="congenitos" value="no" > no
                                                             </label>
                                                         </div>
                                                     </div>
@@ -337,7 +343,7 @@ if($sErr != ""){
                                                             cáncer</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="cancer" value="si"> si
+                                                                <input type="radio" name="cancer" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -358,8 +364,7 @@ if($sErr != ""){
                                         </form>
                                     </div>
 
-                                    <div role="tabpanel" class="tab-pane fade " id="tab_content2"
-                                         aria-labelledby="home-tab">
+                                    <div role="tabpanel" class="tab-pane fade " id="tab_content2"  aria-labelledby="home-tab">
                                         <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntPat.php">
                                             <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
 
@@ -371,7 +376,7 @@ if($sErr != ""){
                                                             Cardiavasculares</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="cardiovascular" value="si"> si
+                                                                <input type="radio" name="cardiovascular" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -385,7 +390,7 @@ if($sErr != ""){
                                                             Arterial</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="hiper" value="si"> si
+                                                                <input type="radio" name="hiper" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -399,7 +404,7 @@ if($sErr != ""){
                                                     <div class="form-group">
                                                         <label class="control-label col-xs-7">Padece Cardiopatía</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="text" name="cardiopatia" >
+                                                            <input class="form-control input-sm" type="text" name="cardiopatia" required="required" >
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -407,7 +412,7 @@ if($sErr != ""){
                                                             de sangre</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="transfusiones" value="si"> si
+                                                                <input type="radio" name="transfusiones" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -421,7 +426,7 @@ if($sErr != ""){
                                                     <div class="form-group">
                                                         <label class="control-label col-xs-7">Padece Diabetes</label>
                                                         <div class="col-xs-5">
-                                                            <select class="form-control input-sm"name="diabetes">
+                                                            <select class="form-control input-sm"name="diabetes" required="required">
 
                                                                 <option value="No">No</option>
                                                                 <option value="Tipo1">Tipo 1</option>
@@ -436,7 +441,7 @@ if($sErr != ""){
 
                                                     <label class="control-label col-xs-7">Describa sus alergías</label>
                                                     <div class="col-xs-5">
-                                                        <input class="form-control input-sm" type="text" name ="alergias">
+                                                        <input class="form-control input-sm" type="text" name ="alergias" required="required">
                                                     </div>
 
                                                     <div class="form-group">
@@ -450,8 +455,7 @@ if($sErr != ""){
                                         </form>
                                     </div>
 
-                                    <div role="tabpanel" class="tab-pane fade" id="tab_content3"
-                                         aria-labelledby="home-tab">
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="home-tab">
 
                                         <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntNoPat.php">
                                             <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
@@ -464,7 +468,7 @@ if($sErr != ""){
                                                             alcoholismo</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="alcoholismo" value="si"> si
+                                                                <input type="radio" name="alcoholismo" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -477,7 +481,7 @@ if($sErr != ""){
                                                         <label class="control-label col-xs-7">Fumador activo</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="tabaquismo" value="si"> si
+                                                                <input type="radio" name="tabaquismo" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -492,7 +496,7 @@ if($sErr != ""){
                                                         <label class="control-label col-xs-7">Consume drogas</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="drogas" value="si"> si
+                                                                <input type="radio" name="drogas" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -506,7 +510,7 @@ if($sErr != ""){
                                                             electicidad</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="luz" value="si"> si
+                                                                <input type="radio" name="luz" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -520,7 +524,7 @@ if($sErr != ""){
                                                             potable</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="aguapotable" value="si"> si
+                                                                <input type="radio" name="aguapotable" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -534,7 +538,7 @@ if($sErr != ""){
                                                             drenaje</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="drenaje" value="si"> si
+                                                                <input type="radio" name="drenaje" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -548,7 +552,7 @@ if($sErr != ""){
                                                         <label class="control-label col-xs-7">Cuenta con servicios sanitarios (baño, regadera)</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="water" value="si"> si
+                                                                <input type="radio" name="water" value="si" required="required"> si
                                                             </label>
                                                         </div>
                                                         <div class="col-xs-2">
@@ -562,7 +566,7 @@ if($sErr != ""){
                                                         <label class="control-label col-xs-7">Cual es su mayor Grado de
                                                             estudios</label>
                                                         <div class="col-xs-5">
-                                                            <select class="form-control input-sm" name="estudios">
+                                                            <select class="form-control input-sm" name="estudios" required="required">
                                                                 <option value="sin_estudio">sin estudios</option>
                                                                 <option value="primaria_completa">primaria completa</option>
                                                                 <option value="primaria_trunca">primaria incompleta</option>
@@ -582,7 +586,7 @@ if($sErr != ""){
                                                         <label class="control-label col-xs-7">Cual es su
                                                             religión</label>
                                                         <div class="col-xs-5">
-                                                            <select class="form-control input-sm" name="religion">
+                                                            <select class="form-control input-sm" name="religion" required="required">
                                                                 <option value="ateo">ateo</option>
                                                                 <option value="catolico">católico</option>
                                                                 <option value="cristiano">cristiano</option>
@@ -603,7 +607,7 @@ if($sErr != ""){
                                                         <label class="control-label col-xs-7">Cúal es su
                                                             ocupación</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="text" name="ocupacion">
+                                                            <input class="form-control input-sm" type="text" name="ocupacion" required="required">
 
                                                         </div>
                                                     </div>
@@ -618,92 +622,75 @@ if($sErr != ""){
                                         </form>
                                     </div>
 
-                                    <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="home-tab" >
+                                    <div role="tabpanel" class="tab-pane fade " id="tab_content4" aria-labelledby="home-tab" >
 
                                         <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntGin.php">
-                                            <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
+
+                                            <input type="hidden" name="nExpediente" id="nExpediente" value="<?php echo $Expediente;?>">
 
                                             <div class="form-group ">
                                                 <div class="col-md-4 col-md-offset-4">
+
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">¿Cuantas gestaciones ha
-                                                            tenido?</label>
+                                                        <label class="control-label col-xs-7">¿Cuantas gestaciones ha tenido?</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="number"
-                                                                   id="gestaciones" name="gestaciones">
+                                                            <input class="form-control input-sm" type="number" id="gestaciones" name="gestaciones" required="required">
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">¿Cuantas partos ha
-                                                            tenido?</label>
+                                                        <label class="control-label col-xs-7">¿Cuantas partos ha tenido?</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="number" id="partos" name="partos">
+                                                            <input class="form-control input-sm" type="number" id="partos" name="partos" required="required">
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">¿Cuantas abortos ha
-                                                            tenido?</label>
+                                                        <label class="control-label col-xs-7">¿Cuantas abortos ha tenido?</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="number" id="abortos" name="abortos">
+                                                            <input class="form-control input-sm" type="number" id="abortos" name="abortos" required="required">
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">¿A que edad comenzó su vida
-                                                            sexual activa?</label>
+                                                        <label class="control-label col-xs-7">¿A que edad comenzó su vida sexual activa?</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="number" id="ivsa" name="ivsa">
+                                                            <input class="form-control input-sm" type="number" id="ivsa" name="ivsa" required="required">
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">¿Cuantas parejas sexuales ha
-                                                            tenido?</label>
+                                                        <label class="control-label col-xs-7">¿Cuantas parejas sexuales ha tenido?</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="number" id="parejas" name="parejas">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label col-xs-7">¿Ha tenido ETS?</label>
-                                                        <div class="col-xs-2">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="ets" value="si"> si
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-xs-2">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="ets" value="no"> no
-                                                            </label>
+                                                            <input class="form-control input-sm" type="number" id="parejas" name="parejas" required="required">
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">¿Cuantas cesareas ha
-                                                            tenido?</label>
+                                                        <label class="control-label col-xs-7">Última ETS presentada</label>
                                                         <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="number"
-                                                                   id="cesareas" name="cesareas">
+                                                            <input class="form-control input-sm" type="text" id="ets" name="ets" required="required">
                                                         </div>
                                                     </div>
 
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Cuantas cesareas ha tenido?</label>
+                                                        <div class="col-xs-5">
+                                                            <input class="form-control input-sm" type="number" id="cesareas" name="cesareas" required="required">
+                                                        </div>
+                                                    </div>
 
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Fecha de último
-                                                            papanicolau </span>
-                                                        </label>
+                                                        <label for="papanicolau" class="control-label col-xs-7">Fecha de último papanicolau</label>
                                                         <div class=" col-xs-5">
-                                                            <input id="birthday"
-                                                                   class="date-picker form-control col-md-7 col-xs-12 active"
-                                                                   required="required" type="date" name="papanicolau">
+                                                            <input id="papanicolau" class="date-picker form-control col-md-7 col-xs-12 active" type="date" name="papanicolau" required="required"">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Método anticonceptivo que
-                                                            utiliza</label>
+                                                        <label class="control-label col-xs-7">Método anticonceptivo que utiliza</label>
                                                         <div class="col-xs-5">
-                                                            <select class="form-control input-sm" id="anticonceptivo" name="anticonceptivo">
+                                                            <select class="form-control input-sm" id="anticonceptivo" name="anticonceptivo" required="required">
+                                                                <option value="0">Seleccione</option>
                                                                 <?php
                                                                 if($arrAnticon != null){
                                                                     foreach($arrAnticon as $vRol){
@@ -718,10 +705,10 @@ if($sErr != ""){
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                                                <button type="submit" class="btn btn-success" > Guardar
+                                                                <button type="submit" class="btn btn-success">Guardar
                                                                 </button>
                                                             </div>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -736,124 +723,14 @@ if($sErr != ""){
         </div>
 
         <!-- /page content -->
-
-    <footer>
-        <div class="pull-right">
-            <h1> </h1>
-        </div>
-        <div class="clearfix"></div>
-    </footer>
-    <!-- /footer content -->
-</div>
-</div>
-
-
 <!-- jQuery -->
 <script src="../../../vendors/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap -->
 <script src="../../../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- FastClick -->
-<script src="../../../vendors/fastclick/lib/fastclick.js"></script>
-<!-- NProgress -->
-<script src="../../../vendors/nprogress/nprogress.js"></script>
-<!-- Chart.js -->
-<script src="../../../vendors/Chart.js/dist/Chart.min.js"></script>
-<!-- gauge.js -->
-<script src="../../../vendors/gauge.js/dist/gauge.min.js"></script>
-<!-- bootstrap-progressbar -->
-<script src="../../../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-<!-- iCheck -->
-<script src="../../../vendors/iCheck/icheck.min.js"></script>
-<!-- Skycons -->
-<script src="../../../vendors/skycons/skycons.js"></script>
-<!-- jquery.inputmask -->
-<script src="../../../vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
-<!-- Flot -->
-<script src="../../../vendors/Flot/jquery.flot.js"></script>
-<script src="../../../vendors/Flot/jquery.flot.pie.js"></script>
-<script src="../../../vendors/Flot/jquery.flot.time.js"></script>
-<script src="../../../vendors/Flot/jquery.flot.stack.js"></script>
-<script src="../../../vendors/Flot/jquery.flot.resize.js"></script>
-<!-- Flot plugins -->
-<script src="../../js/flot/jquery.flot.orderBars.js"></script>
-<script src="../../js/flot/date.js"></script>
-<script src="../../js/flot/jquery.flot.spline.js"></script>
-<script src="../../js/flot/curvedLines.js"></script>
-<!-- JQVMap -->
-<script src="../../../vendors/jqvmap/dist/jquery.vmap.js"></script>
-<script src="../../../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-<script src="../../../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-<!-- bootstrap-daterangepicker -->
-<script src="../../js/moment/moment.min.js"></script>
-<script src="../../js/datepicker/daterangepicker.js"></script>
-
-
 <!-- Custom Theme Scripts -->
 <script src="../../../build/js/custom.min.js"></script>
-
 <!-- validator -->
 <script src="../../../vendors/validator/validator.js"></script>
-
-<script language="JavaScript" type="text/javascript">
-    $(document).ready(function(){
-        if($("#txtOp").val()=='a'){
-            $(".contenido").hide();
-            $("#rol").change(function(){
-                if($("#rol").val() == '2'){
-                    $("#txtCedula").attr({
-                        required : true
-                    });
-                    $("#dCedula").attr({
-                        required : true
-                    });
-                    $("#txtCedEsp").attr({
-                        required : true
-                    });
-                    $("#dCedulaEsp").attr({
-                        required : true
-                    });
-                    $("#txtEspecialidad").attr({
-                        required : true
-                    });
-                    $(".contenido").show();
-                }else{
-                    $("#txtCedula").attr({
-                        required : false
-                    });
-                    $("#dCedula").attr({
-                        required : false
-                    });
-                    $("#txtCedEsp").attr({
-                        required : false
-                    });
-                    $("#dCedulaEsp").attr({
-                        required : false
-                    });
-                    $("#txtEspecialidad").attr({
-                        required : false
-                    });
-                    $(".contenido").hide();
-                }
-            });
-        }else if($("#txtOp").val()=='e'){
-            $("#rol").attr('disabled','disabled');
-            $(".contenido").hide();
-        }else if($("#txtRolActual").val() == 'MEDICO'  && $("#txtOp").val()=='m'){
-            $(".contenido").show();
-        }else if($("#txtRolActual").val() != 'MEDICO' && $("#txtOp").val() == 'm'){
-            $(".contenido").hide();
-        }
-    });
-</script>
-
-<!-- jquery.inputmask -->
-<script>
-    $(document).ready(function() {
-        $(":input").inputmask();
-    });
-</script>
-<!-- /jquery.inputmask -->
-
 <!-- validator -->
 <script>
     // initialize the validator function
@@ -885,5 +762,7 @@ if($sErr != ""){
     });
 </script>
 <!-- /validator -->
+
+
 </body>
 </html>

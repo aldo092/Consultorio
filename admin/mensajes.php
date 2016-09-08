@@ -33,7 +33,7 @@
             <section class="login_content">
                 <h1>El sistema informa</h1>
                 <h4><?php echo $_REQUEST["sMensaje"]; ?></h4>
-                <a href=../admin/index.php> Regresar</a>
+                <a href=<?php echo $_REQUEST["Destino"];?>> Regresar</a>
 
                 <div class="clearfix"></div>
 

@@ -77,6 +77,8 @@ if(
     $cp = $_POST["cp"];
     $correo = $_POST["email"];
     $edocivil = $_POST["edocivil"];
+    $url="../admin/Sesiones/Pacientes/registroPacientes.php";
+
 
     $Nexpediente=date("y").date("m").date("d").$Nexpediente=substr($curp,4,6).$Nexpediente=substr($curp,0,4).$Nexpediente=substr($curp,13,5);
 
@@ -102,19 +104,19 @@ if(
 
     if ($NAfec==1 && $NAfec2==1) {
             $sMsj = "Se agregó el paciente a la base de datos";
-            header("Location:../mensajes.php?sMensaje=".$sMsj);
+            header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
         }
 
      else {
         $sMsj = "Error al guardar el nuevo paciente";
-         header("Location:../mensajes.php?sMensaje=".$sMsj);
+         header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
 
 
      }
 
     }else{
     $sMsj = "Faltan datos, registre todos los campos";
-    header("Location:../mensajes.php?sMensaje=".$sMsj);
+    header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
 
 }
 

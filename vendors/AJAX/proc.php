@@ -9,7 +9,7 @@ $arrMun =$OE->buscarMunicipios($opcionSeleccionada);
 
     // Comienzo a imprimir el select
     if($arrMun != null){
-        echo "<select name='".$selectDestino."' id='".$selectDestino."' onChange='cargaContenido(this.id)'' class='form-control'>";
+        echo "<select name='".$selectDestino."' id='".$selectDestino."' onChange='cargaContenido(this.id)'' class='form-control' 'required='required''>";
         echo "<option value='0'>Elige</option>";
         foreach($arrMun as $vRol){
             ?>

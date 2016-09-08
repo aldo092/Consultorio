@@ -32,6 +32,8 @@ $WC="";
 $Escolaridad="";
 $Religion="";
 $Ocupacion="";
+$url="../admin/Sesiones/Pacientes/Pacientes.php";
+
 $oAntNopat= new AntecNoPatologicos();
 $NAfec=0;
 $user= $_SESSION['sUser']->getEmail();
@@ -72,24 +74,20 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     $oAntNopat->setReligion($Religion);
     $oAntNopat->setOcupacion($Ocupacion);
 
-
-
-
     $NAfec = $oAntNopat->insertar($user);
-
 
     if ($NAfec==1) {
         $sMsj = "Registro  de antecedentes No patológicos del expediente ".$Expediente." correcto";
-        header("Location:../mensajes.php?sMensaje=".$sMsj);
+        header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
     } else {
         $sMsj = "Error al guardar los antecedentes No patológicos del expediente".$Expediente;
-        header("Location:../mensajes.php?sMensaje=".$sMsj);
+        header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
 
     }
 
 }else{
     $sMsj = "Faltan datos, registre todos los campos";
-    header("Location:../mensajes.php?sMensaje=".$sMsj);
+    header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
 
 }
 

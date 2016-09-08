@@ -23,30 +23,35 @@ if($sErr != ""){
     header("Location: error.php?sError=".$sErr);
 }
 
+
+
 $Expediente="";
-$Gestaciones=0;
-$Partos=0;
-$Abortos=0;
-$Ivsa=0;
-$Parejas=0;
+$Gestaciones="";
+$Partos="";
+$Abortos="";
+$Ivsa="";
+$Parejas="";
 $ETS="";
-$Cesareas=0;
+$Cesareas="";
 $Papanicolau="";
 $Anticonceptivo="";
 $oAntGin= new AntecGinecobstetricos();
 $NAfec=0;
 $user= $_SESSION['sUser']->getEmail();
+$url="../admin/Sesiones/Pacientes/Pacientes.php";
 
-if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
-    isset($_POST["gestaciones"]) && !empty($_POST["gestaciones"]) &&
-    isset($_POST["partos"]) && !empty($_POST["partos"]) &&
-    isset($_POST["abortos"]) && !empty($_POST["abortos"]) &&
-    isset($_POST["ivsa"]) && !empty($_POST["ivsa"]) &&
-    isset($_POST["parejas"]) && !empty($_POST["parejas"]) &&
-    isset($_POST["ets"]) && !empty($_POST["ets"]) &&
-    isset($_POST["cesareas"]) && !empty($_POST["cesareas"]) &&
-    isset($_POST["papanicolau"]) && !empty($_POST["papanicolau"]) &&
-    isset($_POST["anticonceptivo"]) && !empty($_POST["anticonceptivo"])) {
+
+
+if( isset($_POST["nExpediente"])&&
+    isset($_POST["gestaciones"]) &&
+    isset($_POST["partos"]) &&
+    isset($_POST["abortos"])&&
+    isset($_POST["ivsa"]) &&
+    isset($_POST["parejas"]) &&
+    isset($_POST["ets"]) &&
+    isset($_POST["cesareas"]) &&
+    isset($_POST["papanicolau"]) &&
+    isset($_POST["anticonceptivo"])){
 
     $Expediente = $_POST["nExpediente"];
     $Gestaciones = $_POST["gestaciones"];
@@ -75,18 +80,16 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
 
 
     if ($NAfec==1) {
-        $sMsj = "Registro  de antecedentes  gineco-obstétricos del expediente ".$Expediente." correcto";
-        header("Location:../mensajes.php?sMensaje=".$sMsj);
+        $sMsj = "Registro  de antecedentes ginecoobstectricos del expediente ".$Expediente." correcto";
+        header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
     } else {
-        $sMsj = "Error al guardar los antecedentes  gineco-obstétricos del expediente".$Expediente;
-        header("Location:../mensajes.php?sMensaje=".$sMsj);
-
-    }
-
-}else{
+        $sMsj = "Error al guardar los antecedentes ginecoobstectricos del expediente".$Expediente;
+        header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
+      }
+}
+    else{
     $sMsj = "Faltan datos, registre todos los campos";
-    header("Location:../mensajes.php?sMensaje=".$sMsj);
-
+    header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
 }
 
 ?>
