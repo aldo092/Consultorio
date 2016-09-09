@@ -430,3 +430,23 @@ CREATE PROCEDURE insertarAseguradora(IN user VARCHAR(60),IN Nombre VARCHAR(100),
   END ;
 //
 
+/*9 de septiembre, procedimiento almacenado seguro */
+
+DELIMITER //
+CREATE PROCEDURE  buscarAseguradora()
+  BEGIN
+    select nIdAseguradora,sNombre from aseguradra;
+    END;
+//
+
+DELIMITER //
+CREATE PROCEDURE insertarSeguro(IN user VARCHAR(60),IN Poliza VARCHAR(20), IN Aseguradora INT(11),IN Expediente VARCHAR(20), IN Vigencia DATE)
+  BEGIN
+    INSERT INTO seguro(nNumeroPoliza, nIdAseguradora, nNumero, dFechaVigencia)
+    VALUES (Poliza,Aseguradora,Expediente,Vigencia);
+
+    INSERT INTO bitacora(sEmail, sAccion,dFechaAccion,sTabla,sDescripcionAccion)
+    VALUES (user,'INSERT', current_date,'Seguro',CONCAT('Se registró el seguro del Expediente ', Expediente));
+
+  END ;
+//

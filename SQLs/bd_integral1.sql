@@ -173,12 +173,13 @@ CREATE TABLE Expediente (
   PRIMARY KEY (nNumero)
 );
 
-
+/* 9 de septiembre, se agrega un nuevo campo para guardar el numero de poliza del seguro siendo éste la llave primaria*/
 CREATE TABLE Seguro (
+  nNumeroPoliza VARCHAR(20) NOT NULL ,
   nIdAseguradora INT NOT NULL,
   nNumero VARCHAR(20) NOT NULL,
   dFechaVigencia DATE NOT NULL,
-  PRIMARY KEY (nIdAseguradora, nNumero)
+  PRIMARY KEY (nNumeroPoliza)
 );
 
 

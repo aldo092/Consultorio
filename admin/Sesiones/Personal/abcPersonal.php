@@ -278,7 +278,7 @@ if($sErr != ""){
                                         <div class="col-md-4 col-sm-4 col-xs-9">
                                             <input type="text" name="txtTel1"  class="form-control" data-inputmask="'mask' : '(999) 999-9999'"
                                                    value="<?php echo ($bLlave == true ? '' : $oPersonal->getTelefono());?>" <?php echo ($bCampo==true?'':' disabled '); ?>>
-                                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                                            <span aria-hidden="true"></span>
                                         </div>
                                     </div>
                                 <?php

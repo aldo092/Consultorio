@@ -5,6 +5,7 @@ include_once ("../../Class/Usuarios.php");
 require_once ("../../Class/Menu.php");
 require_once ("../../Class/Personal.php");
 require_once ("../../Class/Estados.php");
+require_once ("../../Class/Aseguradora.php");
 
 
 session_start();
@@ -13,8 +14,9 @@ $sErr = "";
 $arrMenus = null;
 $sNombre = "";
 $oEstados=new Estados();
+$oASeguradora= new Aseguradora();
 $arrEdo=null;
-$arrMun=null;
+$arrAseguradora=null;
 
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oUser = $_SESSION['sUser'];
@@ -22,6 +24,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oMenu->setUsuario($oUser);
     $arrMenus = $oMenu->buscarMenuUsuario();
     $arrEdo=$oEstados->buscarEstados();
+    $arrAseguradora=$oASeguradora->buscarTodos();
     if($oUser->buscarDatosBasicos()){
         $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
     }else{
@@ -323,6 +326,55 @@ if($sErr != ""){
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="asegurado">¿Cuenta con seguro ?</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select id="asegurado" class="form-control" name="asegurado"required="required">
+                                            <option value="">Seleccione</option>
+                                            <option value="Si">Si</option>
+                                            <option value="No">No</option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="DatosSeg" >
+                                    <div class="form-group">
+                                        <label for="aseguradora" class="control-label col-md-3 col-sm-3 col-xs-12">Aseguradora </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12" >
+                                            <select id="aseguradora" class="form-control" required="required" name="aseguradora" >
+                                                <option value="">Seleccione</option>
+
+                                                <?php
+                                                if($arrAseguradora!= null){
+                                                    foreach($arrAseguradora as $vRol){
+                                                        ?>
+                                                        <option value="<?php echo $vRol-> getIdAseguradora();?>"><?php echo $vRol->getNombre();?></option>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="poliza" class="control-label col-md-3 col-sm-3 col-xs-12">No. de poliza del seguro</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input id="poliza" class="form-control col-md-7 col-xs-12" type="text" name="poliza"required="required" >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="vigencia" class="control-label col-md-3 col-sm-3 col-xs-12">Vigencia del seguro<span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input id="vigencia" class="date-picker form-control col-md-7 col-xs-12 active" required="required" type="date" name="vigencia" >
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="ln_solid"></div>
                                 <div class="form-group">
                                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
@@ -344,11 +396,46 @@ if($sErr != ""){
 <!-- Bootstrap -->
 <script src="../../../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 
-
-<!-- Custom Theme Scripts -->
-
-
 <script src="../../../build/js/custom.min.js"></script>
+
+    <script src="../../../vendors/validator/validator.js"></script>
+
+    <script language="JavaScript" type="text/javascript">
+        $(document).ready(function () {
+            $(".DatosSeg").hide();
+
+            $("#asegurado").change(function(){
+                if ($("#asegurado").val() == 'Si') {
+                $("#aseguradora").attr({
+                    required: true
+                });
+                $("#poliza").attr({
+                    required: true
+                });
+                $("#vigencia").attr({
+                    required: true
+                });
+                $(".DatosSeg").show();
+            }
+            else {
+                $("#aseguradora").attr({
+                    required: false
+                });
+                $("#poliza").attr({
+                    required: false
+                });
+                $("#vigencia").attr({
+                    required: false
+                });
+                $(".DatosSeg").hide();
+
+            }
+        });
+            });
+    </script>
+
+
+
 
 
 </body>

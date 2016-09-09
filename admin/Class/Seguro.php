@@ -14,6 +14,18 @@ class Seguro
     private $oAD = null;
     private $oAseguradora;
     private $oPaciente;
+    private $oPoliza;
+
+
+    public function getOPoliza()
+    {
+        return $this->oPoliza;
+    }
+
+    public function setOPoliza($oPoliza)
+    {
+        $this->oPoliza = $oPoliza;
+    }
     private $dFechaVigencia;
 
 
@@ -55,6 +67,28 @@ class Seguro
     public function setFechaVigencia($dFechaVigencia)
     {
         $this->dFechaVigencia = $dFechaVigencia;
+    }
+
+
+
+    function insertar($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getOPoliza() == ""){
+            throw new Exception("Paciente->insertar(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call insertarSeguro('".$usuario."',
+                                                 '".$this->oPoliza."',
+                                                 '".$this->oAseguradora."',
+                                                 '".$this->oPaciente."',
+                                                 '".$this->dFechaVigencia."');";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
     }
 
 

@@ -10,6 +10,7 @@ error_reporting(E_ALL);
 include_once ("../Class/Usuarios.php");
 include_once ("../Class/Paciente.php");
 include_once ("../Class/Expediente.php");
+include_once ("../Class/Seguro.php");
 
 session_start();
 $sErr = "";
@@ -42,19 +43,25 @@ $estado="";
 $cp="";
 $correo="";
 $edocivil="";
+$asegurado="";
+$aseguradora="";
+$poliza="";
+$vigencia="";
 $oPaciente= new Paciente();
 $Err="";
 $sMsj="";
 $Nexpediente="";
 $oExpediente= new Expediente();
+$oSeguro=new Seguro();
 $user= $_SESSION['sUser']->getEmail();
 $NAfec=0;
 $NAfec2=0;
+$NAfec3=0;
+$url="../admin/Sesiones/Pacientes/registroPacientes.php";
 
 
 
-if(
-    isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
+if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
     isset($_POST["ApPat"]) && !empty($_POST["ApPat"])&&
     isset($_POST["ApMat"]) && !empty($_POST["ApMat"])&&
     isset($_POST["curp"]) && !empty($_POST["curp"])&&
@@ -64,55 +71,114 @@ if(
     isset  ($_POST["direccion"]) && !empty($_POST["direccion"])&&
     isset($_POST["cp"]) && !empty($_POST["cp"])&&
     isset ($_POST["email"]) && !empty($_POST["email"])&&
+    isset ($_POST["asegurado"]) && !empty($_POST["asegurado"])&&
     isset ($_POST["edocivil"]) && !empty($_POST["edocivil"])) {
 
-    $curp = $_POST["curp"];
-    $nombre = $_POST["nombre"];
-    $apepa = $_POST["ApPat"];
-    $apema = $_POST["ApMat"];
-    $sexo = $_POST["sexo"];
-    $FechaNa = date('Y-m-d', strtotime($_POST['birthday']));
-    $telefono = $_POST["telefono"];
-    $direccion = $_POST["direccion"];
-    $cp = $_POST["cp"];
-    $correo = $_POST["email"];
-    $edocivil = $_POST["edocivil"];
-    $url="../admin/Sesiones/Pacientes/registroPacientes.php";
+    if(($_POST["asegurado"])=="Si" &&
+        isset($_POST["aseguradora"]) && !empty($_POST["aseguradora"]) &&
+        isset($_POST["poliza"]) && !empty($_POST["poliza"])&&
+        isset ($_POST["vigencia"]) && !empty($_POST["vigencia"])){
+
+        $curp = $_POST["curp"];
+        $nombre = $_POST["nombre"];
+        $apepa = $_POST["ApPat"];
+        $apema = $_POST["ApMat"];
+        $sexo = $_POST["sexo"];
+        $FechaNa = date('Y-m-d', strtotime($_POST['birthday']));
+        $telefono = $_POST["telefono"];
+        $direccion = $_POST["direccion"];
+        $cp = $_POST["cp"];
+        $correo = $_POST["email"];
+        $edocivil = $_POST["edocivil"];
+        $asegurado = $_POST["asegurado"];
+        $aseguradora = $_POST["aseguradora"];
+        $poliza = $_POST["poliza"];
+        $vigencia = $_POST["vigencia"];
+
+        $Nexpediente = date("y") . date("m") . date("d") . $Nexpediente = substr($curp, 4, 6) . $Nexpediente = substr($curp, 0, 4) . $Nexpediente = substr($curp, 13, 5);
 
 
-    $Nexpediente=date("y").date("m").date("d").$Nexpediente=substr($curp,4,6).$Nexpediente=substr($curp,0,4).$Nexpediente=substr($curp,13,5);
+        $oPaciente->setNombre($nombre);
+        $oPaciente->setApPaterno($apepa);
+        $oPaciente->setApMaterno($apema);
+        $oPaciente->setCurpPaciente($curp);
+        $oPaciente->setSexo($sexo);
+        $oPaciente->setFechaNacimiento($FechaNa);
+        $oPaciente->setTelefono($telefono);
+        $oPaciente->setDireccion($direccion);
+        $oPaciente->setCP($cp);
+        $oPaciente->setEstadoCivil($edocivil);
+        $oPaciente->setCorreo($correo);
+
+        $oExpediente->setPaciente($curp);
+        $oExpediente->setNumero($Nexpediente);
+
+        $oSeguro->setPaciente($Nexpediente);
+        $oSeguro->setOAseguradora($aseguradora);
+        $oSeguro->setFechaVigencia($vigencia);
+        $oSeguro->setOPoliza($poliza);
 
 
-    $oPaciente->setNombre($nombre);
-    $oPaciente->setApPaterno($apepa);
-    $oPaciente->setApMaterno($apema);
-    $oPaciente->setCurpPaciente($curp);
-    $oPaciente->setSexo($sexo);
-    $oPaciente->setFechaNacimiento($FechaNa);
-    $oPaciente->setTelefono($telefono);
-    $oPaciente->setDireccion($direccion);
-    $oPaciente->setCP($cp);
-    $oPaciente->setEstadoCivil($edocivil);
-    $oPaciente->setCorreo($correo);
+        $NAfec = $oPaciente->insertar($user);
+        $NAfec2 = $oExpediente->insertarExpediente($user);
+        $NAfec3=$oSeguro->insertar($user);
 
-    $oExpediente->setPaciente($curp);
-    $oExpediente->setNumero($Nexpediente);
+        if ($NAfec == 1 && $NAfec2 == 1 && $NAfec3==1) {
+            $sMsj = "Se agregó el paciente a la base de datos";
+            header("Location:../mensajes.php?sMensaje=" . $sMsj . "&Destino=" . $url);
+        } else {
+            $sMsj = "Error al guardar el nuevo paciente";
+            header("Location:../mensajes.php?sMensaje=" . $sMsj . "&Destino=" . $url);
+        }
+    }
+    else
+    {
+        $curp = $_POST["curp"];
+        $nombre = $_POST["nombre"];
+        $apepa = $_POST["ApPat"];
+        $apema = $_POST["ApMat"];
+        $sexo = $_POST["sexo"];
+        $FechaNa = date('Y-m-d', strtotime($_POST['birthday']));
+        $telefono = $_POST["telefono"];
+        $direccion = $_POST["direccion"];
+        $cp = $_POST["cp"];
+        $correo = $_POST["email"];
+        $edocivil = $_POST["edocivil"];
 
 
-    $NAfec=$oPaciente->insertar($user);
-    $NAfec2=$oExpediente->insertarExpediente($user);
+        $Nexpediente=date("y").date("m").date("d").$Nexpediente=substr($curp,4,6).$Nexpediente=substr($curp,0,4).$Nexpediente=substr($curp,13,5);
 
-    if ($NAfec==1 && $NAfec2==1) {
+
+        $oPaciente->setNombre($nombre);
+        $oPaciente->setApPaterno($apepa);
+        $oPaciente->setApMaterno($apema);
+        $oPaciente->setCurpPaciente($curp);
+        $oPaciente->setSexo($sexo);
+        $oPaciente->setFechaNacimiento($FechaNa);
+        $oPaciente->setTelefono($telefono);
+        $oPaciente->setDireccion($direccion);
+        $oPaciente->setCP($cp);
+        $oPaciente->setEstadoCivil($edocivil);
+        $oPaciente->setCorreo($correo);
+
+        $oExpediente->setPaciente($curp);
+        $oExpediente->setNumero($Nexpediente);
+
+
+        $NAfec=$oPaciente->insertar($user);
+        $NAfec2=$oExpediente->insertarExpediente($user);
+
+        if ($NAfec==1 && $NAfec2==1) {
             $sMsj = "Se agregó el paciente a la base de datos";
             header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
         }
 
-     else {
-        $sMsj = "Error al guardar el nuevo paciente";
-         header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
+        else {
+            $sMsj = "Error al guardar el nuevo paciente";
+            header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
+        }
 
-
-     }
+    }
 
     }else{
     $sMsj = "Faltan datos, registre todos los campos";

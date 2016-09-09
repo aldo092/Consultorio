@@ -66,6 +66,8 @@ class Aseguradora
         $this->sTelefono = $sTelefono;
     }
 
+
+
     function buscarTodos(){
         $oAD = new AccesoDatos();
         $vObj = null;
@@ -74,7 +76,7 @@ class Aseguradora
         $i = 0;
         $oAseg = null;
         if($oAD->Conecta()){
-            $sQuery = "";
+            $sQuery = "call buscarAseguradora()";
             $rst = $oAD->ejecutaQuery($sQuery);
         }
         if($rst){
@@ -82,8 +84,7 @@ class Aseguradora
                 $oAseg = new Aseguradora();
                 $oAseg->setIdAseguradora($vRowTemp[0]);
                 $oAseg->setNombre($vRowTemp[1]);
-                $oAseg->setDireccion($vRowTemp[2]);
-                $oAseg->setTelefono($vRowTemp[3]);
+
                 $vObj[$i] = $oAseg;
                 $i = $i + 1;
             }
