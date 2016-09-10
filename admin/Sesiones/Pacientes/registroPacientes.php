@@ -17,6 +17,8 @@ $oEstados=new Estados();
 $oASeguradora= new Aseguradora();
 $arrEdo=null;
 $arrAseguradora=null;
+$arrPersonal=null;
+$oPersonal= new Personal();
 
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oUser = $_SESSION['sUser'];
@@ -25,6 +27,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $arrMenus = $oMenu->buscarMenuUsuario();
     $arrEdo=$oEstados->buscarEstados();
     $arrAseguradora=$oASeguradora->buscarTodos();
+    $arrPersonal=$oPersonal->buscarMedicos();
     if($oUser->buscarDatosBasicos()){
         $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
     }else{
@@ -322,6 +325,24 @@ if($sErr != ""){
                                             <option value="Viudo">Viudo (a)</option>
                                             <option value="union_libre">Unión Libre</option>
 
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="medico">Seleccione su médico:</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select id="medico" class="form-control" name="medico"required="required">
+                                            <option value="">Seleccione</option>
+                                            <?php
+                                            if($arrPersonal!= null){
+                                                foreach($arrPersonal as $vRol){
+                                                    ?>
+                                                    <option value="<?php echo $vRol-> getIdPersonal();?>"><?php echo $vRol->getNombres();?> <?php echo $vRol->getApPaterno();?> <?php echo $vRol->getApMaterno();?> </option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>

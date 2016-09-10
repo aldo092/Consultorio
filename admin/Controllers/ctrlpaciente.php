@@ -43,10 +43,14 @@ $estado="";
 $cp="";
 $correo="";
 $edocivil="";
+$medico="";
+
 $asegurado="";
+
 $aseguradora="";
 $poliza="";
 $vigencia="";
+
 $oPaciente= new Paciente();
 $Err="";
 $sMsj="";
@@ -69,10 +73,15 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
     isset($_POST["birthday"]) && !empty($_POST["birthday"])&&
     isset  ($_POST["telefono"]) && !empty($_POST["telefono"])&&
     isset  ($_POST["direccion"]) && !empty($_POST["direccion"])&&
+    isset  ($_POST["localidad"]) && !empty($_POST["localidad"])&&
+    isset  ($_POST["municipio"]) && !empty($_POST["municipio"])&&
+    isset  ($_POST["estado"]) && !empty($_POST["estado"])&&
+    isset  ($_POST["rfc"]) && !empty($_POST["rfc"])&&
     isset($_POST["cp"]) && !empty($_POST["cp"])&&
     isset ($_POST["email"]) && !empty($_POST["email"])&&
     isset ($_POST["asegurado"]) && !empty($_POST["asegurado"])&&
-    isset ($_POST["edocivil"]) && !empty($_POST["edocivil"])) {
+    isset ($_POST["edocivil"]) && !empty($_POST["edocivil"])&&
+    isset ($_POST["medico"]) && !empty($_POST["medico"])){
 
     if(($_POST["asegurado"])=="Si" &&
         isset($_POST["aseguradora"]) && !empty($_POST["aseguradora"]) &&
@@ -90,7 +99,14 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
         $cp = $_POST["cp"];
         $correo = $_POST["email"];
         $edocivil = $_POST["edocivil"];
+        $medico=$_POST["medico"];
+        $localidad=$_POST["localidad"];
+        $municipio=$_POST["municipio"];
+        $estado=$_POST["estado"];
+        $rfc=$_POST["rfc"];
+
         $asegurado = $_POST["asegurado"];
+
         $aseguradora = $_POST["aseguradora"];
         $poliza = $_POST["poliza"];
         $vigencia = $_POST["vigencia"];
@@ -109,6 +125,11 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
         $oPaciente->setCP($cp);
         $oPaciente->setEstadoCivil($edocivil);
         $oPaciente->setCorreo($correo);
+        $oPaciente->setSLocalidad($localidad);
+        $oPaciente->setSMunicipio($municipio);
+        $oPaciente->setEstado($estado);
+        $oPaciente->setSRFC($rfc);
+        $oPaciente->setSMedico($medico);
 
         $oExpediente->setPaciente($curp);
         $oExpediente->setNumero($Nexpediente);
@@ -144,6 +165,12 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
         $cp = $_POST["cp"];
         $correo = $_POST["email"];
         $edocivil = $_POST["edocivil"];
+        $medico=$_POST["medico"];
+        $localidad=$_POST["localidad"];
+        $municipio=$_POST["municipio"];
+        $estado=$_POST["estado"];
+        $rfc=$_POST["rfc"];
+
 
 
         $Nexpediente=date("y").date("m").date("d").$Nexpediente=substr($curp,4,6).$Nexpediente=substr($curp,0,4).$Nexpediente=substr($curp,13,5);
@@ -160,6 +187,11 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
         $oPaciente->setCP($cp);
         $oPaciente->setEstadoCivil($edocivil);
         $oPaciente->setCorreo($correo);
+        $oPaciente->setSLocalidad($localidad);
+        $oPaciente->setSMunicipio($municipio);
+        $oPaciente->setEstado($estado);
+        $oPaciente->setSRFC($rfc);
+        $oPaciente->setSMedico($medico);
 
         $oExpediente->setPaciente($curp);
         $oExpediente->setNumero($Nexpediente);

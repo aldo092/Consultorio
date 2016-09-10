@@ -26,6 +26,10 @@ class Paciente
     private $sLocalidad = "";
     private $sMunicipio = "";
     private $Estado = "";
+    private $sMedico="";
+    private $sRFC="";
+
+
 
 
   public function getExpediente()
@@ -207,6 +211,26 @@ class Paciente
         return $this;
     }
 
+    public function getSRFC()
+    {
+        return $this->sRFC;
+    }
+
+    public function setSRFC($sRFC)
+    {
+        $this->sRFC = $sRFC;
+    }
+
+    public function getSMedico()
+    {
+        return $this->sMedico;
+    }
+    public function setSMedico($sMedico)
+    {
+        $this->sMedico = $sMedico;
+    }
+
+
 
 
     function buscarPacientesExpediente(){
@@ -317,18 +341,24 @@ class Paciente
             throw new Exception("Paciente->insertar(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
+
                 $sQuery = "call insertarPaciente('".$usuario."',
                                                  '".$this->sCurpPaciente."',
                                                  '".$this->sNombre."',
                                                  '".$this->sApPaterno."',
-                                                  '".$this->sApMaterno."',
-                                                  '".$this->sSexo."',
-                                                  '".$this->dFechaNacimiento."',
-                                                  '".$this->sTelefono."',
-                                                  '".$this->sDireccion."',
-                                                  '".$this->sCP."',
-                                                  '".$this->cCorreo."',
-                                                  '".$this->bEstadoCivil."');";
+                                                 '".$this->sApMaterno."',
+                                                 '".$this->sSexo."',
+                                                 '".$this->dFechaNacimiento."',
+                                                 '".$this->sTelefono."',
+                                                 '".$this->sDireccion."',
+                                                 '".$this->sCP."',
+                                                 '".$this->cCorreo."',
+                                                 '".$this->bEstadoCivil."',
+                                                 '".$this->sRFC."',
+                                                 '".$this->sLocalidad."',
+                                                 '".$this->sMunicipio."',
+                                                 '".$this->Estado."',            
+                                                 '".$this->sMedico."');";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }

@@ -91,10 +91,10 @@ CREATE PROCEDURE insertaAcceso2(IN us1 varchar(60), IN user varchar(60), IN nip 
 //
 
 delimiter //
-CREATE PROCEDURE insertarPaciente(IN user varchar(60),IN curp varchar(18),IN nombre varchar(50), IN apepa varchar(50), IN apema varchar(50),IN sexo char(1),IN fecha date, IN telefono varchar(13),IN direccion varchar(100),IN  cp varchar(5), IN correo varchar(50), IN estadocivil varchar(50))
+CREATE PROCEDURE insertarPaciente(IN user varchar(60),IN curp varchar(18),IN nombre varchar(50), IN apepa varchar(50), IN apema varchar(50),IN sexo char(1),IN fecha date, IN telefono varchar(13),IN direccion varchar(100),IN  localidad VARCHAR(100),IN municipio INT, IN  estado INT, cp varchar(5), IN correo varchar(50), IN estadocivil varchar(50),IN rfc VARCHAR(18),IN  medico INT)
   BEGIN
-    INSERT INTO paciente(sCurpPaciente,sNombre,sApPaterno,sApMaterno,sSexo,dFecNacimiento,sTelefono,sDireccion,sCP,sEmail,sEstadoCivil)
-    VALUES (curp, nombre,apepa,apema,sexo,fecha,telefono,direccion,cp,correo,estadocivil);
+    INSERT INTO paciente(sCurpPaciente, sNombre, sApPaterno, sApMaterno, sSexo, dFecNacimiento, sTelefono, sDireccion, sCP, sEmail, sEstadoCivil, sRFC, sLocalidad, sMunicipio, sEstado, sMedico)
+    VALUES (curp, nombre,apepa,apema,sexo,fecha,telefono,direccion,cp,correo,estadocivil,rfc,localidad,municipio,estado,medico);
 
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES(user, 'INSERT', current_date, 'paciente', CONCAT('Se insertó un nuevo paciente ', nombre, ' ', apepa, ' ', apema));
@@ -346,9 +346,11 @@ CREATE PROCEDURE insertaUserRol(IN user varchar(30), IN email varchar(60), rol i
 DELIMITER //
 CREATE PROCEDURE BuscaTodosPacientesExpediente()
   BEGIN
-    select e.nNumero, e.sCurpPaciente, p.sNombre, p.sApPaterno, p.sApMaterno from expediente  e ,paciente p where e.sCurpPaciente=p.SCurpPaciente;
+    select e.nNumero, e.sCurpPaciente,p.sNombre, p.sApPaterno, p.sApMaterno, p.sSexo, p.dFecNacimiento, p.sTelefono, p.sDireccion,
+      p.sCP, p.sEmail, p.sEstadoCivil, p.sRFC, p.sLocalidad, p.sMunicipio, p.sEstado, p.sMedico
+    from expediente  e ,paciente p where e.sCurpPaciente=p.SCurpPaciente;
 
-  END //
+  END; //
 
 /*Fecha de creación 30 de agosto Procedimientos Almacenados de Antecedentes de pacientes*/
 
@@ -435,7 +437,7 @@ CREATE PROCEDURE insertarAseguradora(IN user VARCHAR(60),IN Nombre VARCHAR(100),
 DELIMITER //
 CREATE PROCEDURE  buscarAseguradora()
   BEGIN
-    select nIdAseguradora,sNombre from aseguradra;
+    select nIdAseguradora,sNombre from aseguradora;
     END;
 //
 
@@ -449,4 +451,34 @@ CREATE PROCEDURE insertarSeguro(IN user VARCHAR(60),IN Poliza VARCHAR(20), IN As
     VALUES (user,'INSERT', current_date,'Seguro',CONCAT('Se registró el seguro del Expediente ', Expediente));
 
   END ;
+//
+
+
+DELIMITER //
+CREATE PROCEDURE buscarEstados()
+  BEGIN
+  select CVE_ENT, NOM_ENT from estados;
+END;
+//
+
+
+DELIMITER //
+CREATE PROCEDURE buscarMunicipios(IN estado INT)
+  BEGIN
+    select CVE_MUN, NOM_MUN from municipios where CVE_ENT=estado;
+  END;
+//
+
+DELIMITER //
+CREATE PROCEDURE buscarTodosMetodosAntic()
+  BEGIN
+    select nClaveAnticonceptivo, sDescripcion from metodoanticonceptivo;
+  END;
+//
+
+DELIMITER //
+CREATE PROCEDURE  buscarMedicoEspecialidad()
+  BEGIN
+    select p.nIdPersonal, p.sNombres, p.sApMaterno, p.sApPaterno , m.sEspecialidad from personal p, medico m where p.nIdPersonal=m.nIdPersonal;
+      END;
 //

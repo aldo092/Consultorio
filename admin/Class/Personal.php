@@ -352,5 +352,34 @@ class Personal
         return $i;
     }
 
+    function buscarMedicos(){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $i = 0;
+        $oPer= null;
+        if($oAD->Conecta()){
+            $sQuery = "call buscarMedicoEspecialidad();";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+        }
+        if($rst){
+            foreach ($rst as $vRowTemp){
+                $oPer = new Personal();
+                $oPer->setIdPersonal($vRowTemp[0]);
+                $oPer->setNombres($vRowTemp[1]);
+                $oPer->setApPaterno($vRowTemp[2]);
+                $oPer->setApMaterno($vRowTemp[3]);
+                $vObj[$i] = $oPer;
+                $i = $i + 1;
+            }
+        }else{
+            $vObj = false;
+        }
+        return $vObj;
+    }
+
+
 
 }
