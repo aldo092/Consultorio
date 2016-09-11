@@ -91,7 +91,8 @@ CREATE PROCEDURE insertaAcceso2(IN us1 varchar(60), IN user varchar(60), IN nip 
 //
 
 delimiter //
-CREATE PROCEDURE insertarPaciente(IN user varchar(60),IN curp varchar(18),IN nombre varchar(50), IN apepa varchar(50), IN apema varchar(50),IN sexo char(1),IN fecha date, IN telefono varchar(13),IN direccion varchar(100),IN  localidad VARCHAR(100),IN municipio INT, IN  estado INT, cp varchar(5), IN correo varchar(50), IN estadocivil varchar(50),IN rfc VARCHAR(18),IN  medico INT)
+CREATE PROCEDURE insertarPaciente(IN user varchar(60),IN curp varchar(18),IN nombre varchar(50), IN apepa varchar(50), IN apema varchar(50),IN sexo char(1),IN fecha date, IN telefono varchar(13),IN direccion varchar(100),IN cp varchar(5),
+   IN correo varchar(50), IN estadocivil varchar(50),IN rfc VARCHAR(18),IN  localidad VARCHAR(100),IN municipio INT, IN  estado INT,IN  medico INT)
   BEGIN
     INSERT INTO paciente(sCurpPaciente, sNombre, sApPaterno, sApMaterno, sSexo, dFecNacimiento, sTelefono, sDireccion, sCP, sEmail, sEstadoCivil, sRFC, sLocalidad, sMunicipio, sEstado, sMedico)
     VALUES (curp, nombre,apepa,apema,sexo,fecha,telefono,direccion,cp,correo,estadocivil,rfc,localidad,municipio,estado,medico);
@@ -479,6 +480,18 @@ CREATE PROCEDURE buscarTodosMetodosAntic()
 DELIMITER //
 CREATE PROCEDURE  buscarMedicoEspecialidad()
   BEGIN
-    select p.nIdPersonal, p.sNombres, p.sApMaterno, p.sApPaterno , m.sEspecialidad from personal p, medico m where p.nIdPersonal=m.nIdPersonal;
+    select p.nIdPersonal, p.sNombres, p.sApPaterno, p.sApMaterno , m.sEspecialidad from personal p, medico m where p.nIdPersonal=m.nIdPersonal;
       END;
+//
+
+DELIMITER //
+CREATE PROCEDURE insertarAntGin( IN user VARCHAR(60),IN Expediente VARCHAR(20),IN Gestaciones INT(11),IN Partos INT(11), IN Abortos INT(11),IN Ivsa INT(11),IN Parejas INT(11),IN ETS VARCHAR(200),IN  Cesareas INT(11),IN Papanicolau DATE, IN Anticonceptivo INT(11))
+  BEGIN
+    INSERT INTO anteginecoobstetricos(nNumero, nGestaciones, nPartos, nAbortos, sIVSA, nParejasSexuales, sETS, nCesareas, dUltPapanicolau, nClaveAnticonceptivo)
+    VALUES (Expediente,Gestaciones,Partos,Abortos,Ivsa,Parejas,ETS, Cesareas,Papanicolau, Anticonceptivo);
+
+    INSERT INTO bitacora(sEmail, sAccion,dFechaAccion,sTabla,sDescripcionAccion)
+    VALUES (user,'INSERT', current_date,'anteginecoobstetricos',CONCAT('se insertaron los antecedentes gineco-obstetricos del expediente ', Expediente));
+
+  END;
 //

@@ -27,7 +27,6 @@ if($sErr != ""){
 }
 
 
-
 $curp="";
 $nombre="";
 $apepa="";
@@ -52,11 +51,12 @@ $poliza="";
 $vigencia="";
 
 $oPaciente= new Paciente();
+$oExpediente= new Expediente();
+$oSeguro=new Seguro();
+
 $Err="";
 $sMsj="";
 $Nexpediente="";
-$oExpediente= new Expediente();
-$oSeguro=new Seguro();
 $user= $_SESSION['sUser']->getEmail();
 $NAfec=0;
 $NAfec2=0;
@@ -71,17 +71,17 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
     isset($_POST["curp"]) && !empty($_POST["curp"])&&
     isset ($_POST["sexo"]) && !empty($_POST["sexo"])&&
     isset($_POST["birthday"]) && !empty($_POST["birthday"])&&
-    isset  ($_POST["telefono"]) && !empty($_POST["telefono"])&&
-    isset  ($_POST["direccion"]) && !empty($_POST["direccion"])&&
-    isset  ($_POST["localidad"]) && !empty($_POST["localidad"])&&
-    isset  ($_POST["municipio"]) && !empty($_POST["municipio"])&&
-    isset  ($_POST["estado"]) && !empty($_POST["estado"])&&
-    isset  ($_POST["rfc"]) && !empty($_POST["rfc"])&&
+    isset($_POST["telefono"]) && !empty($_POST["telefono"])&&
+    isset($_POST["direccion"]) && !empty($_POST["direccion"])&&
+    isset($_POST["localidad"]) && !empty($_POST["localidad"])&&
+    isset($_POST["municipio"]) && !empty($_POST["municipio"])&&
+    isset($_POST["estado"]) && !empty($_POST["estado"])&&
+    isset($_POST["rfc"]) && !empty($_POST["rfc"])&&
     isset($_POST["cp"]) && !empty($_POST["cp"])&&
-    isset ($_POST["email"]) && !empty($_POST["email"])&&
-    isset ($_POST["asegurado"]) && !empty($_POST["asegurado"])&&
-    isset ($_POST["edocivil"]) && !empty($_POST["edocivil"])&&
-    isset ($_POST["medico"]) && !empty($_POST["medico"])){
+    isset($_POST["email"]) && !empty($_POST["email"])&&
+    isset($_POST["asegurado"]) && !empty($_POST["asegurado"])&&
+    isset($_POST["edocivil"]) && !empty($_POST["edocivil"])&&
+    isset($_POST["medico"]) && !empty($_POST["medico"])){
 
     if(($_POST["asegurado"])=="Si" &&
         isset($_POST["aseguradora"]) && !empty($_POST["aseguradora"]) &&
@@ -212,13 +212,11 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
 
     }
 
-    }else{
+    }
+    else{
     $sMsj = "Faltan datos, registre todos los campos";
     header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
-
-}
-
-
-?>
+    }
+    ?>
 
 
