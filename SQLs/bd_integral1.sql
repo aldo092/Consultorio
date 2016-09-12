@@ -560,6 +560,70 @@ REFERENCES Medico(nIdPersonal)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','9:00','9:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','9:30','10:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','10:00','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','10:30','11:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','11:00','11:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','11:30','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','12:00','12:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','12:30','13:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','13:00','13:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','13:30','14:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','9:00','9:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','9:30','10:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','10:00','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','10:30','11:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','11:00','11:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','11:30','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','12:00','12:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','12:30','13:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','13:00','13:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','13:30','14:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','9:00','9:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','9:30','10:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','10:00','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','10:30','11:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','11:00','11:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','11:30','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','12:00','12:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','12:30','13:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','13:00','13:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','13:30','14:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','9:00','9:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','9:30','10:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','10:00','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','10:30','11:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','11:00','11:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','11:30','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','12:00','12:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','12:30','13:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','13:00','13:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','13:30','14:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','9:00','9:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','9:30','10:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','10:00','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','10:30','11:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','11:00','11:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','11:30','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','12:00','12:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','12:30','13:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','13:00','13:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','13:30','14:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','9:00','9:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','9:30','10:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','10:00','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','10:30','11:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','11:00','11:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','11:30','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','12:00','12:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','12:30','13:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','13:00','13:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','13:30','14:00');
+
+
+
+
 
 
 
