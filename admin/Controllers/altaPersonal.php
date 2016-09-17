@@ -5,13 +5,14 @@
  * Date: 24/08/2016
  * Time: 06:57 PM
  */
-
+error_reporting(E_ALL);
 include_once ("../Class/Personal.php");
 include_once ("../Class/AccesoDatos.php");
 include_once ("../Class/Accesos.php");
 include_once ("../Class/Roles.php");
 include_once ("../Class/Usuarios.php");
 include_once ("../Class/Medico.php");
+include_once ("../Class/Especialidad.php");
 session_start();
 $sErr = "";
 $sErr2 = "";
@@ -31,7 +32,7 @@ $oUsuario = null;
         if(isset($_POST['txtOp']) && !empty($_POST['txtOp'])) {
             $sOp = $_POST['txtOp'];
             $sClave = $_POST['txtClave'];
-
+            $sRol = $_POST['rol'];
             $sRolAct = $_POST['txtRol'];
             $sMiRol = $_POST['miRol'];
             $oUsuario = $_SESSION['sUser'];
@@ -40,8 +41,7 @@ $oUsuario = null;
                 $oPersonal->setIdPersonal($sClave);
             }
 
-            if($sOp == 'a' && $sRol != 2){
-                $sRol = $_POST['rol'];
+            if($sOp == 'a' && $sRol != '2'){
                 $oPersonal->setRol(new Roles());
                 $oPersonal->setUsuario(new Usuarios());
                 $oPersonal->setNombres($_POST['txtNombre']);
@@ -73,11 +73,10 @@ $oUsuario = null;
                     $sErr2 = "Error al intentar cargar el archivo";
                 $oPersonal->setEstatus(1);
                 $oPersonal->setImagen($sImg);
-            }else if($sOp == 'a' && $sRol == 2){
-                $sRol = $_POST['rol'];
+            }else if($sOp == 'a' && $sRol == '2'){
                 $oPersonal->setRol(new Roles());
-                $oPersonal->setUsuario(new Usuarios());
                 $oPersonal->setMedico(new Medico());
+                $oPersonal->setUsuario(new Usuarios());
                 $oPersonal->setNombres($_POST['txtNombre']);
                 $oPersonal->setApPaterno($_POST['txtApPat']);
                 $oPersonal->setApMaterno($_POST['txtApMat']);
@@ -92,7 +91,8 @@ $oUsuario = null;
                 $oPersonal->getMedico()->setNumCedEsp($_POST['txtCedEsp']);
                 $oPersonal->getMedico()->setFecExpedCedEsp($_POST['dCedulaEsp']);
                 $oPersonal->getMedico()->setNumTelefono1($_POST['txtTel2'] == '' ? 'Sin No.': $_POST['txtTel2']);
-                $oPersonal->getMedico()->setEspecialidad($_POST['txtEspecialidad']);
+                $oPersonal->getMedico()->setEspecialidad(new Especialidad());
+                $oPersonal->getMedico()->getEspecialidad()->setIdEspecialidad($_POST['espec']);
                 if ($_FILES["imagen"]["error"] == UPLOAD_ERR_OK) {
 
                     if (($_FILES["imagen"]["type"] == "image/jpeg") ||
@@ -114,7 +114,8 @@ $oUsuario = null;
                     $sErr2 = "Error al intentar cargar el archivo";
                 $oPersonal->setEstatus(1);
                 $oPersonal->setImagen($sImg);
-            }else if($sOp == 'm' && $sMiRol != 2){
+
+            }else if($sOp == 'm' && $sMiRol != '2'){
                 $oPersonal->setUsuario(new Usuarios());
                 $oPersonal->setNombres($_POST['txtNombre']);
                 $oPersonal->setApPaterno($_POST['txtApPat']);
@@ -131,7 +132,7 @@ $oUsuario = null;
                     $nEst = ($_POST['txtEstAct'] == "Activo" ? 1 : 0);
                     $oPersonal->setEstatus($nEst);
                 }
-            }else if($sOp == 'm' && $sMiRol == 2){
+            }else if($sOp == 'm' && $sMiRol == '2'){
                 $oPersonal->setUsuario(new Usuarios());
                 $oPersonal->setMedico(new Medico());
                 $oPersonal->setNombres($_POST['txtNombre']);
@@ -146,7 +147,6 @@ $oUsuario = null;
                 $oPersonal->getMedico()->setNumCedula($_POST['txtCedula']);
                 $oPersonal->getMedico()->setNumCedEsp($_POST['txtCedEsp']);
                 $oPersonal->getMedico()->setNumTelefono1($_POST['txtTel2']);
-                $oPersonal->getMedico()->setEspecialidad($_POST['txtEspecialidad']);
                 if($_POST['estatus'] != ''){
                     $oPersonal->setEstatus($_POST['estatus']);
                 }else{
@@ -155,17 +155,17 @@ $oUsuario = null;
                 }
             }
 
-            if($sOp == 'a' and $sRol != 2){
+            if($sOp == 'a' and $sRol != '2'){
                 $nAfec = $oPersonal->insertarPersonal($oUsuario->getEmail());
-            }else if($sOp == 'a' and $sRol == 2){
+            }else if($sOp == 'a' and $sRol == '2'){
                 $nAfec = $oPersonal->insertaPersonalMedico($oUsuario->getEmail());
-            }else if($sOp == 'm' and $sMiRol != 2 and $_POST['password'] == ""){
+            }else if($sOp == 'm' and $sMiRol != '2' and $_POST['password'] == ""){
                 $nAfec = $oPersonal->modificaPersonal($oUsuario->getEmail());
-            }else if($sOp == 'm' and $sMiRol != 2 and $_POST['password'] != ""){
+            }else if($sOp == 'm' and $sMiRol != '2' and $_POST['password'] != ""){
                 $nAfec = $oPersonal->modificarPersonalyPass($oUsuario->getEmail());
-            }else if($sOp == 'm' and $sMiRol == 2 and $_POST['password'] != ""){
+            }else if($sOp == 'm' and $sMiRol == '2' and $_POST['password'] != ""){
                 $nAfec = $oPersonal->modificaPersonalMedicoyPass($oUsuario->getEmail());
-            }else if($sOp == 'm' and $sMiRol == 2 and $_POST['password'] == ""){
+            }else if($sOp == 'm' and $sMiRol == '2' and $_POST['password'] == ""){
                 $nAfec = $oPersonal->modificaPersonalMedico($oUsuario->getEmail());
             }else{
                 $sErr2 = "No se realizó ninguna acción";

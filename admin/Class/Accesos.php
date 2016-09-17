@@ -223,7 +223,7 @@ class Accesos
     function emailRegistro($mailDes){
         $bRet = false;
         $mail = new PHPMailer();
-        $body = '<table width="537" height="662" align="center" bgcolor="#ffe4c4" title="Violación de Seguridad">
+        $body = '<table width="537" height="662" align="center" bgcolor="#ffe4c4" title="Registro exitoso">
                               <tbody>
                                 <tr>
                                   <td width="557">

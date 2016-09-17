@@ -7,19 +7,28 @@
  * Time: 03:19 PM
  */
 include_once ("AccesoDatos.php");
-include_once ("Personal.php");
+include_once ("Especialidad.php");
 class Medico
 {
     private $oAD = null;
-    private $oPersonal = null;
     private $sNumCedula = "";
     private $dFechaExpedicionCed=null;
     private $sNumCedEsp = "";
     private $dFecExpedCedEsp=null;
     private $sNumTelefono1="";
     private $sNumTelefono2="";
-    private $sEspecialidad="";
+    private $oEspecialidad=null;
 
+
+    public function getEspecialidad()
+    {
+        return $this->oEspecialidad;
+    }
+
+    public function setEspecialidad($oEspecialidad)
+    {
+        $this->oEspecialidad = $oEspecialidad;
+    }
 
     public function getAD()
     {
@@ -29,16 +38,6 @@ class Medico
     public function setAD($oAD)
     {
         $this->oAD = $oAD;
-    }
-
-    public function getPersonal()
-    {
-        return $this->oPersonal;
-    }
-
-    public function setPersonal($oPersonal)
-    {
-        $this->oPersonal = $oPersonal;
     }
 
     public function getNumCedula()
@@ -101,16 +100,6 @@ class Medico
         $this->sNumTelefono2 = $sNumTelefono2;
     }
 
-    public function getEspecialidad()
-    {
-        return $this->sEspecialidad;
-    }
-
-    public function setEspecialidad($sEspecialidad)
-    {
-        $this->sEspecialidad = $sEspecialidad;
-    }
-
     function buscarDatosMedico($nPersonal){
         $oAD = new AccesoDatos();
         $sQuery = "";
@@ -124,12 +113,13 @@ class Medico
                 $rst = $oAD->ejecutaQuery($sQuery);
                 $oAD->Desconecta();
                 if($rst){
+                    $this->setEspecialidad(new Especialidad());
                     $this->setNumCedula($rst[0][0]);
                     $this->setFechaExpedicionCed($rst[0][1]);
                     $this->setNumCedEsp($rst[0][2]);
                     $this->setFecExpedCedEsp($rst[0][3]);
                     $this->setNumTelefono1($rst[0][4]);
-                    $this->setEspecialidad($rst[0][5]);
+                    $this->getEspecialidad()->setDescripcion($rst[0][5]);
                 }
             }
         }

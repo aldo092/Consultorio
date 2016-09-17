@@ -11,16 +11,19 @@ require_once ("../../Class/Menu.php");
 require_once ("../../Class/Personal.php");
 require_once ("../../Class/Roles.php");
 require_once ("../../Class/Funcion.php");
+require_once ("../../Class/Especialidad.php");
 session_start();
 $oUser = new Usuarios();
 $oPersonal = new Personal();
 $oRol = new Roles();
+$oEspe = new Especialidad();
 $oPersonal->setRol(new Roles());
 $oFuncion = new Funcion();
 $sErr = "";
 $sErr2 = "";
 $arrMenus = null;
 $arrRol = null;
+$arrEspe = null;
 $nCve = 0;
 $sOp = "";
 $sNombre = "";
@@ -61,6 +64,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
 
         if($sOp == 'a'){
             $arrRol = $oRol->buscarTodos();
+            $arrEspe = $oEspe->buscarTodos();
             $bCampo = true;
             $bLlave = true;
             $sNombreAct = "Agregar";
@@ -421,7 +425,6 @@ if($sErr != ""){
                                         <?php
                                         }
                                         ?>
-
                                         <div class="form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtCedEsp">No. Cédula de Especialidad<span class="required">*</span>
                                             </label>
@@ -462,14 +465,43 @@ if($sErr != ""){
                                                 <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtEspecialidad">Especialidad<span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="txtEspecialidad" name="txtEspecialidad" class="form-control col-md-7 col-xs-12"
-                                                       value="<?php echo ($bLlave == true ? '': $oPersonal->getMedico()->getEspecialidad());?>" <?php echo ($bCampo == true ? '':'disabled');?>>
-                                            </div>
-                                        </div>
+                                        <?php
+                                            if($sOp == 'a'){
+                                        ?>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="espec">Elija una especialidad <span class="required">*</span>
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <select id="espec" name="espec" class="form-control" required>
+                                                            <option value="">Seleccione</option>
+                                                            <?php
+                                                            if($arrEspe != null){
+                                                                foreach($arrEspe as $vEsp){
+                                                                    ?>
+                                                                    <option value="<?php echo $vEsp->getIdEspecialidad();?>"><?php echo $vEsp->getDescripcion();?></option>
+                                                                    <?php
+                                                                }
+                                                            }
+                                                            ?>
+
+                                                        </select>
+                                                    </div>
+                                                </div> 
+                                        <?php
+                                            }else{
+                                            ?>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtEspecialidad">Especialidad<span class="required">*</span>
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <input type="text" id="txtEspecialidad" name="txtEspecialidad" class="form-control col-md-7 col-xs-12"
+                                                               value="<?php echo  $oPersonal->getMedico()->getEspecialidad()->getDescripcion();?>" disabled >
+                                                    </div>
+                                                </div>
+                                        <?php
+                                            }
+                                        ?>
+
                                     </div>
                                 <?php
                                     if($sOp == 'm'){
@@ -632,6 +664,24 @@ if($sErr != ""){
             $(".contenido").show();
         }else if($("#txtRolActual").val() != 'MEDICO' && $("#txtOp").val() == 'm'){
             $(".contenido").hide();
+        }
+    });
+
+</script>
+<script language="JavaScript" type="text/javascript">
+    $(document).ready(function(){
+        if($("#txtOp").val() == 'a'){
+            $("#dCedulaEsp").attr({
+                disabled : true
+            });
+            $("#dCedula").change(function(){
+                $("#dCedulaEsp").attr({
+                    disabled : false
+                });
+                $("#dCedulaEsp").attr({
+                    min : $("#dCedula").val()
+                });
+            });
         }
     });
 </script>

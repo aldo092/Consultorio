@@ -292,11 +292,12 @@ class Personal
             ".$this->getRol()->getIdRol().", '".$this->getEmail()."','".$this->getUsuario()->getPassword()."',
             '".$this->getMedico()->getNumCedula()."','".$this->getMedico()->getFechaExpedicionCed()."',
             '".$this->getMedico()->getNumCedEsp()."','".$this->getMedico()->getFecExpedCedEsp()."',
-            '".$this->getMedico()->getNumTelefono1()."','".$this->getMedico()->getEspecialidad()."','".$this->getImagen()."');";
+            '".$this->getMedico()->getNumTelefono1()."',".$this->getMedico()->getEspecialidad()->getIdEspecialidad().",'".$this->getImagen()."');";
             $i = $oAD->ejecutaComando($sQuery);
             $oAD->Desconecta();
         }
         return $i;
+
     }
 
     function modificaPersonal($usuario){
@@ -326,7 +327,7 @@ class Personal
             if($oAD->Conecta()){
                 $sQuery = "call modificarPersonalMedico1('".$usuario."','".$this->getIdPersonal()."','".$this->getNombres()."','".$this->getApPaterno()."',
                 '".$this->getApMaterno()."','".$this->getTelefono()."','".$this->getUsuario()->getPassword()."','".$this->getMedico()->getNumCedula()."',
-                '".$this->getMedico()->getNumCedEsp()."','".$this->getMedico()->getNumTelefono1()."','".$this->getMedico()->getEspecialidad()."',".$this->getEstatus().");";
+                '".$this->getMedico()->getNumCedEsp()."','".$this->getMedico()->getNumTelefono1()."',".$this->getEstatus().");";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }
@@ -344,7 +345,7 @@ class Personal
             if($oAD->Conecta()){
                 $sQuery = "call modificarPersonalMedico2('".$usuario."','".$this->getIdPersonal()."','".$this->getNombres()."','".$this->getApPaterno()."',
                 '".$this->getApMaterno()."','".$this->getTelefono()."','".$this->getMedico()->getNumCedula()."','".$this->getMedico()->getNumCedEsp()."',
-                '".$this->getMedico()->getNumTelefono1()."','".$this->getMedico()->getEspecialidad()."',".$this->getEstatus().")";
+                '".$this->getMedico()->getNumTelefono1()."',".$this->getEstatus().")";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }

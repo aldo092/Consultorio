@@ -85,7 +85,7 @@ class Estudios
         $i = 0;
         $oEst = null;
         if($oAD->Conecta()){
-            $sQuery = "call buscarTodosEstudios()";
+            $sQuery = "call buscarEstudios()";
             $rst = $oAD->ejecutaQuery($sQuery);
             $oAD->Desconecta();
         }
@@ -105,6 +105,31 @@ class Estudios
             $vObj = false;
         }
         return $vObj;
+    }
+
+    function buscarDatosEstudio(){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $rst = null;
+        $bRet = false;
+        if($this->getClaveInterna() == 0){
+            throw new Exception("Estudios->buscarDatosEstudio(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarDatosEstudio(".$this->getClaveInterna().");";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+                if($rst){
+                    $this->setClaveInterna($rst[0][0]);
+                    $this->setDescripcion($rst[0][1]);
+                    $this->setIVA($rst[0][2]);
+                    $this->setCostoNormal($rst[0][3]);
+                    $this->setCostoAseg($rst[0][4]);
+                    $bRet = true;
+                }
+            }
+        }
+        return $bRet;
     }
 
     function insertar($usuario){
