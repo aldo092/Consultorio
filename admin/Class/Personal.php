@@ -249,6 +249,40 @@ class Personal
         return $bRet;
     }
 
+    function buscarDatosPorPersona2(){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $bRet = false;
+        $rst = null;
+        if($this->getIdPersonal() == 0){
+            throw new Exception("Personal->buscarDatosPorPersona(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscaDatosPersona(".$this->getIdPersonal().");";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+                if($rst){
+                    $oMedico = new Medico();
+                    $this->setRol(new Roles());
+                    $this->setIdPersonal($rst[0][0]);
+                    $this->setNombres($rst[0][1]);
+                    $this->setApPaterno($rst[0][2]);
+                    $this->setApMaterno($rst[0][3]);
+                    $this->setTelefono($rst[0][4]);
+                    $this->setSexo($rst[0][5]);
+                    $this->setCURP($rst[0][6]);
+                    $this->setEmail($rst[0][7]);
+                    $this->setEstatus($rst[0][8]);
+                    $this->getRol()->setDescripcion($rst[0][9]);
+                    $this->setImagen($rst[0][10]);
+                    $this->getRol()->setIdRol($rst[0][11]);
+                    $bRet = true;
+                }
+            }
+        }
+        return $bRet;
+    }
+
     function insertarPersonal($usuario){
         $oAD = new AccesoDatos();
         $sQuery = "";

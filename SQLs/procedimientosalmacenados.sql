@@ -636,3 +636,15 @@ CREATE PROCEDURE insertarAntGin(IN user           VARCHAR(60), IN Expediente VAR
 
   END;
 //
+
+DELIMITER //
+CREATE PROCEDURE insertarEstudios(IN user varchar(60), IN descripcion varchar(100), IN iva decimal(10,2),
+                                  IN costonormal decimal(10,2), IN costoaseg decimal(10,2))
+  BEGIN
+    INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg)
+    VALUES(descripcion, iva, costonormal, costoaseg);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'ESTUDIOS', CONCAT('Registro de nuevo estudio por el usuario', user));
+  END
+//

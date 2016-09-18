@@ -137,7 +137,7 @@ class Estudios
         $sQuery = "";
         $i = -1;
         if($oAD->Conecta()){
-            $sQuery = "call insertaEstudios('".$usuario."',".$this->getDescripcion()."', ".$this->getIVA().", ".$this->getCostoNormal().",
+            $sQuery = "call insertarEstudios('".$usuario."','".$this->getDescripcion()."', ".$this->getIVA().", ".$this->getCostoNormal().",
             ".$this->getCostoAseg().");";
             $i = $oAD->ejecutaComando($sQuery);
             $oAD->Desconecta();

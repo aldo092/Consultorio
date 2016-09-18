@@ -54,8 +54,11 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
         if ($sOp != 'a') {
             $oPersonal->setIdPersonal($nCve);
             try {
-                if (!$oPersonal->buscarDatosPorPersona())
+                if (!$oPersonal->buscarDatosPorPersona() and $sRolDesc == 'MEDICO'){
                     $sErr2 = "Colaborador no registrado";
+                }else if(!$oPersonal->buscarDatosPorPersona2()){
+                    $sErr2 = "Colaborador no registrado";
+                }
             } catch (Exception $e) {
                 error_log($e->getFile() . " " . $e->getLine() . " " . $e->getMessage(),0);
                 $sErr2 = "Error en base de datos, comunicarse con el administrador";
@@ -488,7 +491,7 @@ if($sErr != ""){
                                                     </div>
                                                 </div> 
                                         <?php
-                                            }else{
+                                            }else if($sRolDesc == 'MEDICO'){
                                             ?>
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtEspecialidad">Especialidad<span class="required">*</span>
