@@ -615,9 +615,12 @@ CREATE PROCEDURE buscarMedicoEspecialidad()
       p.sNombres,
       p.sApPaterno,
       p.sApMaterno,
-      m.sEspecialidad
-    FROM personal p, medico m
-    WHERE p.nIdPersonal = m.nIdPersonal;
+      e.sDescripcion
+    FROM personal p
+      JOIN medico m
+        ON m.nIdPersonal = p.nIdPersonal
+      JOIN especialidad e
+        ON e.nIdEspecialidad = m.nIdEspecialidad;
   END;
 //
 

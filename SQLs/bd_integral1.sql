@@ -172,6 +172,8 @@ CREATE TABLE Paciente (
 );
 
 
+
+
 CREATE TABLE Expediente (
   nNumero VARCHAR(20) NOT NULL,
   sCurpPaciente VARCHAR(18) NOT NULL,
@@ -522,6 +524,7 @@ INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(9,2);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,3);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,3);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,3);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,3);
