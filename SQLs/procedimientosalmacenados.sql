@@ -651,3 +651,13 @@ CREATE PROCEDURE insertarEstudios(IN user varchar(60), IN descripcion varchar(10
     VALUES(user, 'INSERT', current_date, 'ESTUDIOS', CONCAT('Registro de nuevo estudio por el usuario', user));
   END
 //
+
+DELIMITER //
+CREATE PROCEDURE buscarTodosEspecialidad()
+  BEGIN
+    SELECT
+      especialidad.nIdEspecialidad,
+      especialidad.sDescripcion
+    FROM especialidad;
+  END
+  //

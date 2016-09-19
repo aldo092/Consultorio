@@ -115,9 +115,16 @@ CREATE TABLE Medico (
   dFecExpedCedEsp DATE NOT NULL,
   sNumTelefono1 VARCHAR(15),
   sNumTelefono2 VARCHAR(15),
-  sEspecialidad VARCHAR(100),
+  nIdEspecialidad INT NOT NULL,
   PRIMARY KEY (nIdPersonal)
 );
+
+CREATE TABLE Especialidad (
+  nIdEspecialidad INT AUTO_INCREMENT NOT NULL,
+  sDescripcion VARCHAR(300) NOT NULL,
+  PRIMARY KEY (nIdEspecialidad)
+);
+
 
 
 CREATE TABLE Consultorio (
@@ -278,6 +285,12 @@ CREATE TABLE AntecedenteFam (
   sTabaquismo CHAR(2),
   PRIMARY KEY (nNumero)
 );
+
+ALTER TABLE Medico ADD CONSTRAINT especialidad_medico_fk
+FOREIGN KEY (nIdEspecialidad)
+REFERENCES Especialidad (nIdEspecialidad)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
 
 ALTER TABLE Menu ADD CONSTRAINT menu_menu_fk
 FOREIGN KEY (nPadre)
@@ -510,7 +523,7 @@ VALUES ('Consultar Bitácora del Sistema', 'Sesiones/Otros/consultarBitacora.php
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(3,1);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,1);e
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(9,1);
