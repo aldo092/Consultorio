@@ -650,6 +650,10 @@ insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','13:00','13
 insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','13:30','14:00');
 
 
+/*Insertar especialidaddes*/
+INSERT INTO especialidad(sDescripcion) VALUES ('UROLOGÍA');
+INSERT INTO especialidad(sDescripcion) VALUES ('GINECOLOGÍA');
+
 /*Estudios */
 INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Consulta de Especialidad', 0.16, 600, 600, 1);
 INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Consulta de Especialidad', 0.16, 600, 600, 2);
