@@ -642,10 +642,10 @@ CREATE PROCEDURE insertarAntGin(IN user           VARCHAR(60), IN Expediente VAR
 
 DELIMITER //
 CREATE PROCEDURE insertarEstudios(IN user varchar(60), IN descripcion varchar(100), IN iva decimal(10,2),
-                                  IN costonormal decimal(10,2), IN costoaseg decimal(10,2))
+                                  IN costonormal decimal(10,2), IN costoaseg decimal(10,2), IN espe int(11))
   BEGIN
-    INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg)
-    VALUES(descripcion, iva, costonormal, costoaseg);
+    INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad)
+    VALUES(descripcion, iva, costonormal, costoaseg, espe);
 
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES(user, 'INSERT', current_date, 'ESTUDIOS', CONCAT('Registro de nuevo estudio por el usuario', user));
@@ -661,3 +661,43 @@ CREATE PROCEDURE buscarTodosEspecialidad()
     FROM especialidad;
   END
   //
+
+DELIMITER //
+CREATE PROCEDURE eliminaEstudio(IN user varchar(60), IN clave int(11))
+  BEGIN
+    DELETE FROM estudios WHERE nClaveInterna = clave;
+
+    INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES (user, 'DELETE', current_date, 'estudios',
+            CONCAT('Se eliminó el estudio ', clave, ' por el usuario ', user));
+
+  END
+//
+
+DELIMITER //
+CREATE PROCEDURE buscarDatosEstudio(IN clave int(11))
+  BEGIN
+    SELECT estudios.nClaveInterna, estudios.sDescripcion as DescEst, estudios.nIVA, estudios.nCostoNormal, estudios.nCostoAseg, especialidad.sDescripcion as DescEspe
+    FROM estudios
+      JOIN especialidad
+        ON especialidad.nIdEspecialidad = estudios.nIdEspecialidad
+    WHERE nClaveInterna = clave;
+  END
+//
+
+DELIMITER //
+CREATE PROCEDURE buscarEstudiosPorEspecialidad(IN user varchar(60))
+  BEGIN
+    SELECT estudios.nClaveInterna, estudios.sDescripcion
+    FROM estudios
+      JOIN especialidad
+        ON especialidad.nIdEspecialidad = estudios.nIdEspecialidad
+      JOIN medico
+        ON medico.nIdEspecialidad = especialidad.nIdEspecialidad
+      JOIN personal
+        ON personal.nIdPersonal = medico.nIdPersonal
+      JOIN usuarios
+        ON usuarios.sEmail = personal.sEmail
+    WHERE usuarios.sEmail = user;
+  END
+//

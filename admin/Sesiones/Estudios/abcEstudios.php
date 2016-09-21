@@ -10,10 +10,12 @@ include_once ("../../Class/Usuarios.php");
 require_once ("../../Class/Menu.php");
 require_once ("../../Class/Funcion.php");
 require_once ("../../Class/Estudios.php");
+require_once ("../../Class/Especialidad.php");
 session_start();
 $oUser = new Usuarios();
 $oEstudios = new Estudios();
 $oFuncion = new Funcion();
+$oEspe = new Especialidad();
 $sErr = "";
 $arrMenus = null;
 $nCve = 0;
@@ -22,6 +24,7 @@ $bCampo = false;
 $bLlave = false;
 $sNombreAct = "";
 $sNombre = "";
+$arrEspe = null;
 $url ="".$_SERVER['REQUEST_URI'];
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     if(isset($_POST['txtIdEstudio']) && !empty($_POST['txtIdEstudio']) &&
@@ -51,12 +54,15 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
         }
 
         if($sOp == 'a'){
+            $arrEspe = $oEspe->buscarTodos();
             $bCampo = true;
             $bLlave = true;
             $sNombreAct = "Agregar";
         }else if($sOp == 'm'){
             $bCampo = true;
             $sNombreAct = "Modificar";
+        }else if($sOp == 'e'){
+            $sNombreAct = "Eliminar";
         }
 
     }else{
@@ -209,7 +215,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                     </div>
                     <div class="row">
                         <div class="x_content">
-                            <form action="../../Controllers/altaEstudios.php" method="post" class="form-horizontal form-label-left">
+                            <form id="frmEst" action="../../Controllers/altaEstudios.php" method="post" class="form-horizontal form-label-left">
                                 <input type="hidden" name="txtClave" value="<?php echo ($sOp == 'a' ? '' : $oEstudios->getClaveInterna()); ?>">
                                 <input type="hidden" id="txtOp" name="txtOp" value="<?php echo $sOp;?>">
                                 <div class="form-group">
@@ -221,7 +227,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtiva">I.V.A. <span class="required">*</span>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtiva">I.V.A. %<span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input type="number" id="txtiva" min="0" step=".01" name="txtiva" required="required" class="form-control col-md-7 col-xs-12"
@@ -229,7 +235,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtCosto1">Costo normal<span class="required">*</span>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtCosto1">Costo normal $<span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input type="number" id="txtCosto1" min="0.0" step="1" name="txtCosto1" required="required" class="form-control col-md-7 col-xs-12"
@@ -237,19 +243,67 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtCosto2">Costo para aseguradoras <span class="required">*</span>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtCosto2">Costo para aseguradoras $<span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input type="number" id="txtCosto2" min="0.0" step="1" name="txtCosto2" required="required" class="form-control col-md-7 col-xs-12"
                                                value="<?php echo ($bLlave==true ?'':$oEstudios->getCostoAseg());?>" <?php echo ($bCampo==true?'':' disabled '); ?>>
                                     </div>
                                 </div>
+                                <?php
+                                    if($sOp == 'a'){
+                                        ?>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="espec">Elija una especialidad <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <select id="espec" name="espec" class="form-control" required>
+                                                    <option value="">Seleccione</option>
+                                                    <?php
+                                                    if($arrEspe != null){
+                                                        foreach($arrEspe as $vEsp){
+                                                            ?>
+                                                            <option value="<?php echo $vEsp->getIdEspecialidad();?>"><?php echo $vEsp->getDescripcion();?></option>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }else if($sOp == 'm' or $sOp == 'e'){
+                                        ?>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtEspecialidad">Especialidad<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="text" id="txtEspecialidad" name="txtEspecialidad" class="form-control col-md-7 col-xs-12"
+                                                       value="<?php echo  $oEstudios->getEspecialidad()->getDescripcion();?>" disabled >
+                                            </div>
+                                        </div>
+                                <?php
+                                    }
+                                ?>
                                 <div class="form-group">
                                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                        <button type="submit" class="btn btn-primary">Cancelar</button>
-                                        <button type="submit" class="btn btn-success"><?php echo $sNombreAct;?></button>
+                                        <?php
+                                            if($sOp == 'a'){
+                                            ?>
+                                                <button type="submit" class="btn btn-success"><?php echo $sNombreAct;?></button>
+                                        <?php
+                                            }else{
+                                            ?>
+                                                <button type="submit" class="btn btn-primary" onclick="frmEst.action='controlEstudios.php';">Cancelar</button>
+                                                <button type="submit" class="btn btn-success"><?php echo $sNombreAct;?></button>
+                                        <?php
+
+                                            }
+                                        ?>
                                     </div>
                                 </div>
+                                
                             </form>
                         </div>
                     </div>

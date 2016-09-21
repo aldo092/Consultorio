@@ -43,6 +43,7 @@ CREATE TABLE Estudios (
   nIVA DECIMAL(10,2) NOT NULL,
   nCostoNormal DECIMAL(10,2) NOT NULL,
   nCostoAseg DECIMAL(10,2) NOT NULL,
+  nIdEspecialidad INT NOT NULL,
   PRIMARY KEY (nClaveInterna)
 );
 
@@ -292,6 +293,12 @@ REFERENCES Especialidad (nIdEspecialidad)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
+ALTER TABLE Estudios ADD CONSTRAINT especialidad_estudios_fk
+FOREIGN KEY (nIdEspecialidad)
+REFERENCES Especialidad (nIdEspecialidad)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
 ALTER TABLE Menu ADD CONSTRAINT menu_menu_fk
 FOREIGN KEY (nPadre)
 REFERENCES Menu (nClave)
@@ -519,11 +526,14 @@ INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
 VALUES ('Control de Personal', 'Sesiones/Personal/controlPersonal.php',9);
 INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
 VALUES ('Consultar Bitácora del Sistema', 'Sesiones/Otros/consultarBitacora.php',6);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Descargar Reporte', 'Sesiones/Reportes/descargarReporte.php',4);
+
 
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(3,1);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,1);e
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(9,1);
@@ -531,12 +541,14 @@ INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(10,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(11,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(12,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(13,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(14,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(9,2);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(13,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,3);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,3);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,3);
