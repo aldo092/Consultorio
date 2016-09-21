@@ -650,6 +650,20 @@ insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','13:00','13
 insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','13:30','14:00');
 
 
+/*Estudios */
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Consulta de Especialidad', 0.16, 600, 600, 1);
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Consulta de Especialidad', 0.16, 600, 600, 2);
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Curación y/o retiro de puntos', 0.16, 600, 600, 1);
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Curación y/o retiro de puntos', 0.16, 600, 600, 2);
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Colocación de Sonda Foley', 0.16, 800, 800, 1);
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Retiro de Sonda Foley', 0.16, 800, 800, 1);
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Colocación de Sonda de Cistostomía', 0.16, 800, 800, 1);
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Retiro de Sonda de Cistostomía', 0.16, 800, 800, 1);
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Ultrasonido de Revisión', 0.16, 800, 800, 1);
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Ultrasonido de Revisión', 0.16, 600, 600, 2);
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Ultrasonido de Revisión', 0.16, 600, 600, 1);
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Exploración Androscópica', 0.16, 800, 800, 1);
+INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Uretrocistoscopía', 0.16, 800, 800, 1);
 
 
 

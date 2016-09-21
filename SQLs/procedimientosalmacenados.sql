@@ -701,3 +701,11 @@ CREATE PROCEDURE buscarEstudiosPorEspecialidad(IN user varchar(60))
     WHERE usuarios.sEmail = user;
   END
 //
+
+DELIMITER //
+CREATE PROCEDURE buscarEstudios()
+  BEGIN
+    SELECT estudios.nClaveInterna, estudios.sDescripcion, estudios.nIVA, estudios.nCostoNormal, estudios.nCostoAseg
+    FROM estudios;
+  END;
+//
