@@ -265,7 +265,7 @@ CREATE PROCEDURE insertaPersonalMedico(IN user         VARCHAR(60), IN nombre VA
   BEGIN
     CALL insertarUsuario(user, email, pass);
 
-    INSERT INTO Personal (sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCurp, nIdRol, sEmail, bEstatus, sImagen)
+    INSERT INTO Personal (sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCurp, sEmail, bEstatus, sImagen)
     VALUES (nombre, apPaterno, apMaterno, telefono, sexo, curp, email, 1, imagen);
 
     SET @nPersonal = (SELECT LAST_INSERT_ID());

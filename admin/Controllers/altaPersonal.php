@@ -158,7 +158,7 @@ $oUsuario = null;
             if($sOp == 'a' and $sRol != '2'){
                 $nAfec = $oPersonal->insertarPersonal($oUsuario->getEmail());
             }else if($sOp == 'a' and $sRol == '2'){
-                $nAfec = $oPersonal->insertaPersonalMedico($oUsuario->getEmail());
+               $nAfec = $oPersonal->insertaPersonalMedico($oUsuario->getEmail());
             }else if($sOp == 'm' and $sMiRol != '2' and $_POST['password'] == ""){
                 $nAfec = $oPersonal->modificaPersonal($oUsuario->getEmail());
             }else if($sOp == 'm' and $sMiRol != '2' and $_POST['password'] != ""){
