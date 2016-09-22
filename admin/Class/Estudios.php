@@ -140,6 +140,7 @@ class Estudios
                     $this->setCostoAseg($rst[0][4]);
                     $this->getEspecialidad()->setDescripcion($rst[0][5]);
                     $bRet = true;
+
                 }
             }
         }

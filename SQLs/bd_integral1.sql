@@ -129,7 +129,7 @@ CREATE TABLE Especialidad (
 
 
 CREATE TABLE Consultorio (
-  nIdConsultorio SMALLINT NOT NULL,
+  nIdConsultorio SMALLINT NOT NULL AUTO_INCREMENT,
   nIdPersonal INT NOT NULL,
   sDescripcion VARCHAR(100),
   PRIMARY KEY (nIdConsultorio)

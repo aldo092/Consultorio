@@ -16,6 +16,7 @@ class Cita
     private $nFolioCita=0;
     private $dFechaRegistro;
     private $dFechaCita;
+    private $sHorario;
     private $oPaciente = null;
 
     public function getPaciente()
@@ -78,6 +79,41 @@ class Cita
     {
         $this->dFechaCita = $dFechaCita;
     }
+
+
+    public function getSHorario()
+    {
+        return $this->sHorario;
+    }
+
+
+    public function setSHorario($sHorario)
+    {
+        $this->sHorario = $sHorario;
+    }
+
+
+    function insertar($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getPaciente() == ""){
+            throw new Exception("Paciente->insertar(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call insertarCita('".$usuario."',
+                                                 '".$this->oConsultorio."',
+                                                 '".$this->sHorario."',
+                                                 '".$this->oPaciente."',
+                                                '".$this->dFechaCita."');";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
+    }
+
+
 
 
     

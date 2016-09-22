@@ -223,5 +223,27 @@ class AntecNoPatologicos
         }
         return $i;
     }
+
+    function ExisteAntNoPat($expediente){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $rst = null;
+        if($expediente == ""){
+            throw new Exception("Medico->buscarAntFam(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call ExisteAntNoPat('".$expediente."');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+
+                $oAD->Desconecta();
+                if($rst){
+
+                    $this->setExpediente($rst[0][0]);
+                }
+                var_dump($rst);
+            }
+        }
+        return $this;
+    }
     
 }

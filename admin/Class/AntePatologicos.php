@@ -160,4 +160,25 @@ class AntePatologicos
         }
         return $i;
         }
+
+    function ExisteAntPat($expediente){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $rst = null;
+        if($expediente == ""){
+            throw new Exception("Medico->buscarAntFam(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call ExisteAntPat('".$expediente."');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+
+                $oAD->Desconecta();
+                if($rst){
+
+                    $this->setExpediente($rst[0][0]);
+                }
+            }
+        }
+        return $this;
+    }
 }

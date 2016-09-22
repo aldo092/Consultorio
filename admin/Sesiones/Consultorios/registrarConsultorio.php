@@ -11,10 +11,6 @@ error_reporting(E_ALL);
 include_once ("../../Class/Usuarios.php");
 require_once ("../../Class/Menu.php");
 require_once ("../../Class/Personal.php");
-require_once ("../../Class/Paciente.php");
-require_once ("../../Class/Consultorio.php");
-
-
 
 session_start();
 $oUser = new Usuarios();
@@ -23,19 +19,12 @@ $arrMenus = null;
 $sNombre = "";
 $arrPersonal=null;
 $oPersonal= new Personal();
-$oPaciente=new Paciente();
-$arrPaciente=null;
-$oConsultorio= new Consultorio();
-$arrConsultorio=null;
-
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oUser = $_SESSION['sUser'];
     $oMenu = new Menu();
     $oMenu->setUsuario($oUser);
     $arrMenus = $oMenu->buscarMenuUsuario();
     $arrPersonal=$oPersonal->buscarMedicos();
-   $arrConsultorio=$oConsultorio->TodosConsultorios();
-   $arrPaciente=$oPaciente->buscarPacientesExpediente();
 
 
     if($oUser->buscarDatosBasicos()){
@@ -114,7 +103,7 @@ if($sErr != ""){
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-home"></i> Principal<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="../../index.php">Principal</a></li>
+                                    <li><a href="index.php">Principal</a></li>
                                 </ul>
                             </li>
                             <?php
@@ -174,7 +163,7 @@ if($sErr != ""){
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3> Agregar Cita</h3 >
+                        <h3> Agregar Consultorio</h3 >
                     </div>
 
                 </div>
@@ -190,46 +179,12 @@ if($sErr != ""){
                         </div>
                         <div class="x_content">
                             <br>
-                            <form action="../../Controllers/ctrlCita.php" method="post"  data-parsley-validate class="form-horizontal form-label-left" >
+                            <form action="../../Controllers/ctrlConsultorios.php" method="post"  data-parsley-validate class="form-horizontal form-label-left" >
 
                                 <div class="form-group">
-                                    <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="consultorio">Seleccione su consultorio:</label>
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <select id="consultorio" class="form-control" name="consultorio"required="required">
-                                            <option value="">Seleccione</option>
-                                            <?php
-                                            if($arrPersonal!= null){
-                                                foreach($arrConsultorio as $vRol){
-                                                    ?>
-                                                    <option value="<?php echo $vRol-> getNIDconsultorio();?>">
-                                                        <?php echo $vRol->getNombre();?>
-                                                        <?php echo "atendido por" ?>
-                                                        <?php echo $vRol->getMedico();?>
-
-
-
-
-                                                    </option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="Cita" class="control-label col-md-3 col-sm-3 col-xs-12">Seleccione el dia de la cita <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <input id="cita" class="date-picker form-control col-md-7 col-xs-12 active" required="required" type="date" name="cita">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="horario">Seleccione horario de la cita:</label>
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <select id="horario" class="form-control" name="horario"required="required">
+                                    <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="medico">Seleccione su médico:</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select id="medico" class="form-control" name="medico"required="required">
                                             <option value="">Seleccione</option>
                                             <?php
                                             if($arrPersonal!= null){
@@ -245,24 +200,12 @@ if($sErr != ""){
                                 </div>
 
                                 <div class="form-group">
-                                    <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="paciente">Seleccione el paciente:</label>
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <select id="paciente" class="form-control" name="paciente"required="required">
-                                            <option value="">Seleccione</option>
-                                            <?php
-                                            if($arrPaciente!= null){
-                                                foreach($arrPaciente as $vRol){
-                                                    ?>
-                                                    <option value="<?php echo $vRol-> getExpediente();?>"><?php echo $vRol->getNombre();?> <?php echo $vRol->getApPaterno();?> <?php echo $vRol->getApMaterno();?> </option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </select>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Descripción del consultorio<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="text" id="nombre" name="nombre" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
-
-
 
 
                                 <div class="ln_solid"></div>

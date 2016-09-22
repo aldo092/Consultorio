@@ -134,7 +134,7 @@ if($sErr != ""){
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="../../images/img.png" alt=""><?php echo $oUser->getEmail(); ?>
+                                <img src="../../../admin/imagenesperfiles/<?php echo $oUser->getPersonal()->getImagen();?>"  alt=""><?php echo $oUser->getEmail(); ?>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -159,16 +159,7 @@ if($sErr != ""){
 
                     <div class="x_title">
                         <h2>Lista de Pacientes Registrados en el sistema</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <ul class="dropdown-menu" role="menu">
-                                </ul>
-                            </li>
-                            <li></a>
-                            </li>
-                        </ul>
+
                         <div class="clearfix"></div>
                     </div>
 

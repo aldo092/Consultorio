@@ -709,3 +709,82 @@ CREATE PROCEDURE buscarEstudios()
     FROM estudios;
   END;
 //
+
+DELIMITER //
+CREATE PROCEDURE insertarCita(IN user varchar(60), IN Consultorio INT(6), IN Horario INT(6),IN Paciente VARCHAR(20), IN FechaCita DATE)
+  BEGIN
+    INSERT INTO cita (nIdConsultorio, nClaveHorario, nNumero, dFecRegistro, dFechaCita)
+    VALUES(Consultorio,Horario,Paciente,current_date,FechaCita);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'CITAS', CONCAT('Registro de  nueva cita por el usuario ', user));
+  END
+    //
+
+
+DELIMITER //
+CREATE PROCEDURE ExisteAntFam (IN Expediente VARCHAR(20))
+  BEGIN
+    SELECT nNumero from antecedentefam where nNumero=Expediente;
+  END //
+
+
+DELIMITER //
+CREATE PROCEDURE ExisteAntPat (IN Expediente VARCHAR(20))
+  BEGIN
+    SELECT nNumero from antepatologicos where nNumero=Expediente;
+  END //
+
+DELIMITER //
+CREATE PROCEDURE ExisteAntNoPat (IN Expediente VARCHAR(20))
+  BEGIN
+    SELECT nNumero from antenopatologicos where nNumero=Expediente;
+  END //
+
+DELIMITER //
+CREATE PROCEDURE ExisteAntGin (IN Expediente VARCHAR(20))
+  BEGIN
+    SELECT nNumero from anteginecoobstetricos where nNumero=Expediente;
+  END //
+
+DELIMITER //
+CREATE PROCEDURE insertarConsultorio(IN user VARCHAR(60),IN Medico INT(11), IN Descripcion VARCHAR(100))
+  BEGIN
+    INSERT into consultorio(nIdPersonal, sDescripcion)
+      VALUES (Medico,Descripcion);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'CONSULTORIO', CONCAT('Registro de  nuevo consultorio por el usuario ', user));
+
+
+  END //
+
+
+DELIMITER //
+CREATE PROCEDURE BuscarTodosConsultorios()
+  BEGIN
+    select c.nIdConsultorio, c.sDescripcion, p.SNombres,p.sApPaterno, p.SApMaterno
+    from consultorio c , personal p
+    where c.nIdPersonal=p.nIdPersonal;
+  END //
+
+
+
+select  h.sHoraInicio, h.sHoraFin, c.sDescripcion
+from asignaconsultorio a
+  join horarios  h on a.nClaveHorario=h.nClaveHorario
+  join consultorio c on a.nIdConsultorio=c.nIdConsultorio;
+
+
+select  h.sHoraInicio, h.sHoraFin, c.sDescripcion
+from asignaconsultorio a
+  join horarios  h on a.nClaveHorario=h.nClaveHorario
+  join consultorio c on a.nIdConsultorio=c.nIdConsultorio
+where c.nIdConsultorio=1;
+
+select a.nClaveHorario, h.sHoraInicio, h.sHoraFin
+from asignaconsultorio a, cita ci
+  join horarios h  on a.nClaveHorario=h.nClaveHorario
+where a.nIdConsultorio=ci.nIdConsultorio
+      and ci.dFechaCita=;
+

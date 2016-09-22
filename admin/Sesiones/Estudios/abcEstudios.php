@@ -52,7 +52,6 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                 $sErr2 = "Error en base de datos, comunicarse con el administrador";
             }
         }
-
         if($sOp == 'a'){
             $arrEspe = $oEspe->buscarTodos();
             $bCampo = true;

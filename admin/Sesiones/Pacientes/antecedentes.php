@@ -5,6 +5,10 @@ require_once ("../../Class/Menu.php");
 require_once ("../../Class/Paciente.php");
 require_once ("../../Class/Personal.php");
 require_once ("../../Class/MetodoAnticonceptivo.php");
+require_once ("../../Class/AntecFamiliares.php");
+require_once ("../../Class/AntePatologicos.php");
+require_once ("../../Class/AntecNoPatologicos.php");
+require_once ("../../Class/AntecGinecobstetricos.php");
 
 session_start();
 $oUser = new Usuarios();
@@ -15,17 +19,36 @@ $oPersonal = new Personal();
 $sNombre = "";
 $oAnticonceptivo= new MetodoAnticonceptivo();
 $arrAnticon=null;
+$oAntFam=new AntecFamiliares();
+$oAntPat=new AntePatologicos();
+$oAntNPat=new AntecNoPatologicos();
+$oAntGin=new AntecGinecobstetricos();
+$ArrAntFam=null;
 $Oculto="";
+$AntFam="";
+$AntPat="";
+$AntNpat="";
+$AntGin="";
+
+
 
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     if(isset($_POST["txtExpediente"]) && !empty($_POST["txtExpediente"])){
         $Expediente = $_POST['txtExpediente'];
         $Sexo= $_POST['txtSexo'];
+        $AntFam=$oAntFam->ExisteAntFam($Expediente);
+        $AntPat=$oAntPat->ExisteAntPat($Expediente);
+        $AntNpat=$oAntNPat->ExisteAntNoPat($Expediente);
+        $AntGin=$oAntGin->ExisteAntGin($Expediente);
+
+
         if ($Sexo=="M"){
             $Oculto="hidden";
                     }
                     else
                         $Oculto="show";
+
+
 
 
         $oUser = $_SESSION['sUser'];
@@ -153,7 +176,7 @@ if($sErr != ""){
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="../../images/img.png" alt=""><?php echo $oUser->getEmail(); ?>
+                                <img src="../../../admin/imagenesperfiles/<?php echo $oUser->getPersonal()->getImagen();?>"  alt=""><?php echo $oUser->getEmail(); ?>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -170,6 +193,10 @@ if($sErr != ""){
         <!-- /top navigation -->
 
         <!-- page content -->
+
+
+
+
         <div class="right_col" role="main">
             <div class="">
                 <div class="page-title">
@@ -202,9 +229,9 @@ if($sErr != ""){
 
                                 </ul>
                                 <div id="myTabContent" class="tab-content">
-                                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                    <div role="tabpanel" class="tab-pane fade active in " id="tab_content1" aria-labelledby="home-tab">
 
-                                        <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntFam.php">
+                                        <form class="form-horizontal" role="form" method="post" action="../../Controllers/CtrlAntFam.php">
                                          <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
 
                                             <div class="form-group ">

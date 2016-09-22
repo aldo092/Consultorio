@@ -151,7 +151,7 @@ if($sErr != ""){
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="../../images/img.png" alt=""><?php echo $oUser->getEmail(); ?>
+                                <img src="../../../admin/imagenesperfiles/<?php echo $oUser->getPersonal()->getImagen();?>"  alt=""><?php echo $oUser->getEmail(); ?>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
