@@ -770,21 +770,25 @@ CREATE PROCEDURE BuscarTodosConsultorios()
 
 
 
-select  h.sHoraInicio, h.sHoraFin, c.sDescripcion
-from asignaconsultorio a
-  join horarios  h on a.nClaveHorario=h.nClaveHorario
-  join consultorio c on a.nIdConsultorio=c.nIdConsultorio;
+DELIMITER //
+CREATE  PROCEDURE buscarHorariosDisponibles(IN consultorio int(6),IN FECHA DATE, IN DiaSemana VARCHAR(20))
+  BEGIN
+    select h.nClaveHorario, h.sHoraInicio, h.sHoraFin
+    from horarios h where not exists
+    (select c.nClaveHorario from cita c where c.nClaveHorario=h.nClaveHorario and c.nIdConsultorio=consultorio and c.dFechaCita=FECHA)
+                          and h.sDia=DiaSemana;
+  END;
+//
 
+DELIMITER  //
+CREATE  PROCEDURE buscarPacientesConsultorio (IN consultorio INT)
+  BEGIN
+    select  e.nNumero, p.sNombre, p.sApPaterno, p.sApMaterno
+    from paciente p
+      join expediente e on e.sCurpPaciente=p.sCurpPaciente
+      join medico m on m.nIdPersonal=p.sMedico
+      join consultorio c on c.nIdPersonal=m.nIdPersonal
+    where c.nIdConsultorio=consultorio;
 
-select  h.sHoraInicio, h.sHoraFin, c.sDescripcion
-from asignaconsultorio a
-  join horarios  h on a.nClaveHorario=h.nClaveHorario
-  join consultorio c on a.nIdConsultorio=c.nIdConsultorio
-where c.nIdConsultorio=1;
-
-select a.nClaveHorario, h.sHoraInicio, h.sHoraFin
-from asignaconsultorio a, cita ci
-  join horarios h  on a.nClaveHorario=h.nClaveHorario
-where a.nIdConsultorio=ci.nIdConsultorio
-      and ci.dFechaCita=;
+  END //
 

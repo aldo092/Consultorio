@@ -11,7 +11,6 @@ error_reporting(E_ALL);
 include_once ("../../Class/Usuarios.php");
 require_once ("../../Class/Menu.php");
 require_once ("../../Class/Personal.php");
-require_once ("../../Class/Paciente.php");
 require_once ("../../Class/Consultorio.php");
 
 
@@ -23,8 +22,7 @@ $arrMenus = null;
 $sNombre = "";
 $arrPersonal=null;
 $oPersonal= new Personal();
-$oPaciente=new Paciente();
-$arrPaciente=null;
+
 $oConsultorio= new Consultorio();
 $arrConsultorio=null;
 
@@ -35,7 +33,6 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $arrMenus = $oMenu->buscarMenuUsuario();
     $arrPersonal=$oPersonal->buscarMedicos();
    $arrConsultorio=$oConsultorio->TodosConsultorios();
-   $arrPaciente=$oPaciente->buscarPacientesExpediente();
 
 
     if($oUser->buscarDatosBasicos()){
@@ -79,6 +76,9 @@ if($sErr != ""){
 
     <!-- Custom Theme Style -->
     <link href="../../../build/css/custom.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../../../vendors/AJAX/cita.js"></script>
+
 
 </head>
 
@@ -192,10 +192,19 @@ if($sErr != ""){
                             <br>
                             <form action="../../Controllers/ctrlCita.php" method="post"  data-parsley-validate class="form-horizontal form-label-left" >
 
+
+                                <div class="form-group">
+                                    <label for="Cita" class="control-label col-md-3 col-sm-3 col-xs-12">Seleccione el dia de la cita <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <input id="cita" class="date-picker form-control col-md-7 col-xs-12 active" required="required" type="date" name="cita">
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="consultorio">Seleccione su consultorio:</label>
                                     <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <select id="consultorio" class="form-control" name="consultorio"required="required">
+                                        <select id="consultorio" class="form-control" name="consultorio" required="required" onchange="cargaContenido(this.id)">
                                             <option value="">Seleccione</option>
                                             <?php
                                             if($arrPersonal!= null){
@@ -218,49 +227,29 @@ if($sErr != ""){
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="Cita" class="control-label col-md-3 col-sm-3 col-xs-12">Seleccione el dia de la cita <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <input id="cita" class="date-picker form-control col-md-7 col-xs-12 active" required="required" type="date" name="cita">
-                                    </div>
-                                </div>
 
                                 <div class="form-group">
                                     <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="horario">Seleccione horario de la cita:</label>
                                     <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <select id="horario" class="form-control" name="horario"required="required">
+                                        <select disabled="disabled" id="horario" class="form-control" name="horario" required="required">
                                             <option value="">Seleccione</option>
-                                            <?php
-                                            if($arrPersonal!= null){
-                                                foreach($arrPersonal as $vRol){
-                                                    ?>
-                                                    <option value="<?php echo $vRol-> getIdPersonal();?>"><?php echo $vRol->getNombres();?> <?php echo $vRol->getApPaterno();?> <?php echo $vRol->getApMaterno();?> </option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
+
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="paciente">Seleccione el paciente:</label>
+                                    <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="paciente">Seleccione el paciente</label>
                                     <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <select id="paciente" class="form-control" name="paciente"required="required">
+                                        <select disabled="disabled" id="paciente" class="form-control" name="paciente" required="required">
                                             <option value="">Seleccione</option>
-                                            <?php
-                                            if($arrPaciente!= null){
-                                                foreach($arrPaciente as $vRol){
-                                                    ?>
-                                                    <option value="<?php echo $vRol-> getExpediente();?>"><?php echo $vRol->getNombre();?> <?php echo $vRol->getApPaterno();?> <?php echo $vRol->getApMaterno();?> </option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
+
                                         </select>
                                     </div>
                                 </div>
+
+
+
 
 
 

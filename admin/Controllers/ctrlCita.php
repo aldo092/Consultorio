@@ -51,7 +51,7 @@ if(isset($_POST["consultorio"]) && !empty($_POST["consultorio"]) &&
     $OCita->setPaciente("$Paciente");
 
 
-    $NAfec=$OCita>insertar($user);
+    $NAfec=$OCita->insertar($user);
 
     if ($NAfec==1) {
         $sMsj = "Se guardó correctamente la cita en la base de datos";

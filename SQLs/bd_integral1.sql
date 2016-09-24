@@ -588,66 +588,66 @@ REFERENCES Medico(nIdPersonal)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','9:00','9:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','9:30','10:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','10:00','10:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','10:30','11:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','11:00','11:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','11:30','12:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','12:00','12:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','12:30','13:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','13:00','13:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Monday','13:30','14:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','9:00','9:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','9:30','10:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','10:00','10:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','10:30','11:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','11:00','11:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','11:30','12:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','12:00','12:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','12:30','13:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','13:00','13:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Tuesday','13:30','14:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','9:00','9:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','9:30','10:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','10:00','10:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','10:30','11:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','11:00','11:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','11:30','12:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','12:00','12:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','12:30','13:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','13:00','13:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Wednesday','13:30','14:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','9:00','9:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','9:30','10:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','10:00','10:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','10:30','11:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','11:00','11:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','11:30','12:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','12:00','12:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','12:30','13:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','13:00','13:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Thursday','13:30','14:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','9:00','9:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','9:30','10:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','10:00','10:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','10:30','11:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','11:00','11:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','11:30','12:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','12:00','12:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','12:30','13:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','13:00','13:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Friday','13:30','14:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','9:00','9:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','9:30','10:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','10:00','10:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','10:30','11:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','11:00','11:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','11:30','12:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','12:00','12:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','12:30','13:00');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','13:00','13:30');
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Saturday','13:30','14:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Lunes','9:00','9:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Lunes','9:30','10:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Lunes','10:00','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Lunes','10:30','11:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Lunes','11:00','11:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Lunes','11:30','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Lunes','12:00','12:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Lunes','12:30','13:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Lunes','13:00','13:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Lunes','13:30','14:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Martes','9:00','9:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Martes','9:30','10:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Martes','10:00','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Martes','10:30','11:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Martes','11:00','11:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Martes','11:30','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Martes','12:00','12:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Martes','12:30','13:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Martes','13:00','13:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Martes','13:30','14:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Miercoles','9:00','9:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Miercoles','9:30','10:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Miercoles','10:00','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Miercoles','10:30','11:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Miercoles','11:00','11:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Miercoles','11:30','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Miercoles','12:00','12:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Miercoles','12:30','13:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Miercoles','13:00','13:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Miercoles','13:30','14:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Jueves','9:00','9:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Jueves','9:30','10:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Jueves','10:00','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Jueves','10:30','11:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Jueves','11:00','11:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Jueves','11:30','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Jueves','12:00','12:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Jueves','12:30','13:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Jueves','13:00','13:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Jueves','13:30','14:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Viernes','9:00','9:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Viernes','9:30','10:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Viernes','10:00','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Viernes','10:30','11:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Viernes','11:00','11:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Viernes','11:30','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Viernes','12:00','12:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Viernes','12:30','13:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Viernes','13:00','13:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Viernes','13:30','14:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','9:00','9:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','9:30','10:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','10:00','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','10:30','11:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','11:00','11:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','11:30','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','12:00','12:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','12:30','13:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','13:00','13:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','13:30','14:00');
 
 
 /*Insertar especialidaddes*/
@@ -668,6 +668,117 @@ INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialid
 INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Ultrasonido de Revisión', 0.16, 600, 600, 1);
 INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Exploración Androscópica', 0.16, 800, 800, 1);
 INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Uretrocistoscopía', 0.16, 800, 800, 1);
+
+
+/*horarios*/
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	1	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	2	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	3	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	4	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	5	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	6	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	7	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	8	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	9	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	10	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	11	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	12	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	13	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	14	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	15	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	16	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	17	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	18	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	19	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	20	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	21	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	22	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	23	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	24	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	25	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	26	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	27	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	28	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	29	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	30	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	31	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	32	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	33	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	34	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	35	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	36	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	37	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	38	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	39	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	40	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	41	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	42	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	43	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	44	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	45	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	46	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	47	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	48	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	49	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	50	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	51	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	52	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	53	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	54	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	55	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	56	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	57	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	58	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	59	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	60	);
+
+
+
+select a.nClaveHorario, h.sHoraInicio, h.sHoraFin
+from asignaconsultorio a, cita ci
+  right join horarios h  on a.nClaveHorario=h.nClaveHorario
+where a.nIdConsultorio=ci.nIdConsultorio;
+
+select  h.sHoraInicio, h.sHoraFin
+from asignaconsultorio a
+  right join horarios  h on a.nClaveHorario=h.nClaveHorario
+                            and h.nClaveHorario is null;
+
+select  h.nClaveHorario, h.sHoraInicio, h.sHoraFin
+from horarios h
+  left join cita  c on h.nClaveHorario=c.nClaveHorario
+where c.nClaveHorario is null;
+
+
+select  h.sHoraInicio, h.sHoraFin, c.sDescripcion
+from asignaconsultorio a
+  join horarios  h on a.nClaveHorario=h.nClaveHorario
+  join consultorio c on a.nIdConsultorio=c.nIdConsultorio;
+
+
+select c.nClaveHorario
+from cita c
+  left join horarios h on c.nClaveHorario=h.nClaveHorario
+where c.nIdConsultorio=1
+      and c.dFechaCita = '2016-09-30'
+      and c.nClavehorario is null;
+
+
+select h.nClaveHorario, h.sHoraInicio, h.sHoraFin
+from horarios h where not exists
+(select c.nClaveHorario from cita c where c.nClaveHorario=h.nClaveHorario and c.nIdConsultorio=1 and c.dFechaCita='2016-09-30')
+                      and h.sDia='Viernes';
+
+
+select  e.nNumero, p.sNombre, p.sApPaterno, p.sApMaterno
+from paciente p
+  join expediente e on e.sCurpPaciente=p.sCurpPaciente
+  join medico m on m.nIdPersonal=p.sMedico
+  join consultorio c on c.nIdPersonal=m.nIdPersonal
+where c.nIdConsultorio=2;
+
+
+
 
 
 

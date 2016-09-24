@@ -191,7 +191,10 @@ if($sErr != ""){
                                             <td><?php echo $vRT->getExpediente();?></td>
                                             <td><?php echo $vRT->getCURPPaciente();?></td>
                                             <td><?php echo $vRT->getApPaterno()." ".$vRT->getApMaterno()." ".$vRT->getNombre(); ?></td>
-                                            <td><input type="submit" value="Agregar Antecedentes" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $vRT->getExpediente();?>';txtSexo.value='<?php echo $vRT->getSexo();?>'" ></td>
+                                            <td>
+                                                <input type="submit" value="Agregar Antecedentes" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $vRT->getExpediente();?>';txtSexo.value='<?php echo $vRT->getSexo();?>'" >
+
+                                            </td>
 
                                         </tr>
                                         <?php
