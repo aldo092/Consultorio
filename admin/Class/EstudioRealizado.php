@@ -9,14 +9,15 @@
 include_once ("AccesoDatos.php");
 include_once ("Paciente.php");
 include_once ("Estudios.php");
-
+include_once ("Medico.php");
 class EstudioRealizado
 {
     private $oAD = null;
     private $oEstudios = null;
     private $oPaciente = null;
+    private $oMedico = null;
+    private $sDiagnostica = "";
     private $dFechaRealizado = null;
-    private $sImpresionDiagnostica = "";
     private $sRutaArchivo = "";
 
 
@@ -50,6 +51,26 @@ class EstudioRealizado
         $this->oPaciente = $oPaciente;
     }
 
+    public function getMedico()
+    {
+        return $this->oMedico;
+    }
+
+    public function setMedico($oMedico)
+    {
+        $this->oMedico = $oMedico;
+    }
+
+    public function getDiagnostica()
+    {
+        return $this->sDiagnostica;
+    }
+
+    public function setDiagnostica($sDiagnostica)
+    {
+        $this->sDiagnostica = $sDiagnostica;
+    }
+
     public function getFechaRealizado()
     {
         return $this->dFechaRealizado;
@@ -58,16 +79,6 @@ class EstudioRealizado
     public function setFechaRealizado($dFechaRealizado)
     {
         $this->dFechaRealizado = $dFechaRealizado;
-    }
-
-    public function getImpresionDiagnostica()
-    {
-        return $this->sImpresionDiagnostica;
-    }
-
-    public function setImpresionDiagnostica($sImpresionDiagnostica)
-    {
-        $this->sImpresionDiagnostica = $sImpresionDiagnostica;
     }
 
     public function getRutaArchivo()
@@ -79,6 +90,8 @@ class EstudioRealizado
     {
         $this->sRutaArchivo = $sRutaArchivo;
     }
+
+
 
 
 }

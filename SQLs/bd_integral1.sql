@@ -712,9 +712,9 @@ VALUES ('Descargar Reporte', 'Sesiones/Reportes/descargarReporte.php',4);
 INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
 VALUES('Generar Nota médica', 'Sesiones/NotaMedica/genNotaMed.php',11);
 INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES('Generar Nota de Interveción', 'Sesiones/NotaIntervencion/genNotaInt.php',12);
+VALUES('Generar Nota de Intervención', 'Sesiones/NotaIntervencion/genNotaInt.php',12);
 INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES('Registrar resultados de Interveción', 'Sesiones/NotaIntervencion/registroResultadosInt.php',12);
+VALUES('Registrar resultados de Intervención', 'Sesiones/NotaIntervencion/registroResultadosInt.php',12);
 
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,1);
