@@ -231,8 +231,6 @@ class Paciente
     }
 
 
-
-
     function buscarPacientesExpediente(){
         $oAD = new AccesoDatos();
         $vObj = null;
@@ -255,6 +253,35 @@ class Paciente
                 $oPac->setApPaterno($vRowTemp[3]);
                 $oPac->setApMaterno($vRowTemp[4]);
                 $oPac->setSexo($vRowTemp[5]);
+                $vObj[$i] = $oPac;
+                $i = $i + 1;
+            }
+        }else{
+            $vObj = false;
+        }
+        return $vObj;
+    }
+    function buscarPacientesDoctor($medico){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $i = 0;
+        $oPac = null;
+        if($oAD->Conecta()){
+
+            $sQuery = "call buscarPacientesConsultorio(".$medico.");";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+        }
+        if($rst){
+            foreach ($rst as $vRowTemp){
+                $oPac = new Paciente();
+                $oPac->setExpediente(new Expediente());
+                $oPac->setExpediente($vRowTemp[0]);
+                $oPac->setNombre($vRowTemp[1]);
+                $oPac->setApPaterno($vRowTemp[2]);
+                $oPac->setApMaterno($vRowTemp[3]);
                 $vObj[$i] = $oPac;
                 $i = $i + 1;
             }

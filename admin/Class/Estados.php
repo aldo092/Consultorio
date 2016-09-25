@@ -104,7 +104,6 @@ class Estados
         $rst = null;
         $sQuery = "";
         $i = 0;
-        $oRol = null;
         if($oAD->Conecta()){
             $sQuery = "call buscarMunicipios(".$dato.");";
             $rst = $oAD->ejecutaQuery($sQuery);
