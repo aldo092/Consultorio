@@ -769,22 +769,15 @@ CREATE PROCEDURE BuscarTodosConsultorios()
   END //
 
 
+DELIMITER //
+CREATE PROCEDURE modificaEstudio(IN user varchar(60), IN clave int(11), IN descrip varchar(100), IN iva decimal(10,2), IN costonormal decimal(10,2), IN costoaseg decimal(10,2))
+  BEGIN
+    UPDATE estudios
+    SET sDescripcion = descrip, nIVA = iva, nCostoNormal = costonormal, nCostoAseg = costoaseg
+    WHERE nClaveInterna = clave;
 
-select  h.sHoraInicio, h.sHoraFin, c.sDescripcion
-from asignaconsultorio a
-  join horarios  h on a.nClaveHorario=h.nClaveHorario
-  join consultorio c on a.nIdConsultorio=c.nIdConsultorio;
-
-
-select  h.sHoraInicio, h.sHoraFin, c.sDescripcion
-from asignaconsultorio a
-  join horarios  h on a.nClaveHorario=h.nClaveHorario
-  join consultorio c on a.nIdConsultorio=c.nIdConsultorio
-where c.nIdConsultorio=1;
-
-select a.nClaveHorario, h.sHoraInicio, h.sHoraFin
-from asignaconsultorio a, cita ci
-  join horarios h  on a.nClaveHorario=h.nClaveHorario
-where a.nIdConsultorio=ci.nIdConsultorio
-      and ci.dFechaCita=;
-
+    INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES (user, 'UPDATE', current_date, 'estudios',
+            CONCAT('Se actualizó el estudio ', clave));
+  END
+//

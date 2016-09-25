@@ -208,17 +208,16 @@ CREATE TABLE Cita (
   PRIMARY KEY (nFolioCita, nIdConsultorio, nClaveHorario)
 );
 
-
 CREATE TABLE EstudioRealizado (
   nIdEstudioReal INT AUTO_INCREMENT NOT NULL,
   nClaveInterna INT NOT NULL,
   nNumero VARCHAR(20) NOT NULL,
+  nIdPersonal INT NOT NULL,
+  sDiagnostico TEXT NOT NULL,
   dFechaRealizado DATE NOT NULL,
-  sImpresionDiagnostica text,
-  sRutaArchivo text,
+  sRutaArchivo TEXT,
   PRIMARY KEY (nIdEstudioReal, nClaveInterna)
 );
-
 
 CREATE TABLE ReciboCobro (
   nIdFactura INT AUTO_INCREMENT NOT NULL,
@@ -286,6 +285,180 @@ CREATE TABLE AntecedenteFam (
   sTabaquismo CHAR(2),
   PRIMARY KEY (nNumero)
 );
+
+/*Tablas para la nota médica */
+
+CREATE TABLE Antibiotico (
+  nIdAntibiotico INT AUTO_INCREMENT NOT NULL,
+  sDescripcion VARCHAR(300) NOT NULL,
+  PRIMARY KEY (nIdAntibiotico)
+);
+
+
+CREATE TABLE ManejoHeridas (
+  nIdManejo INT AUTO_INCREMENT NOT NULL,
+  sDescripcion VARCHAR(300) NOT NULL,
+  PRIMARY KEY (nIdManejo)
+);
+
+
+CREATE TABLE ClasificacionHeridas (
+  nIdClasificacion INT AUTO_INCREMENT NOT NULL,
+  sDescripcion VARCHAR(200) NOT NULL,
+  PRIMARY KEY (nIdClasificacion)
+);
+
+
+CREATE TABLE Anestesia (
+  nIdAnestesia INT AUTO_INCREMENT NOT NULL,
+  sDescripcion VARCHAR(300) NOT NULL,
+  PRIMARY KEY (nIdAnestesia)
+);
+
+
+CREATE TABLE NotaIntervencion (
+  nIdNota INT AUTO_INCREMENT NOT NULL,
+  nNumero VARCHAR(20) NOT NULL,
+  dFechaSolicitud DATE NOT NULL,
+  sPrioridad CHAR(1) NOT NULL,
+  nIdPersonal INT NOT NULL,
+  sDiagnositicoPreope TEXT,
+  sOperacionPlaneada TEXT,
+  sTipoOperacion CHAR(1),
+  sGrupoSanguineo CHAR(2) NOT NULL,
+  sRH CHAR(1) NOT NULL,
+  nIdAnestesia INT NOT NULL,
+  sRiesgos TEXT NOT NULL,
+  sBeneficios TEXT NOT NULL,
+  sDxPosoperatorio TEXT,
+  sOperacionRealizada TEXT,
+  sAyudante1 TEXT,
+  sAyudante2 TEXT,
+  sAyudante3 TEXT,
+  sEnfermeraEspeQui TEXT,
+  sEnfermeraGen TEXT,
+  sExaHistoTransSol TEXT,
+  sOtrosEstTras TEXT,
+  dFechaProcedimiento DATE,
+  sHoraProce VARCHAR(30),
+  sDescripcionTecnica TEXT,
+  sHallazgos TEXT,
+  sIncidentes TEXT,
+  sAccidentes TEXT,
+  sComplicaciones TEXT,
+  sObservaciones TEXT,
+  sEstadoPosope TEXT,
+  sPlanManejoPosope TEXT,
+  sPronostico TEXT,
+  nIdClasificacion INT,
+  sImplante CHAR(2),
+  sTipoImplante TEXT,
+  nIdManejo INT NOT NULL,
+  sOsteomias CHAR(2),
+  sTipoOsteomias TEXT,
+  sLocalizacionOsteomias TEXT,
+  sDrenaje CHAR(2),
+  sTipoDrenaje CHAR(1),
+  sAntibiotico CHAR(2),
+  nIdAntibiotico INT,
+  dFechaInicio DATE,
+  sHoraInicio VARCHAR(30),
+  bEstadoProce INT,
+  PRIMARY KEY (nIdNota, nNumero)
+);
+
+
+CREATE TABLE EstLaboratorio (
+  nIdEstudioReal INT NOT NULL,
+  nClaveInterna INT NOT NULL,
+  sEstudiosSolicitados TEXT NOT NULL,
+  PRIMARY KEY (nIdEstudioReal, nClaveInterna)
+);
+
+
+CREATE TABLE NotaMedica (
+  nIdNota INT AUTO_INCREMENT NOT NULL,
+  nIdEstudioReal INT NOT NULL,
+  nClaveInterna INT NOT NULL,
+  sNumCama VARCHAR(100),
+  sResumen TEXT NOT NULL,
+  sPresionArterial VARCHAR(200) NOT NULL,
+  sSignosVitales VARCHAR(200) NOT NULL,
+  sTemperatura VARCHAR(20) NOT NULL,
+  PRIMARY KEY (nIdNota, nIdEstudioReal, nClaveInterna)
+);
+
+
+CREATE TABLE EstImagen (
+  nIdEstudioReal INT NOT NULL,
+  nClaveInterna INT NOT NULL,
+  sNivelUrgencia VARCHAR(15) NOT NULL,
+  dFechaSolicitud DATE NOT NULL,
+  sEstudioSolicitado TEXT NOT NULL,
+  PRIMARY KEY (nIdEstudioReal, nClaveInterna)
+);
+
+ALTER TABLE NotaIntervencion ADD CONSTRAINT antibiotico_notaintervencion_fk
+FOREIGN KEY (nIdAntibiotico)
+REFERENCES Antibiotico (nIdAntibiotico)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE NotaIntervencion ADD CONSTRAINT manejoheridas_notaintervencion_fk
+FOREIGN KEY (nIdManejo)
+REFERENCES ManejoHeridas (nIdManejo)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE NotaIntervencion ADD CONSTRAINT clasificacionheridas_notaintervencion_fk
+FOREIGN KEY (nIdClasificacion)
+REFERENCES ClasificacionHeridas (nIdClasificacion)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE NotaIntervencion ADD CONSTRAINT anestesia_notaintervencion_fk
+FOREIGN KEY (nIdAnestesia)
+REFERENCES Anestesia (nIdAnestesia)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE NotaIntervencion ADD CONSTRAINT medico_notaintervencion_fk
+FOREIGN KEY (nIdPersonal)
+REFERENCES Medico (nIdPersonal)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE NotaIntervencion ADD CONSTRAINT expediente_notaintervencion_fk
+FOREIGN KEY (nNumero)
+REFERENCES Expediente (nNumero)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE EstImagen ADD CONSTRAINT estudiorealizado_estimagen_fk
+FOREIGN KEY (nIdEstudioReal, nClaveInterna)
+REFERENCES EstudioRealizado (nIdEstudioReal, nClaveInterna)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE NotaMedica ADD CONSTRAINT estudiorealizado_notamedica_fk
+FOREIGN KEY (nIdEstudioReal, nClaveInterna)
+REFERENCES EstudioRealizado (nIdEstudioReal, nClaveInterna)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE EstLaboratorio ADD CONSTRAINT estudiorealizado_estlaboratorio_fk
+FOREIGN KEY (nIdEstudioReal, nClaveInterna)
+REFERENCES EstudioRealizado (nIdEstudioReal, nClaveInterna)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE EstudioRealizado ADD CONSTRAINT medico_estudiorealizado_fk
+FOREIGN KEY (nIdPersonal)
+REFERENCES Medico (nIdPersonal)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+/* -------------------------------------------------------------------------------------------- */
 
 ALTER TABLE Medico ADD CONSTRAINT especialidad_medico_fk
 FOREIGN KEY (nIdEspecialidad)
@@ -500,6 +673,12 @@ INSERT INTO menu (sDescripcion) values ('Consultorios');
 INSERT INTO menu (sDescripcion) values ('Personal');
 INSERT INTO menu (sDescripcion) values ('Otros');
 
+/*Menús para las notas */
+INSERT INTO menu (sDescripcion) values ('Nota Médica');
+INSERT INTO menu (sDescripcion) values ('Nota de Intervención');
+
+
+
 INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
 VALUES ('Registrar Pacientes', 'Sesiones/Pacientes/registroPacientes.php',1);
 INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
@@ -529,6 +708,13 @@ VALUES ('Consultar Bitácora del Sistema', 'Sesiones/Otros/consultarBitacora.php
 INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
 VALUES ('Descargar Reporte', 'Sesiones/Reportes/descargarReporte.php',4);
 
+/*Sub-menús para las notas */
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES('Generar Nota médica', 'Sesiones/NotaMedica/genNotaMed.php',11);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES('Generar Nota de Interveción', 'Sesiones/NotaIntervencion/genNotaInt.php',12);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES('Registrar resultados de Interveción', 'Sesiones/NotaIntervencion/registroResultadosInt.php',12);
 
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,1);
@@ -554,6 +740,14 @@ INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,3);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,3);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,3);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,3);
+
+/*Permisos para las notas */
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(15,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(16,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(17,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(15,2);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(16,2);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(17,2);
 
 /* Tablas de Estados y Municipios */
 
