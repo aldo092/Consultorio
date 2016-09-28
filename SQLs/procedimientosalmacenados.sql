@@ -785,10 +785,15 @@ DELIMITER //
 CREATE  PROCEDURE buscarHorariosDisponibles(IN consultorio int(6),IN FECHA DATE, IN DiaSemana VARCHAR(20))
   BEGIN
     select h.nClaveHorario, h.sHoraInicio, h.sHoraFin
-    from horarios h where not exists
-    (select c.nClaveHorario from cita c where c.nClaveHorario=h.nClaveHorario and c.nIdConsultorio=consultorio and c.dFechaCita=FECHA)
-                          and h.sDia=DiaSemana;
+    from horarios h
+      join asignaconsultorio a
+        on h.nClaveHorario=a.nClaveHorario
+    where not exists
+    (select c.nClaveHorario from cita c where c.nClaveHorario=h.nClaveHorario and c.dFechaCita=FECHA  and c.nIdConsultorio=consultorio)
+          and a.nIdConsultorio=consultorio
+          and h.sDia=DiaSemana;
   END;
+//
 //
 
 DELIMITER  //

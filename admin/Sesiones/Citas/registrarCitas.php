@@ -194,17 +194,17 @@ if($sErr != ""){
 
 
                                 <div class="form-group">
-                                    <label for="Cita" class="control-label col-md-3 col-sm-3 col-xs-12">Seleccione el dia de la cita <span class="required">*</span>
+                                    <label for="cita" class="control-label col-md-3 col-sm-3 col-xs-12">Seleccione el dia de la cita <span class="required">*</span>
                                     </label>
                                     <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <input id="cita" class="date-picker form-control col-md-7 col-xs-12 active" required="required" type="date" name="cita">
+                                        <input id="cita" class="date-picker form-control col-md-7 col-xs-12 active" required="required" type="date" name="cita" onchange="cargaContenido(document.getElementById('consultorio').value,this.id)">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="consultorio">Seleccione su consultorio:</label>
                                     <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <select id="consultorio" class="form-control" name="consultorio" required="required" onchange="cargaContenido(this.id)">
+                                        <select id="consultorio" class="form-control" name="consultorio" required="required" onchange="cargaContenido(this.id,document.getElementById('cita').value);" >
                                             <option value="">Seleccione</option>
                                             <?php
                                             if($arrPersonal!= null){
@@ -231,7 +231,7 @@ if($sErr != ""){
                                 <div class="form-group">
                                     <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="horario">Seleccione horario de la cita:</label>
                                     <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <select disabled="disabled" id="horario" class="form-control" name="horario" required="required">
+                                        <select disabled="disabled" id="horario" class="form-control" name="horario" required="required" onchange="cargaContenido(this.id)">
                                             <option value="">Seleccione</option>
 
                                         </select>
