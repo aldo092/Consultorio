@@ -812,11 +812,17 @@ CREATE  PROCEDURE buscarPacientesConsultorio (IN consultorio INT)
 DELIMITER //
 CREATE  PROCEDURE BuscarTodasCitas ()
   BEGIN
-    select c.nFolioCita, co.sDescripcion, h.sHoraInicio,h.sHoraFin,c.nNumero, c.dFecRegistro, c.dFechaCita, c.nIdEstatus
+    select c.nFolioCita, co.sDescripcion, h.sHoraInicio,h.sHoraFin,p.sApPaterno, p.sApMaterno, p.sNombre, c.dFecRegistro, c.dFechaCita, c.nIdEstatus
     from cita c
       join consultorio co
         on c.nIdConsultorio=co.nIdConsultorio
       join horarios h
-        on c.nClaveHorario=h.nClaveHorario;
+        on c.nClaveHorario=h.nClaveHorario
+      join expediente e
+        on c.nNumero=e.nNumero
+      join paciente p
+        on p.sCurpPaciente=e.sCurpPaciente
+    order by c.nFolioCita
+
   END //
 
