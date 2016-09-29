@@ -78,6 +78,7 @@ if($sErr != ""){
     <link href="../../../build/css/custom.min.css" rel="stylesheet">
 
     <script type="text/javascript" src="../../../vendors/AJAX/cita.js"></script>
+    <script type="text/javascript" src="../../../vendors/AJAX/paciente.js"></script>
 
 
 </head>
@@ -197,14 +198,14 @@ if($sErr != ""){
                                     <label for="cita" class="control-label col-md-3 col-sm-3 col-xs-12">Seleccione el dia de la cita <span class="required">*</span>
                                     </label>
                                     <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <input id="cita" class="date-picker form-control col-md-7 col-xs-12 active" required="required" type="date" name="cita" onchange="cargaContenido(document.getElementById('consultorio').value,this.id)">
+                                        <input id="cita" class="date-picker form-control col-md-7 col-xs-12 active" required="required" type="date" name="cita" onchange="document.getElementById('consultorio').value =''">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="consultorio">Seleccione su consultorio:</label>
                                     <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <select id="consultorio" class="form-control" name="consultorio" required="required" onchange="cargaContenido(this.id,document.getElementById('cita').value);" >
+                                        <select id="consultorio" class="form-control" name="consultorio" required="required" onchange="cargaContenido(this.id,document.getElementById('cita').value);cargarPaciente(this.id)" >
                                             <option value="">Seleccione</option>
                                             <?php
                                             if($arrPersonal!= null){

@@ -203,8 +203,9 @@ CREATE TABLE Cita (
   nIdConsultorio SMALLINT NOT NULL,
   nClaveHorario SMALLINT NOT NULL,
   nNumero VARCHAR(20) NOT NULL,
-  dFecRegistro DATETIME NOT NULL,
-  dFechaCita DATETIME NOT NULL,
+  dFecRegistro DATE NOT NULL,
+  dFechaCita DATE NOT NULL,
+  nIdEstatus INT,
   PRIMARY KEY (nFolioCita, nIdConsultorio, nClaveHorario)
 );
 
@@ -925,6 +926,7 @@ INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	57	);
 INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	58	);
 INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	59	);
 INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	60	);
+
 
 
 
