@@ -300,7 +300,6 @@ class Paciente
         if($rst){
             foreach ($rst as $vRowTemp){
                 $oPac = new Paciente();
-                $oPac->setExpediente(new Expediente());
                 $oPac->setExpediente($vRowTemp[0]);
                 $oPac->setNombre($vRowTemp[1]);
                 $oPac->setApPaterno($vRowTemp[2]);

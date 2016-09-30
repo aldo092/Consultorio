@@ -785,9 +785,13 @@ DELIMITER //
 CREATE  PROCEDURE buscarHorariosDisponibles(IN consultorio int(6),IN FECHA DATE, IN DiaSemana VARCHAR(20))
   BEGIN
     select h.nClaveHorario, h.sHoraInicio, h.sHoraFin
-    from horarios h where not exists
-    (select c.nClaveHorario from cita c where c.nClaveHorario=h.nClaveHorario and c.nIdConsultorio=consultorio and c.dFechaCita=FECHA)
-                          and h.sDia=DiaSemana;
+    from horarios h
+      join asignaconsultorio a
+        on h.nClaveHorario=a.nClaveHorario
+    where not exists
+    (select c.nClaveHorario from cita c where c.nClaveHorario=h.nClaveHorario and c.dFechaCita=FECHA  and c.nIdConsultorio=consultorio)
+          and a.nIdConsultorio=consultorio
+          and h.sDia=DiaSemana;
   END;
 //
 
@@ -875,3 +879,14 @@ CREATE PROCEDURE buscarDatosProcedimiento(IN expediente varchar(20))
     WHERE expediente.nNumero = expediente AND notaintervencion.bEstadoProce = 1;
   END
 //
+DELIMITER //
+CREATE  PROCEDURE BuscarTodasCitas ()
+  BEGIN
+    select c.nFolioCita, co.sDescripcion, h.sHoraInicio,h.sHoraFin,c.nNumero, c.dFecRegistro, c.dFechaCita, c.nIdEstatus
+    from cita c
+      join consultorio co
+        on c.nIdConsultorio=co.nIdConsultorio
+      join horarios h
+        on c.nClaveHorario=h.nClaveHorario;
+  END //
+

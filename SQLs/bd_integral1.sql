@@ -203,8 +203,9 @@ CREATE TABLE Cita (
   nIdConsultorio SMALLINT NOT NULL,
   nClaveHorario SMALLINT NOT NULL,
   nNumero VARCHAR(20) NOT NULL,
-  dFecRegistro DATETIME NOT NULL,
-  dFechaCita DATETIME NOT NULL,
+  dFecRegistro DATE NOT NULL,
+  dFechaCita DATE NOT NULL,
+  nIdEstatus INT,
   PRIMARY KEY (nFolioCita, nIdConsultorio, nClaveHorario)
 );
 
@@ -934,48 +935,6 @@ INSERT INTO anestesia(sDescripcion) VALUES ('Regional');
 INSERT INTO anestesia(sDescripcion) VALUES ('General');
 
 
-select a.nClaveHorario, h.sHoraInicio, h.sHoraFin
-from asignaconsultorio a, cita ci
-  right join horarios h  on a.nClaveHorario=h.nClaveHorario
-where a.nIdConsultorio=ci.nIdConsultorio;
-
-select  h.sHoraInicio, h.sHoraFin
-from asignaconsultorio a
-  right join horarios  h on a.nClaveHorario=h.nClaveHorario
-                            and h.nClaveHorario is null;
-
-select  h.nClaveHorario, h.sHoraInicio, h.sHoraFin
-from horarios h
-  left join cita  c on h.nClaveHorario=c.nClaveHorario
-where c.nClaveHorario is null;
-
-
-select  h.sHoraInicio, h.sHoraFin, c.sDescripcion
-from asignaconsultorio a
-  join horarios  h on a.nClaveHorario=h.nClaveHorario
-  join consultorio c on a.nIdConsultorio=c.nIdConsultorio;
-
-
-select c.nClaveHorario
-from cita c
-  left join horarios h on c.nClaveHorario=h.nClaveHorario
-where c.nIdConsultorio=1
-      and c.dFechaCita = '2016-09-30'
-      and c.nClavehorario is null;
-
-
-select h.nClaveHorario, h.sHoraInicio, h.sHoraFin
-from horarios h where not exists
-(select c.nClaveHorario from cita c where c.nClaveHorario=h.nClaveHorario and c.nIdConsultorio=1 and c.dFechaCita='2016-09-30')
-                      and h.sDia='Viernes';
-
-
-select  e.nNumero, p.sNombre, p.sApPaterno, p.sApMaterno
-from paciente p
-  join expediente e on e.sCurpPaciente=p.sCurpPaciente
-  join medico m on m.nIdPersonal=p.sMedico
-  join consultorio c on c.nIdPersonal=m.nIdPersonal
-where c.nIdConsultorio=2;
 
 
 

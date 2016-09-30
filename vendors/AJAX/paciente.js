@@ -1,4 +1,7 @@
 /**
+ * Created by Aldo on 26/09/2016.
+ */
+/**
  * Created by Aldo on 23/09/2016.
  */
 
@@ -27,12 +30,11 @@ function nuevoAjax()
     return xmlhttp;
 }
 
-// Declaro los selects que componen el documento HTML. Su atributo ID debe figurar aqui.
 
 
-var listadoSelects=new Array();
-listadoSelects[0]="consultorio";
-listadoSelects[1]="horario";
+var Selects=new Array();
+Selects[0]="consultorio";
+Selects[1]="paciente";
 
 
 function buscarEnArray(array, dato)
@@ -47,19 +49,23 @@ function buscarEnArray(array, dato)
     return null;
 }
 
-function cargaContenido(idSelectOrigen,FechaCita)
-{
-    var posicionSelectDestino=buscarEnArray(listadoSelects, idSelectOrigen)+1;
-    var selectOrigen=document.getElementById(idSelectOrigen);
-    var opcionSeleccionada=selectOrigen.options[selectOrigen.selectedIndex].value;
-    var FechaCita=document.getElementById("cita").value;
 
-    if(opcionSeleccionada==0)
+
+function cargarPaciente(idOrigen)
+{
+    // Obtengo la posicion que ocupa el select que debe ser cargado en el array declarado mas arriba
+    var posSelectDestino=buscarEnArray(Selects, idOrigen)+1;
+    // Obtengo el select que el usuario modifico
+    var selectOr=document.getElementById(idOrigen);
+    // Obtengo la opcion que el usuario selecciono
+    var Seleccionada=selectOr.options[selectOr.selectedIndex].value;
+
+    if(Seleccionada==0)
     {
-        var x=posicionSelectDestino, selectActual=null;
-        while(listadoSelects[x])
+        var x=posSelectDestino, selectActual=null;
+        while(Selects[x])
         {
-            selectActual=document.getElementById(listadoSelects[x]);
+            selectActual=document.getElementById(Selects[x]);
             selectActual.length=0;
 
             var nuevaOpcion=document.createElement("option"); nuevaOpcion.value=0; nuevaOpcion.innerHTML="Selecciona Opción...";
@@ -67,32 +73,33 @@ function cargaContenido(idSelectOrigen,FechaCita)
             x++;
         }
     }
-    else if(idSelectOrigen!=listadoSelects[listadoSelects.length-1])
+    // Compruebo que el select modificado no sea el ultimo de la cadena
+    else if(idOrigen!=Selects[Selects.length-1])
     {
-        var idSelectDestino=listadoSelects[posicionSelectDestino];
-        var selectDestino=document.getElementById(idSelectDestino);
+        // Obtengo el elemento del select que debo cargar
+        var idSelectDest=Selects[posSelectDestino];
+        var selectDest=document.getElementById(idSelectDest);
+        // Creo el nuevo objeto AJAX y envio al servidor el ID del select a cargar y la opcion seleccionada del select origen
         var ajax=nuevoAjax();
-        ajax.open("GET", "../../../vendors/AJAX/cita.php?select="+idSelectDestino+"&opcion="+opcionSeleccionada+"&fecha="+FechaCita, true);
+        ajax.open("GET", "../../../vendors/AJAX/paciente.php?select="+idSelectDest+"&opcion="+Seleccionada, true);
 
         ajax.onreadystatechange=function()
         {
             if (ajax.readyState==1)
             {
-                selectDestino.length=0;
+                // Mientras carga elimino la opcion "Selecciona Opcion..." y pongo una que dice "Cargando..."
+                selectDest.length=0;
 
                 var nuevaOpcion=document.createElement("option"); nuevaOpcion.value=0; nuevaOpcion.innerHTML="Cargando...";
 
-                selectDestino.appendChild(nuevaOpcion); selectDestino.disabled=true;
+                selectDes.appendChild(nuevaOpcion); selectDest.disabled=true;
 
             }
             if (ajax.readyState==4)
             {
-                selectDestino.parentNode.innerHTML=ajax.responseText;
+                selectDest.parentNode.innerHTML=ajax.responseText;
             }
         }
         ajax.send(null);
     }
 }
-
-
-
