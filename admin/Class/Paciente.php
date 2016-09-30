@@ -8,6 +8,7 @@
  */
 include_once ("AccesoDatos.php");
 include_once ("Expediente.php");
+include_once ("NotaIntervencion.php");
 class Paciente
 {
     private $oAD = null;
@@ -28,11 +29,31 @@ class Paciente
     private $Estado = "";
     private $sMedico="";
     private $sRFC="";
+    private $nEdad = 0;
+    private $oNotaInt = null;
 
 
+    public function getNotaInt()
+    {
+        return $this->oNotaInt;
+    }
 
+    public function setNotaInt($oNotaInt)
+    {
+        $this->oNotaInt = $oNotaInt;
+    }
 
-  public function getExpediente()
+    public function getEdad()
+    {
+        return $this->nEdad;
+    }
+
+    public function setEdad($nEdad)
+    {
+        $this->nEdad = $nEdad;
+    }
+    
+    public function getExpediente()
     {
         return $this->oExpediente;
     }
@@ -261,6 +282,8 @@ class Paciente
         }
         return $vObj;
     }
+
+
     function buscarPacientesDoctor($medico){
         $oAD = new AccesoDatos();
         $vObj = null;
@@ -290,9 +313,6 @@ class Paciente
         }
         return $vObj;
     }
-
-
-
 
     function buscarTodos(){
         $oAD = new AccesoDatos();
@@ -393,9 +413,65 @@ class Paciente
         return $i;
     }
 
+    function buscarPacientesPorMedico($usuario){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $oPaciente = null;
+        $i = 0;
+        if($usuario == ""){
+            throw new Exception("Paciente->buscarPacientesPorMedico(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarPacientesPorMedico('".$usuario."');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+            }
+            if($rst){
+                foreach ($rst as $vRow){
+                    $oPaciente = new Paciente();
+                    $oPaciente->setExpediente(new Expediente());
+                    $oPaciente->setNotaInt(new NotaIntervencion());
+                    $oPaciente->setNombre($vRow[0]);
+                    $oPaciente->setApPaterno($vRow[1]);
+                    $oPaciente->setApMaterno($vRow[2]);
+                    $oPaciente->getExpediente()->setNumero($vRow[3]);
+                    $oPaciente->getNotaInt()->setEstadoProce($vRow[4]);
+                    $vObj[$i] = $oPaciente;
+                    $i = $i + 1;
+                }
+            }else{
+                $vObj = false;
+            }
+        }
+        return $vObj;
+    }
 
-
-
-
+    function busscarDatosPaciente(){
+        $oAD = new AccesoDatos();
+        $rst = null;
+        $sQuery = "";
+        $bRet = false;
+        if($this->getExpediente()->getNumero() == ""){
+            throw new Exception("Paciente->buscarDatosPaciente(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarDatosPaciente('".$this->getExpediente()->getNumero()."');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+                if($rst){
+                    $this->setNombre($rst[0][0]);
+                    $this->setApPaterno($rst[0][1]);
+                    $this->setApMaterno($rst[0][2]);
+                    $this->setSexo($rst[0][3]);
+                    $this->setEdad($rst[0][4]);
+                    $bRet = true;
+                }
+            }
+        }
+        return $bRet;
+    }
+    
 
 }
