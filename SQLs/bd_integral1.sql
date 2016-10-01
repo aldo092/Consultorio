@@ -321,14 +321,16 @@ CREATE TABLE NotaIntervencion (
   nIdNota INT AUTO_INCREMENT NOT NULL,
   nNumero VARCHAR(20) NOT NULL,
   dFechaSolicitud DATE NOT NULL,
+  dFechaSolicitada DATE NOT NULL,
   sPrioridad CHAR(1) NOT NULL,
   nIdPersonal INT NOT NULL,
   sDiagnositicoPreope TEXT,
   sOperacionPlaneada TEXT,
-  sTipoOperacion CHAR(1),
+  sTipoOperacion VARCHAR(20),
   sGrupoSanguineo CHAR(2) NOT NULL,
   sRH CHAR(1) NOT NULL,
   nIdAnestesia INT NOT NULL,
+  sTiempoEstimado VARCHAR(100) NOT NULL,
   sRiesgos TEXT NOT NULL,
   sBeneficios TEXT NOT NULL,
   sDxPosoperatorio TEXT,
@@ -354,7 +356,7 @@ CREATE TABLE NotaIntervencion (
   nIdClasificacion INT,
   sImplante CHAR(2),
   sTipoImplante TEXT,
-  nIdManejo INT NOT NULL,
+  nIdManejo INT,
   sOsteomias CHAR(2),
   sTipoOsteomias TEXT,
   sLocalizacionOsteomias TEXT,
@@ -927,6 +929,10 @@ INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	58	);
 INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	59	);
 INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	60	);
 
+/*Tipos de anestesia*/
+INSERT INTO anestesia(sDescripcion) VALUES ('Local');
+INSERT INTO anestesia(sDescripcion) VALUES ('Regional');
+INSERT INTO anestesia(sDescripcion) VALUES ('General');
 
 
 

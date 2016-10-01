@@ -713,8 +713,8 @@ CREATE PROCEDURE buscarEstudios()
 DELIMITER //
 CREATE PROCEDURE insertarCita(IN user varchar(60), IN Consultorio INT(6), IN Horario INT(6),IN Paciente VARCHAR(20), IN FechaCita DATE)
   BEGIN
-    INSERT INTO cita (nIdConsultorio, nClaveHorario, nNumero, dFecRegistro, dFechaCita,nIdEstatus)
-    VALUES(Consultorio,Horario,Paciente,current_date,FechaCita, 1);
+    INSERT INTO cita (nIdConsultorio, nClaveHorario, nNumero, dFecRegistro, dFechaCita)
+    VALUES(Consultorio,Horario,Paciente,current_date,FechaCita);
 
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES(user, 'INSERT', current_date, 'CITAS', CONCAT('Registro de  nueva cita por el usuario ', user));
@@ -794,7 +794,6 @@ CREATE  PROCEDURE buscarHorariosDisponibles(IN consultorio int(6),IN FECHA DATE,
           and h.sDia=DiaSemana;
   END;
 //
-//
 
 DELIMITER  //
 CREATE  PROCEDURE buscarPacientesConsultorio (IN consultorio INT)
@@ -809,6 +808,77 @@ CREATE  PROCEDURE buscarPacientesConsultorio (IN consultorio INT)
   END //
 
 
+DELIMITER //
+CREATE PROCEDURE buscarPacientesPorMedico(IN user varchar(60))
+  BEGIN
+    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, expediente.nnumero, notaintervencion.bEstadoProce
+    FROM paciente
+      JOIN expediente
+        ON expediente.sCurpPaciente = paciente.sCurpPaciente
+      JOIN medico
+        ON medico.nIdPersonal = paciente.sMedico
+      JOIN personal
+        ON personal.nIdPersonal = medico.nIdPersonal
+      LEFT OUTER JOIN notaintervencion
+        ON notaintervencion.nNumero = expediente.nNumero
+    WHERE personal.sEmail = user;
+  END
+//
+
+
+DELIMITER //
+CREATE PROCEDURE buscarDatosPaciente(IN expediente varchar(20))
+  BEGIN
+    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, paciente.sSexo, year(curdate())-year(paciente.dFecNacimiento) as edad,
+      notaintervencion.bEstadoProce
+    FROM paciente
+      JOIN expediente
+        ON expediente.sCurpPaciente = paciente.sCurpPaciente
+      LEFT OUTER JOIN notaintervencion
+        ON notaintervencion.nNumero = expediente.nNumero
+    WHERE expediente.nNumero = expediente;
+  END
+//
+
+DELIMITER //
+CREATE PROCEDURE buscarTodosAnestesia()
+  BEGIN
+    SELECT anestesia.nIdAnestesia, anestesia.sDescripcion FROM anestesia;
+  END
+//
+
+DELIMITER //
+CREATE PROCEDURE insertaNotaIntervencion(IN user varchar(60), IN fechasolicitada date, IN expediente varchar(20), IN prioridad char(1), IN diagnosticopreope text,
+                                         IN operacionplaneada text, IN tipoopera varchar(20), IN gruposan char(2), IN rh char(1), IN anestesia int(11), IN tiempoestimado varchar(200),
+                                         IN riesgos text, IN beneficios text)
+  BEGIN
+    SET @IdPersonal = (select personal.nIdPersonal from personal join medico on medico.nIdPersonal = personal.nIdPersonal where personal.sEmail = user);
+
+
+    INSERT INTO notaintervencion(nNumero, dFechaSolicitud, dFechaSolicitada, sPrioridad, nIdPersonal, sDiagnositicoPreope, sOperacionPlaneada, sTipoOperacion, sGrupoSanguineo, sRH, nIdAnestesia, sTiempoEstimado, sRiesgos, sBeneficios, bEstadoProce)
+    VALUES (expediente, current_date(), fechasolicitada, prioridad, @idPersonal, diagnosticopreope, operacionplaneada, tipoopera, gruposan, rh, anestesia, tiempoestimado, riesgos, beneficios, 1);
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'NOTA INTERVENCION', CONCAT('Registro de solicitud de intervención al paciente', expediente, 'por ', user));
+
+  END
+//
+
+DELIMITER //
+CREATE PROCEDURE buscarDatosProcedimiento(IN expediente varchar(20))
+  BEGIN
+    SELECT notaintervencion.sTipoOperacion, notaintervencion.sDiagnositicoPreope, notaintervencion.sOperacionPlaneada, notaintervencion.sRiesgos,
+      notaintervencion.sBeneficios, personal.sNombres, personal.sApPaterno, personal.sApMaterno, medico.sNumCedula
+    FROM notaintervencion
+      LEFT OUTER JOIN personal
+        ON personal.nIdPersonal = notaintervencion.nIdPersonal
+      LEFT OUTER JOIN expediente
+        ON expediente.nNumero = notaintervencion.nNumero
+      LEFT OUTER JOIN medico
+        ON medico.nIdPersonal = personal.nIdPersonal
+    WHERE expediente.nNumero = expediente AND notaintervencion.bEstadoProce = 1;
+  END
+//
 DELIMITER //
 CREATE  PROCEDURE BuscarTodasCitas ()
   BEGIN

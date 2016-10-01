@@ -26,12 +26,14 @@ class NotaIntervencion
     private $oAntibioticos = null;
     private $nIdNota = 0;
     private $dFechaSol = null;
+    private $dFechaSolicitada = null;
     private $sPrioridad = "";
     private $sDiagnosticoPreope = "";
     private $sOperacionPlaneada = "";
     private $sTipoOperacion = "";
     private $sGrupoSanguineo = "";
     private $sRH = "";
+    private $sTiempoEstimado = "";
     private $sRiesgos = "";
     private $sBeneficios = "";
     private $sDxPosoperatorio = "";
@@ -66,6 +68,27 @@ class NotaIntervencion
     private $sHoraInicioAnt = "";
     private $bEstadoProce = 0;
 
+
+
+    public function getFechaSolicitada()
+    {
+        return $this->dFechaSolicitada;
+    }
+
+    public function setFechaSolicitada($dFechaSolicitada)
+    {
+        $this->dFechaSolicitada = $dFechaSolicitada;
+    }
+
+    public function getTiempoEstimado()
+    {
+        return $this->sTiempoEstimado;
+    }
+
+    public function setTiempoEstimado($sTiempoEstimado)
+    {
+        $this->sTiempoEstimado = $sTiempoEstimado;
+    }
 
     public function getAD()
     {
@@ -555,6 +578,65 @@ class NotaIntervencion
     public function setEstadoProce($bEstadoProce)
     {
         $this->bEstadoProce = $bEstadoProce;
+    }
+
+    function insertarNota($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $nAfec = 0;
+        if($usuario == ""){
+            throw new Exception("NotaIntervencion->insertarNota(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call insertaNotaIntervencion('".$usuario."',
+                '".$this->getFechaSolicitada()."',
+                '".$this->getPaciente()->getExpediente()->getNumero()."',
+                '".$this->getPrioridad()."',
+                '".$this->getDiagnosticoPreope()."',
+                '".$this->getOperacionPlaneada()."',
+                '".$this->getTipoOperacion()."',
+                '".$this->getGrupoSanguineo()."',
+                '".$this->getRH()."',
+                ".$this->getAnestesia()->getIdAnestesia().",
+                '".$this->getTiempoEstimado()."',
+                '".$this->getRiesgos()."',
+                '".$this->getBeneficios()."');";
+                $nAfec = $oAD->ejecutaComando($sQuery);
+                //var_dump($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $nAfec;
+    }
+
+    function buscarDatosNotaInt(){
+        $oAD = new AccesoDatos();
+        $rst = null;
+        $sQuery = "";
+        $bRet = false;
+        if($this->getPaciente()->getExpediente()->getNumero() == ""){
+            throw new Exception("NotaIntervencion->buscarDatosNotaInt(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarDatosProcedimiento('".$this->getPaciente()->getExpediente()->getNumero()."');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+                if($rst){
+                    $this->setMedico(new Medico());
+                    $this->setTipoOperacion($rst[0][0]);
+                    $this->setDiagnosticoPreope($rst[0][1]);
+                    $this->setOperacionPlaneada($rst[0][2]);
+                    $this->setRiesgos($rst[0][3]);
+                    $this->setBeneficios($rst[0][4]);
+                    $this->getMedico()->setNombres($rst[0][5]);
+                    $this->getMedico()->setApPaterno($rst[0][6]);
+                    $this->getMedico()->setApMaterno($rst[0][7]);
+                    $this->getMedico()->setNumCedula($rst[0][8]);
+                    $bRet = true;
+                }
+            }
+        }
+        return $bRet;
     }
 
 }

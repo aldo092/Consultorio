@@ -8,7 +8,8 @@
  */
 include_once ("AccesoDatos.php");
 include_once ("Especialidad.php");
-class Medico
+include_once ("Personal.php");
+class Medico extends Personal
 {
     private $oAD = null;
     private $sNumCedula = "";
