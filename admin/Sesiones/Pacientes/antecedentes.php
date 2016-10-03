@@ -24,30 +24,201 @@ $oAntPat=new AntePatologicos();
 $oAntNPat=new AntecNoPatologicos();
 $oAntGin=new AntecGinecobstetricos();
 $ArrAntFam=null;
-$Oculto="";
+$OantGin="";
 $AntFam="";
 $AntPat="";
 $AntNpat="";
+$antGin="";
+$antFam="";
+$antPat="";
+$antNoPat="";
 $AntGin="";
+$divFam="";
+$divPat="";
+$divNoPat="";
+$divGin="";
+$todos="";
+$mensaje="";
 
-
-
-if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
-    if(isset($_POST["txtExpediente"]) && !empty($_POST["txtExpediente"])){
+if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])) {
+    if (isset($_POST["txtExpediente"]) && !empty($_POST["txtExpediente"])) {
         $Expediente = $_POST['txtExpediente'];
-        $Sexo= $_POST['txtSexo'];
-        $AntFam=$oAntFam->ExisteAntFam($Expediente);
-        $AntPat=$oAntPat->ExisteAntPat($Expediente);
-        $AntNpat=$oAntNPat->ExisteAntNoPat($Expediente);
-        $AntGin=$oAntGin->ExisteAntGin($Expediente);
+        $Sexo = $_POST['txtSexo'];
+        $AntFam = $oAntFam->ExisteAntFam($Expediente);
+        $AntPat = $oAntPat->ExisteAntPat($Expediente);
+        $AntNpat = $oAntNPat->ExisteAntNoPat($Expediente);
+        $AntGin = $oAntGin->ExisteAntGin($Expediente);
 
 
-        if ($Sexo=="M"){
-            $Oculto="hidden";
+       /* si solo exiten ant familiares y es hombre */
+        if ($Sexo == "M" and $AntFam == true and $AntPat == false and $AntNpat == false) {
+            $antGin = "hidden";
+            $antFam = "hidden";
+            $divPat = "active in";
+        } else {
+            /* si existen ant familiares y patologicos y eshombre */
+            if ($Sexo == "M" and $AntFam == true and $AntPat == true and $AntNpat == false) {
+                $antGin = "hidden";
+                $antFam = "hidden";
+                $antPat = "hidden";
+                $divNoPat = "active in";
+            } else {
+                /* si es hombre y tiene todos los antecedentes registrados*/
+                if ($Sexo == "M" and $AntFam == true and $AntPat == true and $AntNpat == true) {
+                   $todos= "hidden";
+                    $mensaje = "Se han registrado todos los antecedentes de este paciente";
+                } else {
+                    /*si es hombre y le faltan antecedentes patologicos */
+                    if ($Sexo == "M" and $AntFam == true and $AntPat == false and $AntNpat == true) {
+                        $antGin = "hidden";
+                        $antFam = "hidden";
+                        $antNoPat = "hidden";
+                        $divPat = "active in";
+                    } else {
+                        /*si es hombre y le faltan todos los antecedentes*/
+                        if ($Sexo == "M" and $AntFam == false and $AntPat == false and $AntNpat == false) {
+                            $antGin= "hidden";
+                            $divFam= "active in";
+
+                        } else {
+                            /*si es hombre y tiene antecedentes patologicos */
+                            if ($Sexo == "M" and $AntFam == false and $AntPat == true and $AntNpat == false) {
+                                $antPat = "hidden";
+                                $divFam = "active in";
+                                $antGin = "hidden";
+                            }else{
+                                if($Sexo == "M" and $AntFam == false and $AntPat == false and $AntNpat == true){
+                                    $antGin="hidden";
+                                    $antNoPat="hidden";
+                                    $divFam="active in";
+                                }else{
+                                    if($Sexo=="F" and $AntFam==false and $AntPat==false and $AntNpat==false and $AntGin==false){
+                                        $divFam="active in";
+                                    }else{
+                                        if($Sexo=="F" and $AntFam==true and $AntPat==true and $AntNpat==true and $AntGin==true){
+                                            $todos= "hidden";
+                                            $mensaje = "Se han registrado todos los antecedentes de este paciente";
+                                        }else{
+                                            if($Sexo=="F" and $AntFam==true and $AntPat==false and $AntNpat==false and $AntGin==false){
+                                                $antFam="hidden";
+                                                $divPat="active in";
+                                            }else{
+                                                if($Sexo=="F" and $AntFam==true and $AntPat==true and $AntNpat==false and $AntGin==false){
+                                                    $antFam="hidden";
+                                                    $antPat="hidden";
+                                                    $divNoPat="active in";
+                                                }else{
+                                                    if($Sexo=="F" and $AntFam==true and $AntPat==true and $AntNpat==true and $AntGin==false){
+                                                        $antFam="hidden";
+                                                        $antPat="hidden";
+                                                        $antNoPat="hidden";
+                                                        $divGin="active in";
+                                                    }
+                                                    else{
+                                                        if($Sexo=="F" and $AntFam==false and $AntPat==true and $AntNpat==false and $AntGin==false){
+                                                            $antPat="hidden";
+                                                            $divFam="active in";
+                                                        }else{
+                                                            if($Sexo=="F" and $AntFam==false and $AntPat==false and $AntNpat==true and $AntGin==false){
+                                                                $antNoPat="hidden";
+                                                                $divFam="active in";
+                                                            }else{
+                                                                if($Sexo=="F" and $AntFam==false and $AntPat==false and $AntNpat==false and $AntGin==true){
+                                                                    $antGin="hidden";
+                                                                    $divFam="active in";
+
+                                                                }else{
+                                                                    if($Sexo=="F" and $AntFam==true and $AntPat==false and $AntNpat==false and $AntGin==true){
+                                                                        $antGin="hidden";
+                                                                        $antFam="hidden";
+                                                                        $divPat="active in";
+                                                                    }else{
+                                                                        if($Sexo=="F" and $AntFam==true and $AntPat==true and $AntNpat==false and $AntGin==true){
+                                                                            $antFam="hidden";
+                                                                            $antPat="hidden";
+                                                                            $antGin="hidden";
+                                                                            $divNoPat="active in";
+                                                                        }else{
+                                                                            if($Sexo=="F" and $AntFam==true and $AntPat==false and $AntNpat==true and $AntGin==false){
+                                                                                $antFam="hidden";
+                                                                                $antNoPat="hidden";
+                                                                                $divPat="active in";
+                                                                            }else{
+                                                                                if($Sexo=="F" and $AntFam==false and $AntPat==true and $AntNpat==true and $AntGin==false){
+                                                                                    $antNoPat="hidden";
+                                                                                    $antPat="hidden";
+                                                                                    $divFam="active in";
+                                                                                }else{
+                                                                                    if($Sexo=="F" and $AntFam==false and $AntPat==false and $AntNpat==true and $AntGin==true){
+                                                                                        $antNoPat="hidden";
+                                                                                        $antGin="hidden";
+                                                                                        $divFam="active in";
+
+                                                                                }else{
+                                                                                        if($Sexo=="F" and $AntFam==false and $AntPat==true and $AntNpat==true and $AntGin==true){
+                                                                                            $antGin="hidden";
+                                                                                            $antPat="hidden";
+                                                                                            $antNoPat="hidden";
+                                                                                            $divFam= "active in";
+                                                                                        }else{
+                                                                                            if($Sexo=="F" and $AntFam==false and $AntPat==true and $AntNpat==false and $AntGin==true){
+                                                                                                $divFam="active in";
+                                                                                                $antPat="hidden";
+                                                                                                $antGin="hidden";
+                                                                                            }else{
+                                                                                                if($Sexo=="F" and $AntFam==true and $AntPat==false and $AntNpat==true and $AntGin==true){
+                                                                                                    $antFam="hidden";
+                                                                                                    $antNoPat="hidden";
+                                                                                                    $antGin="hidden";
+                                                                                                    $divPat="active in";
+                                                                                                }else{
+                                                                                                    if ($Sexo == "M" and $AntFam ==false and $AntPat == true and $AntNpat == true) {
+                                                                                                        $antGin="hidden";
+                                                                                                        $antPat="hidden";
+                                                                                                        $antNoPat="hidden";
+                                                                                                        $divFam="active in";
+                                                                                                    }
+
+                                                                                                    }
+
+                                                                                                }
+
+                                                                                            }
+
+                                                                                        }
+
+
+                                                                                    }
+
+                                                                                }
+
+
+                                                                            }
+
+                                                                        }
+
+
+                                                                    }
+
+                                                                }
+
+                                                            }
+
+                                                        }
+
+                                                    }
+
+                                                }
+
+                                            }
+                                    }
+                                }
+                            }
+                        }
                     }
-                    else
-                        $Oculto="show";
-
+                }
+            }
+        }
 
 
 
@@ -80,7 +251,7 @@ if($sErr != ""){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Consultorio Médico - Panel de Información</title>
+    <title>Consultorio Médico - Registro de antedecentes </title>
 
     <!-- Bootstrap -->
     <link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -202,12 +373,13 @@ if($sErr != ""){
                 <div class="page-title">
                     <div class="title_left">
                         <h3>Registro de Antecedentes de Pacientes </h3>
+                        <h2> <?php echo $mensaje?></h2>
                     </div>
 
 
                 </div>
                 <div class="clearfix"></div>
-                <div class="row">
+                <div class="row <?php echo $todos ?> ">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
@@ -217,19 +389,19 @@ if($sErr != ""){
                             </div>
                             <div class="x_content">
                                 <br>
-                                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#tab_content1" id="AntFam" role="tab" data-toggle="tab" aria-expanded="true">Antecentes Familiares</a>
+                                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist" >
+                                    <li role="presentation" class="<?php echo $antFam;?>"><a href="#tab_content1" id="AntFam" role="tab" data-toggle="tab" aria-expanded="true">Antecentes Familiares</a>
                                     </li>
-                                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="AntPat" data-toggle="tab" aria-expanded="false">Antecedentes Patológicos</a>
+                                    <li role="presentation" class="<?php echo $antPat?>"><a href="#tab_content2" role="tab" id="AntPat" data-toggle="tab" aria-expanded="false">Antecedentes Patológicos</a>
                                     </li>
-                                    <li role="presentation" class=""><a href="#tab_content3" role="tab" id="AntNPat" data-toggle="tab" aria-expanded="false">Antecedentes No patológicos</a>
+                                    <li role="presentation" class="<?php echo $antNoPat;?>"><a href="#tab_content3" role="tab" id="AntNPat" data-toggle="tab" aria-expanded="false">Antecedentes No patológicos</a>
                                     </li>
-                                    <li role="presentation" class="<?php echo $Oculto;?>"><a href="#tab_content4" role="tab" id="AntGin"  data-toggle="tab" aria-expanded="false" >Antecentes ginecoobstetricos</a>
+                                    <li role="presentation" class="<?php echo $antGin;?>"><a href="#tab_content4" role="tab" id="AntGin"  data-toggle="tab" aria-expanded="false" >Antecentes ginecoobstetricos</a>
                                     </li>
 
                                 </ul>
                                 <div id="myTabContent" class="tab-content">
-                                    <div role="tabpanel" class="tab-pane fade active in " id="tab_content1" aria-labelledby="home-tab">
+                                    <div role="tabpanel" class="tab-pane fade <?php echo $divFam;?> " id="tab_content1" aria-labelledby="home-tab">
 
                                         <form class="form-horizontal" role="form" method="post" action="../../Controllers/CtrlAntFam.php">
                                          <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
@@ -391,7 +563,7 @@ if($sErr != ""){
                                         </form>
                                     </div>
 
-                                    <div role="tabpanel" class="tab-pane fade " id="tab_content2"  aria-labelledby="home-tab">
+                                    <div role="tabpanel" class="tab-pane fade <?php echo $divPat;?> " id="tab_content2"  aria-labelledby="home-tab">
                                         <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntPat.php">
                                             <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
 
@@ -482,7 +654,7 @@ if($sErr != ""){
                                         </form>
                                     </div>
 
-                                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="home-tab">
+                                    <div role="tabpanel" class="tab-pane fade <?php echo $divNoPat;?>" id="tab_content3" aria-labelledby="home-tab">
 
                                         <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntNoPat.php">
                                             <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
@@ -649,7 +821,7 @@ if($sErr != ""){
                                         </form>
                                     </div>
 
-                                    <div role="tabpanel" class="tab-pane fade " id="tab_content4" aria-labelledby="home-tab" >
+                                    <div role="tabpanel" class="tab-pane fade<?php echo $divGin;?> " id="tab_content4" aria-labelledby="home-tab" >
 
                                         <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntGin.php">
 

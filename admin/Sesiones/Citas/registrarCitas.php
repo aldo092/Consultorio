@@ -192,6 +192,7 @@ if($sErr != ""){
                         <div class="x_content">
                             <br>
                             <form action="../../Controllers/ctrlCita.php" method="post"  data-parsley-validate class="form-horizontal form-label-left" >
+                                <input type="hidden" name="Operacion" value="Insertar">
 
 
                                 <div class="form-group">
@@ -208,7 +209,7 @@ if($sErr != ""){
                                         <select id="consultorio" class="form-control" name="consultorio" required="required" onchange="cargaContenido(this.id,document.getElementById('cita').value);cargarPaciente(this.id)" >
                                             <option value="">Seleccione</option>
                                             <?php
-                                            if($arrPersonal!= null){
+                                            if($arrConsultorio!= null){
                                                 foreach($arrConsultorio as $vRol){
                                                     ?>
                                                     <option value="<?php echo $vRol-> getNIDconsultorio();?>">

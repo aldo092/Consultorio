@@ -135,30 +135,23 @@ class Cita
         $sQuery = "";
         $i = 0;
         $oCita = null;
-        $oPaciente=null;
-        $oHorario=null;
         if($oAD->Conecta()){
             $sQuery = "call BuscarTodasCitas();";
             $rst = $oAD->ejecutaQuery($sQuery);
             $oAD->Desconecta();
+
         }
         if($rst){
             foreach ($rst as $vRowTemp){
                 $oCita = new Cita();
-                $oPaciente= new Paciente();
-                $oHorario = new Horarios();
                 $oCita->setFolioCita($vRowTemp[0]);
                 $oCita->setConsultorio($vRowTemp[1]);
-                $oHorario->setHorarioInicio($vRowTemp[2]);
-                $oHorario->setHorarioFin($vRowTemp[3]);
-                $oPaciente->setApPaterno($vRowTemp[4]);
-                $oPaciente->setApMaterno($vRowTemp[5]);
-                $oPaciente->setNombre($vRowTemp[6]);
-                $oCita->setFechaRegistro($vRowTemp[7]);
-                $oCita->setFechaCita($vRowTemp[8]);
-                $oCita->setEstatus($vRowTemp[9]);
+                $oCita->setSHorario($vRowTemp[2]);
+                $oCita->setPaciente($vRowTemp[3]);
+                $oCita->setFechaRegistro($vRowTemp[4]);
+                $oCita->setFechaCita($vRowTemp[5]);
+                $oCita->setEstatus($vRowTemp[6]);
                 $vObj[$i] = $oCita;
-
                 $i = $i + 1;
             }
         }else{
@@ -168,6 +161,47 @@ class Cita
 
         }
         return $vObj;
+
+    }
+
+    function ModificarEstatusCita($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getFolioCita() == 0){
+            throw new Exception("cita->modificarCita(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call modificaEstatus
+                ('".$usuario."',
+                ".$this->getFolioCita().", 
+                ".$this->getEstatus().");";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
+
+
+    }
+
+    function CancelarCita($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getFolioCita() == 0){
+            throw new Exception("cita->modificarCita(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call CancelarCita
+                ('".$usuario."',
+                ".$this->getFolioCita().");";
+                $i = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
+        }
+        return $i;
+
 
     }
 

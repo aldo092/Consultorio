@@ -882,17 +882,43 @@ CREATE PROCEDURE buscarDatosProcedimiento(IN expediente varchar(20))
 DELIMITER //
 CREATE  PROCEDURE BuscarTodasCitas ()
   BEGIN
-    select c.nFolioCita, co.sDescripcion, h.sHoraInicio,h.sHoraFin,p.sApPaterno, p.sApMaterno, p.sNombre, c.dFecRegistro, c.dFechaCita, c.nIdEstatus
+    select c.nFolioCita, co.sDescripcion,c.nNumero, h.sHoraInicio,c.dFecRegistro, c.dFechaCita, s.sDescripcion
     from cita c
       join consultorio co
         on c.nIdConsultorio=co.nIdConsultorio
       join horarios h
         on c.nClaveHorario=h.nClaveHorario
-      join expediente e
-        on c.nNumero=e.nNumero
-      join paciente p
-        on p.sCurpPaciente=e.sCurpPaciente
-    order by c.nFolioCita
+      join estatus s
+        on c.nIdEstatus=s.nIdEstatus
+    order by c.nFolioCita ;
+
 
   END //
 
+DELIMITER //
+CREATE  PROCEDURE BuscaEstatus()
+  BEGIN
+    select nIdEstatus, sNombre from estatus
+    where nIdEstatus != 1;
+  END //
+
+
+DELIMITER //
+CREATE  PROCEDURE ModificaEstatus(IN user VARCHAR(60),IN ID INT, IN estatus INT)
+  BEGIN
+    UPDATE cita SET nIdEstatus =estatus WHERE nFolioCita = ID;
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'Cita', CONCAT('Actualizacion de estado a la cita ', ID, 'por  ', user));
+
+  END //
+
+
+DELIMITER //
+CREATE PROCEDURE CancelarCita(IN user VARCHAR(60), IN Folio INT)
+  BEGIN
+    DELETE  FROM cita WHERE nFolioCita=Folio;
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'CITA', CONCAT(' Cita con folio  ', Folio, ' cancelada por  el usuario ', user));
+  END //

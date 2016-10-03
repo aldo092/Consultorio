@@ -169,9 +169,10 @@ if($sErr != ""){
                     </div>
 
                     <div class="x_content">
-                        <form id="frmExpediente" action="../../Sesiones/Pacientes/antecedentes.php" method="post">
-                            <input type="hidden" name="txtExpediente">
-                            <input type="hidden" name="txtSexo">
+                        <form id="frmExpediente" action="../../Sesiones/Citas/ControlCitas.php" method="post">
+                            <input type="hidden" name="Folio">
+                            <input type="hidden" name="Operacion">
+
 
                             <p class="text-muted font-13 m-b-30">
                             </p>
@@ -181,8 +182,8 @@ if($sErr != ""){
                                 <tr>
                                     <th>Folio</th>
                                     <th>Consultorio</th>
-                                    <th>Horario de la cita</th>
                                     <th>Paciente</th>
+                                    <th>Hora de la Cita</th>
                                     <th>Fecha que se creó la cita</th>
                                     <th>Fecha de la cita</th>
                                     <th>Estatus de la cita</th>
@@ -199,14 +200,17 @@ if($sErr != ""){
                                         <tr>
                                             <td><?php echo $vRT->getFolioCita();?></td>
                                             <td><?php echo $vRT->getConsultorio();?></td>
-                                            <td><?php echo $vRT->getHorarioInicio()." - ". $vRT->getHorarioFin();?></td>
-                                            <td><?php echo $vRT->getApPaterno()." ".$vRT->getApMaterno()." ".$vRT->getNombre(); ?></td>
+                                            <td><?php echo $vRT->getSHorario();?></td>
+                                            <td><?php echo $vRT->getPaciente();?></td>
                                             <td><?php echo $vRT->getFechaRegistro();?></td>
                                             <td><?php echo $vRT->getFechaCita();?></td>
                                             <td><?php echo $vRT->getEstatus();?></td>
 
+
                                             <td>
-                                                <input type="submit" value="Agregar Antecedentes" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $vRT->getFolioCita();?>';txtSexo.value='<?php echo $vRT->getEstatus();?>'" >
+                                                <input type="submit" value="Cambiar Estatus" class=" btn btn-primary" onClick="Operacion.value='M';Folio.value='<?php echo $vRT->getFolioCita();?>'" >
+                                                <input type="submit" value="Cancelar Cita" class=" btn btn-primary" onClick="Operacion.value='E';Folio.value='<?php echo $vRT->getFolioCita();?>'" >
+
 
                                             </td>
 

@@ -215,27 +215,28 @@ class AntecFamiliares
         return $i;
     }
 
-    function ExisteAntFam($expediente){
+
+
+
+        function ExisteAntFam($expediente){
             $oAD = new AccesoDatos();
             $sQuery = "";
             $rst = null;
-            if($expediente == ""){
-                throw new Exception("Medico->buscarAntFam(): error, faltan datos");
+            $bRet = false;
+            if($expediente==""){
+                throw new Exception("Usuarios->buscarAntFam(): error ,faltan expediente");
             }else{
                 if($oAD->Conecta()){
                     $sQuery = "call ExisteAntFam('".$expediente."');";
                     $rst = $oAD->ejecutaQuery($sQuery);
-
                     $oAD->Desconecta();
                     if($rst){
-
                         $this->setExpediente($rst[0][0]);
-                            }
+                        $bRet = true;
+                    }
                 }
             }
-            return $this;
+            return $bRet;
         }
-
-
 
     }

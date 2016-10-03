@@ -165,20 +165,20 @@ class AntePatologicos
         $oAD = new AccesoDatos();
         $sQuery = "";
         $rst = null;
-        if($expediente == ""){
-            throw new Exception("Medico->buscarAntFam(): error, faltan datos");
+        $bRet = false;
+        if($expediente==""){
+            throw new Exception("Usuarios->buscarAPat(): error ,faltan expediente");
         }else{
             if($oAD->Conecta()){
                 $sQuery = "call ExisteAntPat('".$expediente."');";
                 $rst = $oAD->ejecutaQuery($sQuery);
-
                 $oAD->Desconecta();
                 if($rst){
-
                     $this->setExpediente($rst[0][0]);
+                    $bRet = true;
                 }
             }
         }
-        return $this;
+        return $bRet;
     }
 }

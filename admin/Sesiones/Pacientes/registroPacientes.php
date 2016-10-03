@@ -266,21 +266,7 @@ if($sErr != ""){
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="localidad" class="control-label col-md-3 col-sm-3 col-xs-12">Localidad</label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input id="localidad" class="form-control col-md-7 col-xs-12" type="text" name="localidad"required="required">
-                                    </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="municipio" class="control-label col-md-3 col-sm-3 col-xs-12">Municipio</label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select disabled="disabled" name="municipio" id="municipio" class="form-control"required="required">
-                                            <option value="0">Seleccione</option>
-                                        </select>
-                                    </div>
-                                </div>
 
                                 <div class="form-group">
                                     <label for="estado" class="control-label col-md-3 col-sm-3 col-xs-12">Estado </label>
@@ -300,6 +286,24 @@ if($sErr != ""){
                                         </select>
                                     </div>
                                 </div>
+
+
+                                <div class="form-group">
+                                    <label for="municipio" class="control-label col-md-3 col-sm-3 col-xs-12">Municipio</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select disabled="disabled" name="municipio" id="municipio" class="form-control"required="required">
+                                            <option value="0">Seleccione</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="localidad" class="control-label col-md-3 col-sm-3 col-xs-12">Localidad</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input id="localidad" class="form-control col-md-7 col-xs-12" type="text" name="localidad"required="required">
+                                    </div>
+                                </div>
+
 
 
                                 <div class="form-group">
