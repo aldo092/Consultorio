@@ -340,6 +340,7 @@ CREATE TABLE NotaIntervencion (
   sAyudante3 TEXT,
   sEnfermeraEspeQui TEXT,
   sEnfermeraGen TEXT,
+  nAnestesiaAplicada INT,
   sExaHistoTransSol TEXT,
   sOtrosEstTras TEXT,
   dFechaProcedimiento DATE,
@@ -364,6 +365,10 @@ CREATE TABLE NotaIntervencion (
   sTipoDrenaje CHAR(1),
   sAntibiotico CHAR(2),
   nIdAntibiotico INT,
+  sCirujano VARCHAR(200),
+  sCedulaCir VARCHAR(50),
+  sAnestesiologo VARCHAR(200),
+  sCedulaAnest VARCHAR(50),
   dFechaInicio DATE,
   sHoraInicio VARCHAR(30),
   bEstadoProce INT,
@@ -434,6 +439,12 @@ REFERENCES Medico (nIdPersonal)
 ALTER TABLE NotaIntervencion ADD CONSTRAINT expediente_notaintervencion_fk
 FOREIGN KEY (nNumero)
 REFERENCES Expediente (nNumero)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE NotaIntervencion ADD CONSTRAINT anestesia_notaintervencion_fk1
+FOREIGN KEY (nAnestesiaAplicada)
+REFERENCES Anestesia (nIdAnestesia)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
@@ -711,6 +722,12 @@ VALUES ('Consultar Bitácora del Sistema', 'Sesiones/Otros/consultarBitacora.php
 INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
 VALUES ('Descargar Reporte', 'Sesiones/Reportes/descargarReporte.php',4);
 
+/*Reporte de las notas de intervención */
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Generar hoja de consentimiento', 'Sesiones/Reportes/hojaConsentimiento.php',4);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Generar reporte de intervención', 'Sesiones/Reportes/rptIntervencion.php',4);
+
 /*Sub-menús para las notas */
 INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
 VALUES('Generar Nota médica', 'Sesiones/NotaMedica/genNotaMed.php',11);
@@ -751,6 +768,11 @@ INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(17,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(15,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(16,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(17,2);
+
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(18,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(19,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(18,2);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(19,2);
 
 /* Tablas de Estados y Municipios */
 
@@ -934,8 +956,20 @@ INSERT INTO anestesia(sDescripcion) VALUES ('Local');
 INSERT INTO anestesia(sDescripcion) VALUES ('Regional');
 INSERT INTO anestesia(sDescripcion) VALUES ('General');
 
+/*Heridas*/
+INSERT INTO clasificacionheridas(sDescripcion) VALUES ('Limpia');
+INSERT INTO clasificacionheridas(sDescripcion) VALUES ('Limpia con implante');
+INSERT INTO clasificacionheridas(sDescripcion) VALUES ('Limpia contaminada');
+INSERT INTO clasificacionheridas(sDescripcion) VALUES ('Contaminada');
+INSERT INTO clasificacionheridas(sDescripcion) VALUES ('Sucia');
+INSERT INTO manejoheridas(sDescripcion) VALUES ('Cerrada');
+INSERT INTO manejoheridas(sDescripcion) VALUES ('Abierta');
+INSERT INTO manejoheridas(sDescripcion) VALUES ('Abierta piel y tejidos subcutáneos');
+INSERT INTO manejoheridas(sDescripcion) VALUES ('Abiertas fascias');
 
-
+/*Antibióticos */
+INSERT INTO antibiotico(sDescripcion) VALUES('Profiláctico');
+INSERT INTO antibiotico(sDescripcion) VALUES('Terapéutico');
 
 
 

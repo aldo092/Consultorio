@@ -64,11 +64,54 @@ class NotaIntervencion
     private $sDrenaje = "";
     private $sTipoDrenaje = "";
     private $sAntibiotico = "";
+    private $sCirujano = "";
+    private $sCedCirujano  = "";
+    private $sAnestesiologo = "";
+    private $sCedAnestesio = "";
     private $dFechaInicioAnt = null;
     private $sHoraInicioAnt = "";
     private $bEstadoProce = 0;
 
 
+    public function getCirujano()
+    {
+        return $this->sCirujano;
+    }
+
+    public function setCirujano($sCirujano)
+    {
+        $this->sCirujano = $sCirujano;
+    }
+
+    public function getCedCirujano()
+    {
+        return $this->sCedCirujano;
+    }
+
+    public function setCedCirujano($sCedCirujano)
+    {
+        $this->sCedCirujano = $sCedCirujano;
+    }
+
+    public function getAnestesiologo()
+    {
+        return $this->sAnestesiologo;
+    }
+
+    public function setAnestesiologo($sAnestesiologo)
+    {
+        $this->sAnestesiologo = $sAnestesiologo;
+    }
+
+    public function getCedAnestesio()
+    {
+        return $this->sCedAnestesio;
+    }
+
+    public function setCedAnestesio($sCedAnestesio)
+    {
+        $this->sCedAnestesio = $sCedAnestesio;
+    }
 
     public function getFechaSolicitada()
     {
@@ -637,6 +680,54 @@ class NotaIntervencion
             }
         }
         return $bRet;
+    }
+
+    function insertarResultadosNotaInt($usuario){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $i = -1;
+        if($this->getPaciente()->getExpediente()->getNumero() == ""){
+            throw  new Exception("NotaIntervencion->insertarResultadosNotaInt(): error, faltan datos");
+        }else{
+            $sQuery = "call insertarResultadosIntervencion('".$usuario."',
+                   '".$this->getPaciente()->getExpediente()->getNumero()."',
+                   '".$this->getDxPosoperatorio()."',
+                   '".$this->getOperacionRealizada()."',
+                   ".$this->getAnestesia()->getIdAnestesia().",
+                   '".$this->getExaHistoTransSol()."',
+                   '".$this->getOtrosEstTras()."',
+                   '".$this->getFechaSolicitada()."',
+                   '".$this->getHoraProce()."',
+                   '".$this->getDescripcionTecnica()."',
+                   '".$this->getHallazgos()."',
+                   '".$this->getIncidentes()."',
+                   '".$this->getAccidentes()."',
+                   '".$this->getComplicaciones()."',
+                   '".$this->getObservaciones()."',
+                   '".$this->getEstadoPosope()."',
+                   '".$this->getPlanManejoPosope()."',
+                   '".$this->getPronostico()."',
+                   ".$this->getClasificacion()->getIdClasificacion().",
+                   '".$this->getImplante()."',
+                   '".$this->getTipoImplante()."',
+                   ".$this->getManejo()->getIdManejo().",
+                   '".$this->getOsteomias()."',
+                   '".$this->getTipoOsteomias()."',
+                   '".$this->getLocalizacionOsteomias()."',
+                   '".$this->getDrenaje()."',
+                   '".$this->getTipoDrenaje()."',
+                   '".$this->getAntibiotico()."',
+                   ".$this->getAntibioticos()->getIdAntibiotico().",
+                   '".$this->getCirujano()."',
+                   '".$this->getCedCirujano()."',
+                   '".$this->getAnestesiologo()."',
+                   '".$this->getCedAnestesio()."',
+                   '".$this->getFechaInicioAnt()."',
+                   '".$this->getHoraInicioAnt()."');";
+            $i = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+        }
+        return $i;
     }
 
 }

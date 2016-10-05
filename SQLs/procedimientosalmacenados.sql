@@ -922,3 +922,85 @@ CREATE PROCEDURE CancelarCita(IN user VARCHAR(60), IN Folio INT)
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES(user, 'INSERT', current_date, 'CITA', CONCAT(' Cita con folio  ', Folio, ' cancelada por  el usuario ', user));
   END //
+
+DELIMITER //
+CREATE PROCEDURE buscarPacientesPorMedico2(IN user varchar(60))
+  BEGIN
+    SELECT distinct paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, expediente.nnumero, notaintervencion.bEstadoProce
+    FROM paciente
+      JOIN expediente
+        ON expediente.sCurpPaciente = paciente.sCurpPaciente
+      JOIN medico
+        ON medico.nIdPersonal = paciente.sMedico
+      JOIN personal
+        ON personal.nIdPersonal = medico.nIdPersonal
+      LEFT OUTER JOIN notaintervencion
+        ON notaintervencion.nNumero = expediente.nNumero
+    WHERE personal.sEmail = user and notaintervencion.bEstadoProce = "" or notaintervencion.bEstadoProce = 0;
+  END
+//
+
+
+DELIMITER //
+CREATE PROCEDURE buscarTodosHeridas()
+  BEGIN
+    SELECT clasificacionheridas.nIdClasificacion, clasificacionheridas.sDescripcion FROM clasificacionheridas;
+  END
+//
+
+DELIMITER //
+CREATE PROCEDURE buscarTodosManejo()
+  BEGIN
+    SELECT manejoheridas.nIdManejo, manejoheridas.sDescripcion FROM manejoheridas;
+  END
+//
+
+DELIMITER //
+CREATE PROCEDURE buscarTodosAntibioticos()
+  BEGIN
+    SELECT antibiotico.nIdAntibiotico, antibiotico.sDescripcion FROM antibiotico;
+  END
+//
+
+DELIMITER //
+CREATE PROCEDURE buscarPacientesPorMedico3(IN user varchar(60))
+  BEGIN
+    SELECT distinct paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, expediente.nnumero, notaintervencion.bEstadoProce
+    FROM paciente
+      JOIN expediente
+        ON expediente.sCurpPaciente = paciente.sCurpPaciente
+      JOIN medico
+        ON medico.nIdPersonal = paciente.sMedico
+      JOIN personal
+        ON personal.nIdPersonal = medico.nIdPersonal
+      LEFT OUTER JOIN notaintervencion
+        ON notaintervencion.nNumero = expediente.nNumero
+    WHERE personal.sEmail = user and notaintervencion.bEstadoProce = 1;
+  END
+//
+
+DELIMITER //
+CREATE PROCEDURE insertarResultadosIntervencion(IN user varchar(60), IN expediente varchar(20), IN dxposope text, IN opereal text, IN anestesiaapli int(11),
+                                                IN examenhistopato text, IN otrosestudiosol text, IN fechaproce date, IN horaproce varchar(30), IN descriptecnica text,
+                                                IN hallazgos text, IN incidentes text, IN accidentes text, IN complicaciones text, IN observaciones text, IN estadoposope text,
+                                                IN planmanejoposope text, IN pronostico text, IN clasificacionherida int(11), IN implante char(2), IN tipoimplante text,
+                                                IN manejoherida int(11), IN osteomia char(2), IN tipoosteomia text, IN localosteomia text, IN drenaje char(2), IN tipodrenaje char(1),
+                                                IN antibiotico char(2), IN claveanti int(11), IN cirujano varchar(200), IN cedulacir varchar(50), IN anestesiologo varchar(200), IN cedanest varchar(50),
+                                                IN fechaaplica date, IN horainicio varchar(30))
+  BEGIN
+    UPDATE notaintervencion
+    SET sDxPosoperatorio = dxposope, sOperacionRealizada = opereal, nAnestesiaAplicada = anestesiaapli, sExaHistoTransSol = examenhistopato,
+      sOtrosEstTras = otrosestudiosol, dFechaProcedimiento = fechaproce, sHoraProce = horaproce, sDescripcionTecnica = descriptecnica,
+      sHallazgos = hallazgos, sIncidentes = incidentes, sAccidentes = accidentes, sComplicaciones = complicaciones, sObservaciones = observaciones,
+      sEstadoPosope = estadoposope, sPlanManejoPosope = planmanejoposope, sPronostico = pronostico, nIdClasificacion = clasificacionherida,
+      sImplante = implante, sTipoImplante = tipoimplante, nIdManejo = manejoherida, sOsteomias = osteomia, sTipoOsteomias = tipoosteomia,
+      sLocalizacionOsteomias = localosteomia, sDrenaje = drenaje, sTipoDrenaje = tipodrenaje, sAntibiotico = antibiotico, nIdAntibiotico = claveanti,
+      sCirujano = cirujano, sCedulaCir = cedulacir, sAnestesiologo = anestesiologo, sCedulaAnest = cedanest, dFechaInicio = fechaaplica, sHoraInicio = horainicio,
+      bEstadoProce = 0
+    WHERE nNumero = expediente AND bEstadoProce = 1;
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'NOTA INTERVENCION', CONCAT('Registro de resultados de un procedimiento', expediente, 'por ', user));
+
+  END
+//
