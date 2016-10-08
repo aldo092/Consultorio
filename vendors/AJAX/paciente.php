@@ -31,7 +31,6 @@ if($arrPaciente != null){
             <?php echo $vRol->getApPaterno();?>
             <?php echo $vRol->getApMaterno();?>
             <?php echo $vRol->getNombre();?>
-
         </option>
         <?php
     }

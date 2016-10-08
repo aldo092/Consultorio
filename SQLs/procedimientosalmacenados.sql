@@ -811,7 +811,7 @@ CREATE  PROCEDURE buscarPacientesConsultorio (IN consultorio INT)
 DELIMITER //
 CREATE PROCEDURE buscarPacientesPorMedico(IN user varchar(60))
   BEGIN
-    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, expediente.nnumero, notaintervencion.bEstadoProce
+    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, expediente.nnumero, notaintervencion.bEstadoProce,paciente.sMedico
     FROM paciente
       JOIN expediente
         ON expediente.sCurpPaciente = paciente.sCurpPaciente
@@ -1004,3 +1004,15 @@ CREATE PROCEDURE insertarResultadosIntervencion(IN user varchar(60), IN expedien
 
   END
 //
+
+/*Procedimiento para recetas*/
+DELIMITER //
+CREATE PROCEDURE insertarReceta(IN user VARCHAR(60),IN Paciente VARCHAR(20),IN Descripcion TEXT,IN Medico INT)
+  BEGIN
+    INSERT INTO receta(fecha_expedicion,Paciente,descripcion,medico)
+      VALUES (CURRENT_DATE,Paciente,Descripcion,Medico);
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'RECETA', CONCAT('Creacion de receta para el paciente ', Paciente, 'por ', user));
+
+  END //
+/******************************************************************************************************************************/

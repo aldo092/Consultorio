@@ -437,6 +437,7 @@ class Paciente
                     $oPaciente->setApMaterno($vRow[2]);
                     $oPaciente->getExpediente()->setNumero($vRow[3]);
                     $oPaciente->getNotaInt()->setEstadoProce($vRow[4]);
+                    $oPaciente->setSMedico($vRow[5]);
                     $vObj[$i] = $oPaciente;
                     $i = $i + 1;
                 }

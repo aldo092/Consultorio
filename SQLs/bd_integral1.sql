@@ -721,6 +721,8 @@ INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
 VALUES ('Consultar Bitácora del Sistema', 'Sesiones/Otros/consultarBitacora.php',6);
 INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
 VALUES ('Descargar Reporte', 'Sesiones/Reportes/descargarReporte.php',4);
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+    VALUES ('Generar Receta', 'Sesiones/NotaMedica/genReceta.php',11);
 
 /*Reporte de las notas de intervención */
 INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
@@ -748,6 +750,8 @@ INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(11,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(12,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(13,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(14,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(15,1);
+
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,2);
@@ -973,6 +977,22 @@ INSERT INTO antibiotico(sDescripcion) VALUES('Terapéutico');
 
 
 
+/*Tabla de recetas */
+CREATE TABLE receta(Folio INT AUTO_INCREMENT PRIMARY KEY ,fecha_expedicion DATE, Paciente VARCHAR(20),descripcion TEXT,medico INT);
+
+
+ALTER TABLE receta ADD CONSTRAINT paciente_receta_fk
+FOREIGN KEY (Paciente)
+REFERENCES Expediente(nNumero)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE receta ADD CONSTRAINT medico_receta_fk
+FOREIGN KEY (medico)
+REFERENCES Medico(nIdPersonal)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+/****************************************************************/
 
 
 

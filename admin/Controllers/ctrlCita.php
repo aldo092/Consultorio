@@ -6,7 +6,6 @@
  * Time: 03:43 PM
  */
 
-var_dump($_POST);
 error_reporting(E_ALL);
 include_once ("../Class/Usuarios.php");
 include_once ("../Class/Cita.php");
