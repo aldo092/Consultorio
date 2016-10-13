@@ -685,11 +685,12 @@ class NotaIntervencion
     function insertarResultadosNotaInt($usuario){
         $oAD = new AccesoDatos();
         $sQuery = "";
-        $i = -1;
+        $nAfec = 0;
         if($this->getPaciente()->getExpediente()->getNumero() == ""){
             throw  new Exception("NotaIntervencion->insertarResultadosNotaInt(): error, faltan datos");
         }else{
-            $sQuery = "call insertarResultadosIntervencion('".$usuario."',
+            if($oAD->Conecta()){
+                $sQuery = utf8_decode("call insertarResultadosIntervencion('".$usuario."',
                    '".$this->getPaciente()->getExpediente()->getNumero()."',
                    '".$this->getDxPosoperatorio()."',
                    '".$this->getOperacionRealizada()."',
@@ -721,13 +722,14 @@ class NotaIntervencion
                    '".$this->getCirujano()."',
                    '".$this->getCedCirujano()."',
                    '".$this->getAnestesiologo()."',
-                   '".$this->getCedAnestesio()."',
-                   '".$this->getFechaInicioAnt()."',
-                   '".$this->getHoraInicioAnt()."');";
-            $i = $oAD->ejecutaQuery($sQuery);
-            $oAD->Desconecta();
+                   '".$this->getCedAnestesio()."',");
+                $sQuery = $this->getFechaInicioAnt() != 'null' ? $sQuery ."'".$this->getFechaInicioAnt()."'," : $sQuery . "".$this->getFechaInicioAnt().",";
+                $sQuery = $sQuery ."'".$this->getHoraInicioAnt()."');";
+                $nAfec = $oAD->ejecutaComando($sQuery);
+                $oAD->Desconecta();
+            }
         }
-        return $i;
+        return $nAfec;
     }
 
 }
