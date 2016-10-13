@@ -543,5 +543,40 @@ class Paciente
         return $vObj;
     }
 
+    function PacientesMedico($usuario){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $oPaciente = null;
+        $i = 0;
+        if($usuario == ""){
+            throw new Exception("Paciente->buscarPacientesPorMedico(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call PacientesDoctor('".$usuario."');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+            }
+            if($rst){
+                foreach ($rst as $vRow){
+                    $oPaciente = new Paciente();
+                    $oPaciente->setExpediente(new Expediente());
+                    $oPaciente->setNotaInt(new NotaIntervencion());
+                    $oPaciente->setNombre($vRow[0]);
+                    $oPaciente->setApPaterno($vRow[1]);
+                    $oPaciente->setApMaterno($vRow[2]);
+                    $oPaciente->getExpediente()->setNumero($vRow[3]);
+                    $oPaciente->setSMedico($vRow[4]);
+                    $vObj[$i] = $oPaciente;
+                    $i = $i + 1;
+                }
+            }else{
+                $vObj = false;
+            }
+        }
+        return $vObj;
+    }
+
 
 }

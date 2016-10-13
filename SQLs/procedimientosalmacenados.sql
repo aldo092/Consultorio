@@ -1019,3 +1019,17 @@ CREATE PROCEDURE insertarReceta(IN user VARCHAR(60),IN Paciente VARCHAR(20),IN D
 
 /******************************************************************************************************************************/
 
+DELIMITER //
+CREATE PROCEDURE PacientesDoctor(IN user varchar(60))
+  BEGIN
+    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, expediente.nnumero,paciente.sMedico
+    FROM paciente
+      JOIN expediente
+        ON expediente.sCurpPaciente = paciente.sCurpPaciente
+      JOIN medico
+        ON medico.nIdPersonal = paciente.sMedico
+      JOIN personal
+        ON personal.nIdPersonal = medico.nIdPersonal
+         WHERE personal.sEmail = user;
+  END
+//

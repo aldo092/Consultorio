@@ -31,7 +31,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oMenu = new Menu();
     $oMenu->setUsuario($oUser);
     $arrMenus = $oMenu->buscarMenuUsuario();
-    $arrPaciente= $oPaciente->buscarPacientesPorMedico($oUser->getEmail());
+    $arrPaciente= $oPaciente->PacientesMedico($oUser->getEmail());
 
     if($oUser->buscarDatosBasicos()){
         $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
