@@ -1005,7 +1005,7 @@ CREATE PROCEDURE insertarResultadosIntervencion(IN user varchar(60), IN expedien
   END
 //
 
-/*Procedimiento para recetas*/
+/*Procedimiento para recetas*************************************************************************************************/
 DELIMITER //
 CREATE PROCEDURE insertarReceta(IN user VARCHAR(60),IN Paciente VARCHAR(20),IN Descripcion TEXT,IN Medico INT)
   BEGIN
@@ -1015,4 +1015,6 @@ CREATE PROCEDURE insertarReceta(IN user VARCHAR(60),IN Paciente VARCHAR(20),IN D
     VALUES(user, 'INSERT', current_date, 'RECETA', CONCAT('Creacion de receta para el paciente ', Paciente, 'por ', user));
 
   END //
+
 /******************************************************************************************************************************/
+

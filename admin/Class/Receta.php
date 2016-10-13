@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Aldo
@@ -8,6 +9,7 @@
 include_once ("AccesoDatos.php");
 include_once ("Paciente.php");
 include_once ("Medico.php");
+require ("../pdf/fpdf.php");
 
 class Receta{
     private $oAD=null;
@@ -105,6 +107,27 @@ class Receta{
         return $i;
     }
 
+    function RecetaPdf($paciente,$medicamento){
 
+            $fecha = date("j/n/Y");
+            $nombreArchivo = "Receta de " . $paciente . $fecha . ".pdf";
+
+            $pdf = new FPDF('P', 'cm', 'rec');
+            $pdf->AddPage();
+            $pdf->Image('../images/urologo.jpg', 0, 0, 0, 0, 'JPG');
+            /*Texto predeterminado*/
+            $pdf->SetFont('Arial', '', 12);
+            $pdf->Text(1, 5, "Paciente:");
+            $pdf->Text(15, 4, "Fecha:");
+            $pdf->Text(1, 6,"Medicamento:");
+            /*Datos Cambiantes*/
+            $pdf->SetFont('Courier', 'B', 14);
+            $pdf->Text(3, 5, utf8_decode($paciente));
+            $pdf->Text(16.5, 4, $fecha);
+            $pdf->SetY(6);
+            $pdf->MultiCell(0, 1, utf8_decode($medicamento));
+        $pdf->SetAuthor('COEM');
+            $pdf->Output($nombreArchivo, 'D');
+        }
 
 }

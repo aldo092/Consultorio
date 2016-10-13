@@ -472,6 +472,7 @@ class Paciente
         }
         return $bRet;
     }
-    
+
+
 
 }

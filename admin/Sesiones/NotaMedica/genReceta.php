@@ -189,11 +189,12 @@ if($sErr != ""){
                             <br>
                             <form action="../../Controllers/ctrlReceta.php" method="post"  data-parsley-validate class="form-horizontal form-label-left" >
                                 <input type="hidden" name="medico">
+                                <input type="hidden" name="nombre">
 
                                 <div class="form-group">
                                     <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="paciente">Paciente:</label>
                                     <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <select id="paciente" class="form-control" name="paciente"required="required">
+                                        <select id="paciente" class="form-control" name="paciente" required="required">
                                             <option value="">Seleccione</option>
                                             <?php
                                             if($arrPaciente!= null){
@@ -212,22 +213,17 @@ if($sErr != ""){
                                     <label class="control-label colo-md-3 col-sm-3 col-xs-12" for="receta">Receta:</label>
 
                                 <div class="col-md-4 col-sm-4 col-xs-12">
-                                    <textarea  id="receta" name="receta" class="form-control" rows="10" required="required" ></textarea>
+                                    <textarea  id="receta" name="receta" class="form-control" rows="5" required="required" ></textarea>
                                 </div>
 
                                 </div>
                                 </div>
-
-
-
-
-
-
 
                                 <div class="ln_solid"></div>
                                 <div class="form-group">
                                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                        <button type="submit" class="btn btn-success"onClick="medico.value='<?php echo $vRol->getsMedico();?>'">Guardar</button>
+                                        <button type="submit" class="btn btn-success"onClick="nombre.value=document.getElementById('paciente').options[document.getElementById('paciente').selectedIndex].text;
+                                         medico.value='<?php echo $vRol->getsMedico();?>'" >Guardar</button>
                                     </div>
                                 </div>
 
@@ -248,7 +244,6 @@ if($sErr != ""){
 <!-- validator -->
 <script src="../../../vendors/validator/validator.js"></script>
 <!-- validator -->
-
 
 </body>
 </html>
