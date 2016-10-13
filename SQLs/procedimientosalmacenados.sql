@@ -936,7 +936,8 @@ CREATE PROCEDURE buscarPacientesPorMedico2(IN user varchar(60))
         ON personal.nIdPersonal = medico.nIdPersonal
       LEFT OUTER JOIN notaintervencion
         ON notaintervencion.nNumero = expediente.nNumero
-    WHERE personal.sEmail = user and notaintervencion.bEstadoProce = "" or notaintervencion.bEstadoProce = 0;
+    WHERE personal.sEmail = user and notaintervencion.bEstadoProce = "" or notaintervencion.bEstadoProce = 0
+                                                                           AND notaintervencion.dFechaProcedimiento <> null;
   END
 //
 
@@ -975,7 +976,7 @@ CREATE PROCEDURE buscarPacientesPorMedico3(IN user varchar(60))
         ON personal.nIdPersonal = medico.nIdPersonal
       LEFT OUTER JOIN notaintervencion
         ON notaintervencion.nNumero = expediente.nNumero
-    WHERE personal.sEmail = user and notaintervencion.bEstadoProce = 1;
+    WHERE personal.sEmail = user and notaintervencion.bEstadoProce = 1 and notaintervencion.dFechaSolicitud > current_date();
   END
 //
 

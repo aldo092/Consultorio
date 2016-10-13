@@ -52,7 +52,7 @@ class ManejoHeridas
         $oManejo = null;
         $i = 0;
         if($oAD->Conecta()){
-            $sQuery = "call buscarTodosManejoH();";
+            $sQuery = "call buscarTodosManejo();";
             $rst = $oAD->ejecutaQuery($sQuery);
             $oAD->Desconecta();
         }

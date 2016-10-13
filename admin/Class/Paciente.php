@@ -472,6 +472,76 @@ class Paciente
         }
         return $bRet;
     }
+
+    function buscarPacientesPorMedicoProce($usuario){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $oPaciente = null;
+        $i = 0;
+        if($usuario == ""){
+            throw new Exception("Paciente->buscarPacientesPorMedico(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarPacientesPorMedico2('".$usuario."');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+            }
+            if($rst){
+                foreach ($rst as $vRow){
+                    $oPaciente = new Paciente();
+                    $oPaciente->setExpediente(new Expediente());
+                    $oPaciente->setNotaInt(new NotaIntervencion());
+                    $oPaciente->setNombre($vRow[0]);
+                    $oPaciente->setApPaterno($vRow[1]);
+                    $oPaciente->setApMaterno($vRow[2]);
+                    $oPaciente->getExpediente()->setNumero($vRow[3]);
+                    $oPaciente->getNotaInt()->setEstadoProce($vRow[4]);
+                    $vObj[$i] = $oPaciente;
+                    $i = $i + 1;
+                }
+            }else{
+                $vObj = false;
+            }
+        }
+        return $vObj;
+    }
+
+    function buscarPacientesNotaConsen($usuario){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $oPaciente = null;
+        $i = 0;
+        if($usuario == ""){
+            throw new Exception("Paciente->buscarPacientesPorMedico(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarPacientesPorMedico3('".$usuario."');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+            }
+            if($rst){
+                foreach ($rst as $vRow){
+                    $oPaciente = new Paciente();
+                    $oPaciente->setExpediente(new Expediente());
+                    $oPaciente->setNotaInt(new NotaIntervencion());
+                    $oPaciente->setNombre($vRow[0]);
+                    $oPaciente->setApPaterno($vRow[1]);
+                    $oPaciente->setApMaterno($vRow[2]);
+                    $oPaciente->getExpediente()->setNumero($vRow[3]);
+                    $oPaciente->getNotaInt()->setEstadoProce($vRow[4]);
+                    $vObj[$i] = $oPaciente;
+                    $i = $i + 1;
+                }
+            }else{
+                $vObj = false;
+            }
+        }
+        return $vObj;
+    }
     
 
 }

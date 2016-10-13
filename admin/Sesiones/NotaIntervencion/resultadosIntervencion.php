@@ -305,7 +305,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="dFechaReal">Fecha de realización <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="date" id="dFechaReal" name="dFechaReal" min="<?php echo $dFec->format('Y-m-d');?>" class="form-control col-md-7 col-xs-12" required>
+                                        <input type="date" id="dFechaReal" name="dFechaReal" max="<?php echo $dFec->format('Y-m-d');?>" class="form-control col-md-7 col-xs-12" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -354,13 +354,6 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <textarea type="text" id="txtObservaciones" name="txtObservaciones" class="form-control col-md-7 col-xs-12"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtCompliPosope">Probables complicaciones posoperatorias
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <textarea type="text" id="txtCompliPosope" name="txtCompliPosope" class="form-control col-md-7 col-xs-12"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -497,7 +490,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tantibiotico">Tipo de antibiótico</span>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tantibiotico">Tipo de antibiótico
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <select id="tantibiotico" name="tantibiotico" class="form-control">

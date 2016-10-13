@@ -21,7 +21,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oMenu = new Menu();
     $oMenu->setUsuario($oUser);
     $arrMenus = $oMenu->buscarMenuUsuario();
-    $arrPaciente= $oPaciente->buscarPacientesPorMedicoProce($oUser->getEmail());
+    $arrPaciente= $oPaciente->buscarPacientesNotaConsen($oUser->getEmail());
     //var_dump($oPaciente);
     if($oUser->buscarDatosBasicos() and $oFuncion->checkRoot($oUser->getEmail(), substr($url, 19))){
         $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
@@ -118,7 +118,10 @@ if($sErr != ""){
                             }
                             ?>
                     </div>
+
+
                 </div>
+
             </div>
         </div>
 
@@ -188,7 +191,7 @@ if($sErr != ""){
                                             <td><?php echo $vRT->getExpediente()->getNumero();?></td>
                                             <td><?php echo $vRT->getApPaterno()." ".$vRT->getApMaterno()." ".$vRT->getNombre(); ?></td>
                                             <td>
-                                                <input type="submit" value="Registrar Nota de Intervención" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $vRT->getExpediente()->getNumero();?>';" >
+                                                <input type="submit" value="Generar Hoja de Consentimiento" class=" btn btn-warning" onClick="txtExpediente.value='<?php echo $vRT->getExpediente()->getNumero();?>';txtOp.value='g'" >
                                             </td>
 
                                         </tr>

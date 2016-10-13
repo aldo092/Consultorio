@@ -52,25 +52,52 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
             $oNota->setDxPosoperatorio($_POST['txtDxPos']);
             $oNota->setOperacionRealizada($_POST['txtOpeReal']);
             $oNota->setCirujano($_POST['txtMedCir']);
-            $_POST['txtCedMedCir'] != "" ? $oNota->setCedCirujano($_POST['txtCedMedCir']) : $oNota->setCedCirujano("No se registró Cédula");
+            (isset($_POST['txtCedMedCir']) && !empty($_POST['txtCedMedCir'])) ? $oNota->setCedCirujano($_POST['txtCedMedCir']) : $oNota->setCedCirujano("No se registró Cédula");
             $oNota->setAnestesiologo($_POST['txtMedAnes']);
-            $_POST['txtCedMedAnes'] != "" ? $oNota->setCedAnestesio($_POST['txtCedMedAnes']) : $oNota->setCedAnestesio("No se registró Cédula");
-            $_POST['txtExaH1'] != "" ? $oNota->setExaHistoTransSol($_POST['txtExaH1']) : $oNota->setExaHistoTransSol("No se registró examen");
-            $_POST['txtOtrosEst'] != "" ? $oNota->setOtrosEstTras($_POST['txtOtrosEst']) : $oNota->setOtrosEstTras("No se registraron otros estudios");
+            (isset($_POST['txtCedMedAnes']) && !empty($_POST['txtCedMedAnes'])) ? $oNota->setCedAnestesio($_POST['txtCedMedAnes']) : $oNota->setCedAnestesio("No se registró Cédula");
+            (isset($_POST['txtExaH1']) && !empty($_POST['txtExaH1']))  ? $oNota->setExaHistoTransSol($_POST['txtExaH1']) : $oNota->setExaHistoTransSol("No se registró examen");
+            (isset($_POST['txtOtrosEst']) && !empty($_POST['txtOtrosEst'])) ? $oNota->setOtrosEstTras($_POST['txtOtrosEst']) : $oNota->setOtrosEstTras("No se registraron otros estudios");
             $oNota->getAnestesia()->setIdAnestesia($_POST['anestesia']);
             $oNota->setFechaSolicitada($_POST['dFechaReal']);
             $oNota->setHoraProce($_POST['hora']);
-            $_POST['txtDescTec'] != "" ? $oNota->setDescripcionTecnica($_POST['txtDescTec']) : $oNota->setDescripcionTecnica("No se registró una descripción técnica");
-
+            (isset($_POST['txtDesTec']) && !empty($_POST['txtDesTec'])) ? $oNota->setDescripcionTecnica($_POST['txtDesTec']) : $oNota->setDescripcionTecnica("No se registró una descripción técnica");
+            (isset($_POST['txtHallazgo']) && !empty($_POST['txtHallazgo'])) ? $oNota->setHallazgos($_POST['txtHallazgo']) : $oNota->setHallazgos("No se registraron hallazgos");
+            (isset($_POST['txtIncidentes']) && !empty($_POST['txtIncidentes'])) ? $oNota->setIncidentes($_POST['txtIncidentes']) : $oNota->setIncidentes("No se registraron incidentes");
+            (isset($_POST['txtAccidentes']) && !empty($_POST['txtAccidentes'])) ? $oNota->setAccidentes($_POST['txtAccidentes']) : $oNota->setAccidentes("No se registraron accidentes");
+            (isset($_POST['txtComplicaciones']) && !empty($_POST['txtComplicaciones'])) ? $oNota->setComplicaciones($_POST['txtComplicaciones']) : $oNota->setComplicaciones("No se registraron complicaciones");
+            (isset($_POST['txtObservaciones']) && !empty($_POST['txtObservaciones'])) ? $oNota->setObservaciones($_POST['txtObservaciones']) : $oNota->setObservaciones("No se registraron observaciones");
+            (isset($_POST['txtEstadoPos']) && !empty($_POST['txtEstadoPos'])) ? $oNota->setEstadoPosope($_POST['txtEstadoPos']) : $oNota->setEstadoPosope("No se registró estado Posoperatorio");
+            (isset($_POST['txtPlanManejo']) && !empty($_POST['txtPlanManejo'])) ? $oNota->setPlanManejoPosope($_POST['txtPlanManejo']) : $oNota->setPlanManejoPosope("No se registró un Plan de Manejo Posoperatorio");
+            (isset($_POST['txtPronostico']) && !empty($_POST['txtPronostico'])) ? $oNota->setPronostico($_POST['txtPronostico']) : $oNota->setPronostico("No se registró Pronóstico");
+            $oNota->getClasificacion()->setIdClasificacion($_POST['cherida']);
+            $oNota->setImplante($_POST['implante']);
+            (isset($_POST['txtImplante']) && !empty($_POST['txtImplante'])) ? $oNota->setTipoImplante($_POST['txtImplante']) : $oNota->setTipoImplante("No se registró Implante");
+            $oNota->getManejo()->setIdManejo($_POST['mherida']);
+            $oNota->setOsteomias($_POST['osteomias']);
+            (isset($_POST['txtTipoOs']) && !empty($_POST['txtTipoOs'])) ? $oNota->setTipoOsteomias($_POST['txtTipoOs']) : $oNota->setTipoOsteomias("No se registraron Osteomías");
+            (isset($_POST['txtLocOs']) && !empty($_POST['txtLocOs'])) ?$oNota->setLocalizacionOsteomias($_POST['txtLocOs']) : $oNota->setTipoOsteomias("No se registraron Osteomías");
+            $oNota->setDrenaje($_POST['drenaje']);
+            (isset($_POST['drenajetipo']) && !empty($_POST['drenajetipo'])) ? $oNota->setTipoDrenaje($_POST['drenajetipo']) : $oNota->setTipoDrenaje("");
+            $oNota->setAntibiotico($_POST['antibiotico']);
+            (isset($_POST['tantibiotico']) && !empty($_POST['tantibiotico'])) ? $oNota->getAntibioticos()->setIdAntibiotico($_POST['tantibiotico']) :  $oNota->getAntibioticos()->setIdAntibiotico('null');
+            (isset($_POST['dFechaApl']) && !empty($_POST['dFechaApl']))  ? $oNota->setFechaInicioAnt($_POST['dFechaApl']) : $oNota->setFechaInicioAnt('null');
+            (isset($_POST['horainicio']) && !empty($_POST['horainicio']))  ? $oNota->setHoraInicioAnt($_POST['horainicio']) : $oNota->setHoraInicioAnt('null');
+            //
         }
 
         try{
             if($sOp == 'a'){
                 $nAfec = $oNota->insertarNota($oUser->getEmail());
+            }else if($sOp == 'r'){
+                //var_dump($oNota);
+                $nAfec = $oNota->insertarResultadosNotaInt($oUser->getEmail());
             }
 
             if($sOp == 'a' and $nAfec == 1){
-                $sMensaje = "Registro del nota exitoso";
+                $sMensaje = "Registro de nota exitoso";
+                header("Location: ../mensajes.php?sMensaje=".$sMensaje."&Destino=".$sRuta);
+            }else if($sOp == 'r' and $nAfec == 1){
+                $sMensaje = "Registro de Procedimiento guardado exitosamente";
                 header("Location: ../mensajes.php?sMensaje=".$sMensaje."&Destino=".$sRuta);
             }else{
                 $sErr = "Error en la base de datos";
@@ -88,7 +115,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
 }
 
 if($sErr != ""){
-    header("Location: ../mensajes.php?sMensaje=".$sErr."&Destino=".$sRuta);
+    //header("Location: ../mensajes.php?sMensaje=".$sErr."&Destino=".$sRuta);
 }
 
 ?>
