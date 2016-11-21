@@ -11,19 +11,22 @@ $oUser = new Usuarios();
 $sErr = "";
 $arrMenus = null;
 $sNombre = "";
-
-$oPaciente= new Paciente();
+$oNota = new NotaIntervencion();
 $oFuncion = new Funcion();
 $arrPaciente= null;
 $url="".$_SERVER['REQUEST_URI'];
-if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
+if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser']) &&
+    isset($_POST['txtExpediente']) && !empty($_POST['txtExpediente'])){
     $oUser = $_SESSION['sUser'];
     $oMenu = new Menu();
     $oMenu->setUsuario($oUser);
     $arrMenus = $oMenu->buscarMenuUsuario();
-    $arrPaciente= $oPaciente->PacientesMedico($oUser->getEmail());
+    $oNota->setPaciente(new Paciente());
+    $oNota->getPaciente()->setExpediente(new Expediente());
+    $oNota->getPaciente()->getExpediente()->setNumero($_POST['txtExpediente']);
+    $arrPaciente = $oNota->buscarTodosProcePaciente($oNota->getPaciente()->getExpediente()->getNumero());
     //var_dump($oPaciente);
-    if($oUser->buscarDatosBasicos() and $oFuncion->checkRoot($oUser->getEmail(), substr($url, 19))){
+    if($oUser->buscarDatosBasicos()){
         $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
     }else{
         $sErr = "Error, datos no encontrados";
@@ -160,15 +163,15 @@ if($sErr != ""){
                 <div class="x_panel">
 
                     <div class="x_title">
-                        <h2>Seleccione al Paciente</h2>
+                        <h2>Lista de Procedimientos del Paciente: <?php echo $_POST['txtNombre'];?></h2>
 
                         <div class="clearfix"></div>
                     </div>
 
                     <div class="x_content">
-                        <form id="frmExpediente" action="../../Sesiones/Reportes/listaProcePaciente.php" method="post">
-                            <input type="hidden" name="txtExpediente">
-                            <input type="hidden" name="txtNombre">
+                        <form id="frmExpediente" action="../../Controllers/genReporteIntervencionPDF.php" method="post">
+                            <input type="hidden" name="txtIdNota">
+                            <input type="hidden" name="txtOp">
                             <p class="text-muted font-13 m-b-30">
                             </p>
 
@@ -176,7 +179,9 @@ if($sErr != ""){
                                 <thead>
                                 <tr>
                                     <th>Expediente</th>
-                                    <th>Nombre</th>
+                                    <th>Diagnóstico Preoperatorio</th>
+                                    <th>Operación Realizada</th>
+                                    <th>Fecha de Procedimiento</th>
                                     <th>Accion</th>
                                 </tr>
                                 </thead>
@@ -186,11 +191,12 @@ if($sErr != ""){
                                     foreach($arrPaciente as $vRT){
                                         ?>
                                         <tr>
-                                            <td><?php echo $vRT->getExpediente()->getNumero();?></td>
-                                            <td><?php echo $vRT->getApPaterno()." ".$vRT->getApMaterno()." ".$vRT->getNombre(); ?></td>
+                                            <td><?php echo $vRT->getPaciente()->getExpediente()->getNumero();?></td>
+                                            <td><?php echo $vRT->getDiagnosticoPreope();?></td>
+                                            <td><?php echo $vRT->getOperacionRealizada();?></td>
+                                            <td><?php echo $vRT->getFechaProcedimiento();?></td>
                                             <td>
-                                                <input type="submit" value="Seleccionar" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $vRT->getExpediente()->getNumero();?>';
-                                                    txtNombre.value='<?php echo $vRT->getApPaterno()." ".$vRT->getApMaterno()." ".$vRT->getNombre(); ?>';" >
+                                                <input type="submit" value="Descargar Reporte" class=" btn btn-primary" onClick="txtIdNota.value='<?php echo $vRT->getIdNota();?>';" >
                                             </td>
                                         </tr>
                                         <?php

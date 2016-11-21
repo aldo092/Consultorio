@@ -1033,3 +1033,49 @@ CREATE PROCEDURE PacientesDoctor(IN user varchar(60))
          WHERE personal.sEmail = user;
   END
 //
+
+/*Buscar  todos los procedimientos cerrados de un paciente */
+
+DELIMITER //
+CREATE PROCEDURE buscarTodosProcePacientes(IN expediente varchar(20))
+  BEGIN
+    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, expediente.nNumero, notaintervencion.nIdNota, notaintervencion.dFechaProcedimiento,
+      notaintervencion.sDiagnositicoPreope, notaintervencion.sOperacionPlaneada, notaintervencion.sOperacionRealizada
+    FROM paciente
+      JOIN expediente
+        ON paciente.sCurpPaciente = expediente.sCurpPaciente
+      JOIN notaintervencion
+        ON notaintervencion.nNumero = expediente.nNumero
+    WHERE expediente.nNumero = expediente AND notaintervencion.bEstadoProce = 0;
+  END
+//
+
+DELIMITER //
+CREATE PROCEDURE buscarReporteIntervencion(IN idNota int(11))
+  BEGIN
+    SELECT notaintervencion.sDiagnositicoPreope, notaintervencion.sDxPosoperatorio, notaintervencion.sOperacionRealizada,
+      notaintervencion.sCirujano, notaintervencion.sCedulaCir, notaintervencion.sAnestesiologo, notaintervencion.sCedulaAnest,
+      notaintervencion.sExaHistoTransSol, notaintervencion.sOtrosEstTras, anestesia.sDescripcion as anestesiaaplicada, notaintervencion.dFechaProcedimiento,
+      notaintervencion.sHoraProce, notaintervencion.sDescripcionTecnica, notaintervencion.sHallazgos, notaintervencion.sIncidentes,
+      notaintervencion.sAccidentes, notaintervencion.sComplicaciones, notaintervencion.sObservaciones, notaintervencion.sEstadoPosope,
+      notaintervencion.sPlanManejoPosope, notaintervencion.sPronostico, clasificacionheridas.sDescripcion as clasificacion, notaintervencion.sImplante,
+      notaintervencion.sTipoImplante, manejoheridas.sDescripcion as heridas, notaintervencion.sOsteomias, notaintervencion.sTipoOsteomias,
+      notaintervencion.sLocalizacionOsteomias, notaintervencion.sDrenaje, notaintervencion.sTipoDrenaje, notaintervencion.sAntibiotico,
+      antibiotico.sDescripcion as antibioticorecetado,  notaintervencion.dFechaInicio, notaintervencion.sHoraInicio, paciente.sNombre, paciente.sApPaterno,
+      paciente.sApMaterno, expediente.nNumero
+    FROM notaintervencion
+      LEFT JOIN expediente
+        ON expediente.nnumero = notaintervencion.nnumero
+      LEFT JOIN paciente
+        ON paciente.sCurpPaciente = expediente.sCurpPaciente
+      LEFT OUTER JOIN anestesia
+        ON anestesia.nIdAnestesia = notaintervencion.nAnestesiaAplicada
+      LEFT OUTER JOIN clasificacionheridas
+        ON clasificacionheridas.nIdClasificacion = notaintervencion.nIdClasificacion
+      LEFT OUTER JOIN manejoheridas
+        ON manejoheridas.nIdManejo = notaintervencion.nIdManejo
+      LEFT OUTER JOIN antibiotico
+        ON antibiotico.nIdAntibiotico = notaintervencion.nIdAntibiotico
+    WHERE notaintervencion.nIdNota = idNota;
+  END
+//
