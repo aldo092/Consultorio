@@ -994,6 +994,6 @@ REFERENCES Medico(nIdPersonal)
   ON UPDATE NO ACTION;
 /****************************************************************/
 
-
-
+/*tabla de estatus*/
+create table estatus(nIdEstatus int AUTO_INCREMENT PRIMARY KEY  , sNombre VARCHAR(20));
 
