@@ -713,8 +713,8 @@ CREATE PROCEDURE buscarEstudios()
 DELIMITER //
 CREATE PROCEDURE insertarCita(IN user varchar(60), IN Consultorio INT(6), IN Horario INT(6),IN Paciente VARCHAR(20), IN FechaCita DATE)
   BEGIN
-    INSERT INTO cita (nIdConsultorio, nClaveHorario, nNumero, dFecRegistro, dFechaCita)
-    VALUES(Consultorio,Horario,Paciente,current_date,FechaCita);
+    INSERT INTO cita (nIdConsultorio, nClaveHorario, nNumero, dFecRegistro, dFechaCita,nIdEstatus)
+    VALUES(Consultorio,Horario,Paciente,current_date,FechaCita,1);
 
     INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES(user, 'INSERT', current_date, 'CITAS', CONCAT('Registro de  nueva cita por el usuario ', user));

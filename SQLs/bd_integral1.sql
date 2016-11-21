@@ -998,18 +998,14 @@ REFERENCES Medico(nIdPersonal)
 create table estatus
 (nIdEstatus int AUTO_INCREMENT PRIMARY KEY  , sNombre VARCHAR(20));
 
-CREATE TABLE receta(Folio INT AUTO_INCREMENT PRIMARY KEY ,fecha_expedicion DATE, Paciente VARCHAR(20),descripcion TEXT,medico INT);
+ALTER TABLE cita ADD CONSTRAINT estatus_cita_fk
+FOREIGN KEY (nIdEstatus)
+REFERENCES Estatus(nIdEstatus)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
 
 
-ALTER TABLE receta ADD CONSTRAINT paciente_receta_fk
-FOREIGN KEY (Paciente)
-REFERENCES Expediente(nNumero)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
 
-ALTER TABLE receta ADD CONSTRAINT medico_receta_fk
-FOREIGN KEY (medico)
-REFERENCES Medico(nIdPersonal)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
+
+
 
