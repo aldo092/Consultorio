@@ -52,10 +52,10 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
             $oNota->setDxPosoperatorio($_POST['txtDxPos']);
             $oNota->setOperacionRealizada($_POST['txtOpeReal']);
             $oNota->setCirujano($_POST['txtMedCir']);
-            (isset($_POST['txtCedMedCir']) && !empty($_POST['txtCedMedCir'])) ? $oNota->setCedCirujano($_POST['txtCedMedCir']) : $oNota->setCedCirujano("No se registró Cédula");
+            (isset($_POST['txtCedMedCir']) && !empty($_POST['txtCedMedCir'])) ? $oNota->setCedCirujano($_POST['txtCedMedCir']) : $oNota->setCedCirujano("No existe registro de Cédula");
             $oNota->setAnestesiologo($_POST['txtMedAnes']);
-            (isset($_POST['txtCedMedAnes']) && !empty($_POST['txtCedMedAnes'])) ? $oNota->setCedAnestesio($_POST['txtCedMedAnes']) : $oNota->setCedAnestesio("No se registró Cédula");
-            (isset($_POST['txtExaH1']) && !empty($_POST['txtExaH1']))  ? $oNota->setExaHistoTransSol($_POST['txtExaH1']) : $oNota->setExaHistoTransSol("No se registró examen");
+            (isset($_POST['txtCedMedAnes']) && !empty($_POST['txtCedMedAnes'])) ? $oNota->setCedAnestesio($_POST['txtCedMedAnes']) : $oNota->setCedAnestesio("No existe registro de Cédula");
+            (isset($_POST['txtExaH1']) && !empty($_POST['txtExaH1']))  ? $oNota->setExaHistoTransSol($_POST['txtExaH1']) : $oNota->setExaHistoTransSol("No existe registro de examen");
             (isset($_POST['txtOtrosEst']) && !empty($_POST['txtOtrosEst'])) ? $oNota->setOtrosEstTras($_POST['txtOtrosEst']) : $oNota->setOtrosEstTras("No se registraron otros estudios");
             $oNota->getAnestesia()->setIdAnestesia($_POST['anestesia']);
             $oNota->setFechaSolicitada($_POST['dFechaReal']);
@@ -67,11 +67,11 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
             (isset($_POST['txtComplicaciones']) && !empty($_POST['txtComplicaciones'])) ? $oNota->setComplicaciones($_POST['txtComplicaciones']) : $oNota->setComplicaciones("No se registraron complicaciones");
             (isset($_POST['txtObservaciones']) && !empty($_POST['txtObservaciones'])) ? $oNota->setObservaciones($_POST['txtObservaciones']) : $oNota->setObservaciones("No se registraron observaciones");
             (isset($_POST['txtEstadoPos']) && !empty($_POST['txtEstadoPos'])) ? $oNota->setEstadoPosope($_POST['txtEstadoPos']) : $oNota->setEstadoPosope("No se registró estado Posoperatorio");
-            (isset($_POST['txtPlanManejo']) && !empty($_POST['txtPlanManejo'])) ? $oNota->setPlanManejoPosope($_POST['txtPlanManejo']) : $oNota->setPlanManejoPosope("No se registró un Plan de Manejo Posoperatorio");
-            (isset($_POST['txtPronostico']) && !empty($_POST['txtPronostico'])) ? $oNota->setPronostico($_POST['txtPronostico']) : $oNota->setPronostico("No se registró Pronóstico");
+            (isset($_POST['txtPlanManejo']) && !empty($_POST['txtPlanManejo'])) ? $oNota->setPlanManejoPosope($_POST['txtPlanManejo']) : $oNota->setPlanManejoPosope("No existe registro un Plan de Manejo Posoperatorio");
+            (isset($_POST['txtPronostico']) && !empty($_POST['txtPronostico'])) ? $oNota->setPronostico($_POST['txtPronostico']) : $oNota->setPronostico("No se registraron Pronóstico");
             $oNota->getClasificacion()->setIdClasificacion($_POST['cherida']);
             $oNota->setImplante($_POST['implante']);
-            (isset($_POST['txtImplante']) && !empty($_POST['txtImplante'])) ? $oNota->setTipoImplante($_POST['txtImplante']) : $oNota->setTipoImplante("No se registró Implante");
+            (isset($_POST['txtImplante']) && !empty($_POST['txtImplante'])) ? $oNota->setTipoImplante($_POST['txtImplante']) : $oNota->setTipoImplante("No existe registro de Implante");
             $oNota->getManejo()->setIdManejo($_POST['mherida']);
             $oNota->setOsteomias($_POST['osteomias']);
             (isset($_POST['txtTipoOs']) && !empty($_POST['txtTipoOs'])) ? $oNota->setTipoOsteomias($_POST['txtTipoOs']) : $oNota->setTipoOsteomias("No se registraron Osteomías");
@@ -115,7 +115,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
 }
 
 if($sErr != ""){
-    //header("Location: ../mensajes.php?sMensaje=".$sErr."&Destino=".$sRuta);
+    header("Location: ../mensajes.php?sMensaje=".$sErr."&Destino=".$sRuta);
 }
 
 ?>

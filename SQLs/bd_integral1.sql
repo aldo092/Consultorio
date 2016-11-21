@@ -759,6 +759,7 @@ INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(9,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(13,2);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(20,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,3);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,3);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,3);
@@ -995,5 +996,18 @@ REFERENCES Medico(nIdPersonal)
 /****************************************************************/
 
 
+CREATE TABLE receta(Folio INT AUTO_INCREMENT PRIMARY KEY ,fecha_expedicion DATE, Paciente VARCHAR(20),descripcion TEXT,medico INT);
 
+
+ALTER TABLE receta ADD CONSTRAINT paciente_receta_fk
+FOREIGN KEY (Paciente)
+REFERENCES Expediente(nNumero)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE receta ADD CONSTRAINT medico_receta_fk
+FOREIGN KEY (medico)
+REFERENCES Medico(nIdPersonal)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
 

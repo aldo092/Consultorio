@@ -23,6 +23,7 @@ class NotaIntervencion
     private $oMedico = null;
     private $oManejo = null;
     private $oAnestesia = null;
+    private $oAnestesiaAplicada = null;
     private $oAntibioticos = null;
     private $nIdNota = 0;
     private $dFechaSol = null;
@@ -206,6 +207,16 @@ class NotaIntervencion
     public function getAntibioticos()
     {
         return $this->oAntibioticos;
+    }
+
+    public function getAnestesiaAplicada()
+    {
+        return $this->oAnestesiaAplicada;
+    }
+
+    public function setAnestesiaAplicada($oAnestesiaAplicada)
+    {
+        $this->oAnestesiaAplicada = $oAnestesiaAplicada;
     }
 
     public function setAntibioticos($oAntibioticos)
@@ -690,7 +701,7 @@ class NotaIntervencion
             throw  new Exception("NotaIntervencion->insertarResultadosNotaInt(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = utf8_decode("call insertarResultadosIntervencion('".$usuario."',
+                $sQuery = "call insertarResultadosIntervencion('".$usuario."',
                    '".$this->getPaciente()->getExpediente()->getNumero()."',
                    '".$this->getDxPosoperatorio()."',
                    '".$this->getOperacionRealizada()."',
@@ -722,7 +733,7 @@ class NotaIntervencion
                    '".$this->getCirujano()."',
                    '".$this->getCedCirujano()."',
                    '".$this->getAnestesiologo()."',
-                   '".$this->getCedAnestesio()."',");
+                   '".$this->getCedAnestesio()."',";
                 $sQuery = $this->getFechaInicioAnt() != 'null' ? $sQuery ."'".$this->getFechaInicioAnt()."'," : $sQuery . "".$this->getFechaInicioAnt().",";
                 $sQuery = $sQuery ."'".$this->getHoraInicioAnt()."');";
                 $nAfec = $oAD->ejecutaComando($sQuery);
@@ -730,6 +741,108 @@ class NotaIntervencion
             }
         }
         return $nAfec;
+    }
+
+    function buscarTodosProcePaciente(){
+        $oAD = new AccesoDatos();
+        $rst = null;
+        $vObj = null;
+        $oNota = null;
+        $sQuery = "";
+        $i = 0;
+        if($this->getPaciente()->getExpediente()->getNumero() == ""){
+            throw new Exception("NotaIntervecion->buscarTodosProcePaciente(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarTodosProcePacientes('".$this->getPaciente()->getExpediente()->getNumero()."');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+            }
+            if($rst){
+                foreach ($rst as $vRow){
+                    $oNota = new NotaIntervencion();
+                    $oNota->setPaciente(new Paciente());
+                    $oNota->getPaciente()->setExpediente(new Expediente());
+                    $oNota->getPaciente()->setNombre($vRow[0]);
+                    $oNota->getPaciente()->setApPaterno($vRow[1]);
+                    $oNota->getPaciente()->setApMaterno($vRow[2]);
+                    $oNota->getPaciente()->getExpediente()->setNumero($vRow[3]);
+                    $oNota->setIdNota($vRow[4]);
+                    $oNota->setFechaProcedimiento($vRow[5]);
+                    $oNota->setDiagnosticoPreope($vRow[6]);
+                    $oNota->setOperacionPlaneada($vRow[7]);
+                    $oNota->setOperacionRealizada($vRow[8]);
+                    $vObj[$i] = $oNota;
+                    $i = $i + 1;
+                }
+            }else{
+                $vObj = false;
+            }
+        }
+        return $vObj;
+    }
+
+    function buscarResultadoNota(){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $rst = null;
+        $bRet = false;
+        if($this->getIdNota() == 0){
+            throw new Exception("NotaIntervencion->buscarResultadosNota(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarReporteIntervencion(".$this->getIdNota().");";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                if($rst){
+                    $this->setPaciente(new Paciente());
+                    $this->getPaciente()->setExpediente(new Expediente());
+                    $this->setAnestesiaAplicada(new Anestesia());
+                    $this->setManejo(new ManejoHeridas());
+                    $this->setClasificacion(new ClasificacionHeridas());
+                    $this->setAntibiotico(new Antibioticos());
+                    $this->setDiagnosticoPreope($rst[0][0]);
+                    $this->setDxPosoperatorio($rst[0][1]);
+                    $this->setOperacionRealizada($rst[0][2]);
+                    $this->setCirujano($rst[0][3]);
+                    $this->setCedCirujano($rst[0][4]);
+                    $this->setAnestesiologo($rst[0][5]);
+                    $this->setCedAnestesio($rst[0][6]);
+                    $this->setExaHistoTransSol($rst[0][7]);
+                    $this->setOtrosEstTras($rst[0][8]);
+                    $this->getAnestesiaAplicada()->setDescripcion($rst[0][9]);
+                    $this->setFechaProcedimiento($rst[0][10]);
+                    $this->setHoraProce($rst[0][11]);
+                    $this->setDescripcionTecnica($rst[0][12]);
+                    $this->setHallazgos($rst[0][13]);
+                    $this->setIncidentes($rst[0][14]);
+                    $this->setAccidentes($rst[0][15]);
+                    $this->setComplicaciones($rst[0][16]);
+                    $this->setObservaciones($rst[0][17]);
+                    $this->setEstadoPosope($rst[0][18]);
+                    $this->setPlanManejoPosope($rst[0][19]);
+                    $this->setPronostico($rst[0][20]);
+                    $this->getClasificacion()->setDescripcion($rst[0][21]);
+                    $this->setImplante($rst[0][22]);
+                    $this->setTipoImplante($rst[0][23]);
+                    $this->getManejo()->setDescripcion($rst[0][24]);
+                    $this->setOsteomias($rst[0][25]);
+                    $this->setTipoOsteomias($rst[0][26]);
+                    $this->setLocalizacionOsteomias($rst[0][27]);
+                    $this->setDrenaje($rst[0][28]);
+                    $this->setTipoDrenaje($rst[0][29]);
+                    $this->setAntibiotico($rst[0][30]);
+                    $this->getAntibioticos()->setDescripcion($rst[0][31]);
+                    $this->setFechaInicioAnt($rst[0][32]);
+                    $this->setHoraInicioAnt($rst[0][33]);
+                    $this->getPaciente()->setNombre($rst[0][34]);
+                    $this->getPaciente()->setApPaterno($rst[0][35]);
+                    $this->getPaciente()->setApMaterno($rst[0][36]);
+                    $this->getPaciente()->getExpediente()->setNumero($rst[0][37]);
+                    $bRet = true;
+                }
+            }
+        }
+        return $bRet;
     }
 
 }

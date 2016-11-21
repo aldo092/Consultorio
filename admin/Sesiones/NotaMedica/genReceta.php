@@ -56,7 +56,7 @@ if($sErr != ""){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Generar Receta Medica</title>
+    <title>Generar Receta Médica</title>
 
     <!-- Bootstrap -->
     <link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -171,7 +171,7 @@ if($sErr != ""){
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3> Generar Recete Medica</h3 >
+                        <h3> Generar Receta Médica</h3 >
                     </div>
 
                 </div>
