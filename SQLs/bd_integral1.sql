@@ -995,7 +995,8 @@ REFERENCES Medico(nIdPersonal)
 /****************************************************************/
 
 /*tabla de estatus*/
-create table estatus(nIdEstatus int AUTO_INCREMENT PRIMARY KEY  , sNombre VARCHAR(20));
+create table estatus
+(nIdEstatus int AUTO_INCREMENT PRIMARY KEY  , sNombre VARCHAR(20));
 
 CREATE TABLE receta(Folio INT AUTO_INCREMENT PRIMARY KEY ,fecha_expedicion DATE, Paciente VARCHAR(20),descripcion TEXT,medico INT);
 
