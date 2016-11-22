@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: Pablo
  * Date: 03/08/2016
- * Time: 07:02 PM
+ * 
  */
 include_once ("Paciente.php");
 include_once ("AccesoDatos.php");

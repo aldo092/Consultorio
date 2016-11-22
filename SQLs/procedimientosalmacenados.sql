@@ -916,6 +916,7 @@ CREATE  PROCEDURE ModificaEstatus(IN user VARCHAR(60),IN ID INT, IN estatus INT)
   END //
 
 
+
 DELIMITER //
 CREATE PROCEDURE CancelarCita(IN user VARCHAR(60), IN Folio INT)
   BEGIN
