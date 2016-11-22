@@ -146,8 +146,8 @@ class Cita
                 $oCita = new Cita();
                 $oCita->setFolioCita($vRowTemp[0]);
                 $oCita->setConsultorio($vRowTemp[1]);
-                $oCita->setSHorario($vRowTemp[2]);
-                $oCita->setPaciente($vRowTemp[3]);
+                $oCita->setPaciente($vRowTemp[2]);
+                $oCita->setSHorario($vRowTemp[3]);
                 $oCita->setFechaRegistro($vRowTemp[4]);
                 $oCita->setFechaCita($vRowTemp[5]);
                 $oCita->setEstatus($vRowTemp[6]);

@@ -879,10 +879,12 @@ CREATE PROCEDURE buscarDatosProcedimiento(IN expediente varchar(20))
     WHERE expediente.nNumero = expediente AND notaintervencion.bEstadoProce = 1;
   END
 //
+
+/* Se agrega un alias a la columna co.sDescripcion as Consultorio ya que los dos atributos de descripcion causan conflicto */
 DELIMITER //
 CREATE  PROCEDURE BuscarTodasCitas ()
   BEGIN
-    select c.nFolioCita, co.sDescripcion,c.nNumero, h.sHoraInicio,c.dFecRegistro, c.dFechaCita, s.sDescripcion
+    select c.nFolioCita, co.sDescripcion as Consultorio,c.nNumero, h.sHoraInicio,c.dFecRegistro, c.dFechaCita, s.sDescripcion
     from cita c
       join consultorio co
         on c.nIdConsultorio=co.nIdConsultorio
