@@ -158,8 +158,8 @@ class PDF extends  FPDF{
 
 }
 
-$html = utf8_decode('.Procedimiento o Intervención Quirúrgica: <b>'.$oNota->getTipoOperacion().'</b> <br>.</br>'.
-        'Diagnóstico previo al procedimiento o intervención quirúrgica: <b>'.$oNota->getDiagnosticoPreope().'</b> <br>.</br>'.
+$html = utf8_decode('Electiva o Urgencias: <b>'.$oNota->getTipoOperacion().'</b> <br>.</br>'.
+        'Diagnóstico previo al procedimiento o intervención quirúrgica: <b>'.$oNota->getDiagnosticoPreope().'asdasdasdasdadasdasdasd</b> <br>.</br>'.
         'Procedimiento o intervención quirúrgica  proyectada: <b>'.$oNota->getOperacionPlaneada().'</b> <br>.</br>'.
         'Riesgos más frecuentes inherentes al procedimiento o intervención quirúrgica y a las condiciones actuales del paciente: <b>'.$oNota->getRiesgos().'</b> <br>.</br>'.
         'Beneficios: <b>'.$oNota->getBeneficios().'</b> <br>.</br>');

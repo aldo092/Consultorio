@@ -92,7 +92,7 @@ $oUsuario = null;
                 $oPersonal->getMedico()->setFecExpedCedEsp($_POST['dCedulaEsp']);
                 $oPersonal->getMedico()->setNumTelefono1($_POST['txtTel2'] == '' ? 'Sin No.': $_POST['txtTel2']);
                 $oPersonal->getMedico()->setEspecialidad(new Especialidad());
-                $oPersonal->getMedico()->getEspecialidad()->setIdEspecialidad($_POST['espec']);
+                $oPersonal->getMedico()->getEspecialidad()->setIdEspecialidad($_POST['esp']);
                 if ($_FILES["imagen"]["error"] == UPLOAD_ERR_OK) {
 
                     if (($_FILES["imagen"]["type"] == "image/jpeg") ||

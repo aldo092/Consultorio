@@ -171,7 +171,6 @@ if($sErr != ""){
                     <div class="x_content">
                         <form id="frmExpediente" action="../../Controllers/genReporteIntervencionPDF.php" method="post">
                             <input type="hidden" name="txtIdNota">
-                            <input type="hidden" name="txtOp">
                             <p class="text-muted font-13 m-b-30">
                             </p>
 

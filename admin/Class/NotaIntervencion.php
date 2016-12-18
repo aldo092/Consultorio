@@ -799,7 +799,7 @@ class NotaIntervencion
                     $this->setAnestesiaAplicada(new Anestesia());
                     $this->setManejo(new ManejoHeridas());
                     $this->setClasificacion(new ClasificacionHeridas());
-                    $this->setAntibiotico(new Antibioticos());
+                    $this->setAntibioticos(new Antibioticos());
                     $this->setDiagnosticoPreope($rst[0][0]);
                     $this->setDxPosoperatorio($rst[0][1]);
                     $this->setOperacionRealizada($rst[0][2]);

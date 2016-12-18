@@ -472,10 +472,10 @@ if($sErr != ""){
                                             if($sOp == 'a'){
                                         ?>
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="espec">Elija una especialidad <span class="required">*</span>
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="esp">Elija una especialidad <span class="required">*</span>
                                                     </label>
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <select id="espec" name="espec" class="form-control" required>
+                                                        <select id="esp" name="esp" class="form-control">
                                                             <option value="">Seleccione</option>
                                                             <?php
                                                             if($arrEspe != null){
@@ -654,7 +654,7 @@ if($sErr != ""){
                     $("#dCedulaEsp").attr({
                         required : false
                     });
-                    $("#txtEspecialidad").attr({
+                    $("#esp").attr({
                         required : false
                     });
                     $(".contenido").hide();
