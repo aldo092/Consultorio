@@ -112,7 +112,7 @@ class Receta{
             $fecha = date("j/n/Y");
             $nombreArchivo = "Receta de " . $paciente . $fecha . ".pdf";
 
-            $pdf = new FPDF('P', 'cm', 'rec');
+            $pdf = new FPDF('P', 'cm', 'a4');
             $pdf->AddPage();
             $pdf->Image('../images/urologo.jpg', 0, 0, 0, 0, 'JPG');
             /*Texto predeterminado*/
