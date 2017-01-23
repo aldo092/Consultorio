@@ -14,6 +14,7 @@ include_once ("Medico.php");
 include_once ("ManejoHeridas.php");
 include_once ("Anestesia.php");
 include_once ("Antibioticos.php");
+include_once ("Personal.php");
 class NotaIntervencion
 {
     private $oAD = null;
@@ -72,7 +73,18 @@ class NotaIntervencion
     private $dFechaInicioAnt = null;
     private $sHoraInicioAnt = "";
     private $bEstadoProce = 0;
+    private $oPersonal = null;
 
+
+    public function getPersonal()
+    {
+        return $this->oPersonal;
+    }
+
+    public function setPersonal($oPersonal)
+    {
+        $this->oPersonal = $oPersonal;
+    }
 
     public function getCirujano()
     {
@@ -800,6 +812,7 @@ class NotaIntervencion
                     $this->setManejo(new ManejoHeridas());
                     $this->setClasificacion(new ClasificacionHeridas());
                     $this->setAntibioticos(new Antibioticos());
+                    $this->setMedico(new Medico());
                     $this->setDiagnosticoPreope($rst[0][0]);
                     $this->setDxPosoperatorio($rst[0][1]);
                     $this->setOperacionRealizada($rst[0][2]);
@@ -838,6 +851,10 @@ class NotaIntervencion
                     $this->getPaciente()->setApPaterno($rst[0][35]);
                     $this->getPaciente()->setApMaterno($rst[0][36]);
                     $this->getPaciente()->getExpediente()->setNumero($rst[0][37]);
+                    $this->getMedico()->setNombres($rst[0][38]);
+                    $this->getMedico()->setApPaterno($rst[0][39]);
+                    $this->getMedico()->setApMaterno($rst[0][40]);
+                    $this->getMedico()->setNumCedula($rst[0][41]);
                     $bRet = true;
                 }
             }

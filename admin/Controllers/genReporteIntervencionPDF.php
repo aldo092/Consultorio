@@ -166,7 +166,18 @@ $html = utf8_decode("Nombre del Paciente: <b>". $oNota->getPaciente()->getNombre
 				   "Incidentes: <br> </br><b> ".$oNota->getIncidentes()."</b><br> </br></br><br>".
 				   "Accidentes: <br> </br><b> ".$oNota->getAccidentes()."</b><br> </br></br><br>");
 $html2 = utf8_decode("Complicaciones Transoperatorias: <br> </br><b> ".$oNota->getComplicaciones()."</b><br> </br></br><br>".
-					"");
+                    "Observaciones: <br> </br><b> ".$oNota->getObservaciones()."</b><br> </br></br><br>".
+                    "Estado Posoperatorio inmediato: <br> </br><b> ".$oNota->getEstadoPosope()."</b><br> </br></br><br>".
+                    "Plan de manejo Posoperatorio inmediato: <br> </br><b> ".$oNota->getPlanManejoPosope()."</b><br> </br></br><br>".
+                    "Pronóstico: <br> </br><b> ".$oNota->getPronostico()."</b><br> </br></br><br>".
+                    "Clasificación de la herida: <br> </br><b> ".$oNota->getClasificacion()->getDescripcion()."</b><br> </br></br><br>".
+                    "Tipo de Implante: <br> </br><b> ".$oNota->getTipoImplante()."</b><br> </br></br><br>".
+                    "Manejo de la herida: <br> </br><b> ".$oNota->getManejo()->getDescripcion()."</b><br> </br></br><br>".
+                    "Tipo de Osteomías: <br> </br><b> ".$oNota->getTipoOsteomias()."</b><br> </br></br><br>".
+                    "Localización de Osteomías: <br> </br><b> ".$oNota->getLocalizacionOsteomias()."</b><br> </br></br><br>".
+                    "Tipo de Drenaje: <br> </br><b> ".$oNota->getTipoDrenaje()."</b><br> </br></br><br>".
+                    "Tipo de Antibiótico: <br> </br><b> ".$oNota->getAntibioticos()->getDescripcion()."</b><br> </br></br><br>".
+                    "Fecha y hora del inicio de Aplicación del Antibiótico: <br> </br><b> ".$oNota->getFechaInicioAnt()." ".$oNota->getHoraInicioAnt()."</b><br> </br></br><br>"."");
 
 $pdf = new PDF();
 $pdf->AliasNbPages();
@@ -182,5 +193,12 @@ $pdf->Cell(0,10,'',0,1);
 $pdf->Cell(0,10,'',0,1);
 $pdf->Cell(0,10,'',0,1);
 $pdf->WriteHTML($html2);
+$pdf->Ln();
+$pdf->Cell(0,5,"                                             ".utf8_decode($oNota->getMedico()->getNombres()." ".$oNota->getMedico()->getApPaterno()." ".$oNota->getMedico()->getApMaterno() .", No. Cédula: ".$oNota->getMedico()->getNumCedula()."                              "),0,0);
+$pdf->Ln();
+$pdf->Cell(0,5,"                                               ________________________________________________                               ",0,0);
+$pdf->Ln();
+$pdf->Cell(0,5,utf8_decode("                                                    Nombre completo, matrícula y  firma del médico                      "),0,0);
+
 $pdf->Output();
 ?>

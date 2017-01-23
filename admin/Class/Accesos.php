@@ -127,6 +127,7 @@ class Accesos
                     if($oAD->Conecta()){
                         $sQuery = "call insertaAcceso('".$this->getUsuario()->getEmail()."',".$sNum.");";
                         $nAfe = $oAD->ejecutaComando($sQuery);
+                        //var_dump($sQuery);
                         $oAD->Desconecta();
                         $this->setNIP($sNum);
                     }
@@ -169,6 +170,7 @@ class Accesos
             if($oAD->Conecta()){
                 $sQuery = "call updateStatusAccess('".$this->getUsuario()->getEmail()."');";
                 $nAfe = $oAD->ejecutaComando($sQuery);
+                //var_dump($sQuery);
                 $oAD->Desconecta();
             }
         }

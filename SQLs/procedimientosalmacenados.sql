@@ -1064,8 +1064,8 @@ CREATE PROCEDURE buscarReporteIntervencion(IN idNota int(11))
       notaintervencion.sPlanManejoPosope, notaintervencion.sPronostico, clasificacionheridas.sDescripcion as clasificacion, notaintervencion.sImplante,
       notaintervencion.sTipoImplante, manejoheridas.sDescripcion as heridas, notaintervencion.sOsteomias, notaintervencion.sTipoOsteomias,
       notaintervencion.sLocalizacionOsteomias, notaintervencion.sDrenaje, notaintervencion.sTipoDrenaje, notaintervencion.sAntibiotico,
-      antibiotico.sDescripcion as antibioticorecetado,  notaintervencion.dFechaInicio, notaintervencion.sHoraInicio, paciente.sNombre, paciente.sApPaterno,
-      paciente.sApMaterno, expediente.nNumero
+                                                                          antibiotico.sDescripcion as antibioticorecetado,  notaintervencion.dFechaInicio, notaintervencion.sHoraInicio, paciente.sNombre, paciente.sApPaterno,
+      paciente.sApMaterno, expediente.nNumero, personal.sNombres as nommed, personal.sApPaterno as appatmed, personal.sApMaterno as apmatmed
     FROM notaintervencion
       LEFT JOIN expediente
         ON expediente.nnumero = notaintervencion.nnumero
@@ -1079,6 +1079,21 @@ CREATE PROCEDURE buscarReporteIntervencion(IN idNota int(11))
         ON manejoheridas.nIdManejo = notaintervencion.nIdManejo
       LEFT OUTER JOIN antibiotico
         ON antibiotico.nIdAntibiotico = notaintervencion.nIdAntibiotico
+      LEFT JOIN personal
+        ON personal.nIdPersonal = paciente.sMedico
     WHERE notaintervencion.nIdNota = idNota;
+  END
+//
+
+delimiter //
+CREATE PROCEDURE updateStatusAccess(IN user varchar(100))
+  BEGIN
+    UPDATE accesos
+    SET bEstado = 0
+    WHERE sEmail = user;
+
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'UPDATE', current_date, 'ACCESOS', CONCAT('Actualización del acceso para el usuario' | user));
+
   END
 //

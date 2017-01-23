@@ -24,6 +24,7 @@ $oAcceso = new Accesos();
            }else{
                $nNum = $_COOKIE['cIntentos'];
                if($nNum == 3){
+                   //var_dump($oAcceso);
                    if($oAcceso->updateStatus() == 1) {
                         if($oAcceso->insertaAcceso()==1){
                             if($oAcceso->email()){
@@ -31,6 +32,9 @@ $oAcceso = new Accesos();
                             }else{
                                 $sErr = "Error al enviar el email";
                             }
+                        }else{
+                            var_dump($oAcceso);
+                            $sErr = "Error, no se insertó el acceso";
                         }
                    }
                }else if($nNum < 3){

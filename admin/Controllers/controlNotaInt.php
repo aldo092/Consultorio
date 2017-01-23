@@ -75,7 +75,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
             $oNota->getManejo()->setIdManejo($_POST['mherida']);
             $oNota->setOsteomias($_POST['osteomias']);
             (isset($_POST['txtTipoOs']) && !empty($_POST['txtTipoOs'])) ? $oNota->setTipoOsteomias($_POST['txtTipoOs']) : $oNota->setTipoOsteomias("No se registraron Osteomías");
-            (isset($_POST['txtLocOs']) && !empty($_POST['txtLocOs'])) ?$oNota->setLocalizacionOsteomias($_POST['txtLocOs']) : $oNota->setTipoOsteomias("No se registraron Osteomías");
+            (isset($_POST['txtLocOs']) && !empty($_POST['txtLocOs'])) ? $oNota->setLocalizacionOsteomias($_POST['txtLocOs']) : $oNota->setLocalizacionOsteomias("No se registraron Osteomías");
             $oNota->setDrenaje($_POST['drenaje']);
             (isset($_POST['drenajetipo']) && !empty($_POST['drenajetipo'])) ? $oNota->setTipoDrenaje($_POST['drenajetipo']) : $oNota->setTipoDrenaje("");
             $oNota->setAntibiotico($_POST['antibiotico']);
