@@ -268,6 +268,10 @@ CREATE TABLE AnteNoPatologicos (
   bElectricidad CHAR(2),
   bDrenaje CHAR(2),
   bServSanit CHAR(2),
+  sBCG CHAR(2),
+  sPolio CHAR(2),
+  sPenta CHAR(2),
+  sInfluenza CHAR(2),
   PRIMARY KEY (nNumero)
 );
 
@@ -284,6 +288,10 @@ CREATE TABLE AntecedenteFam (
   sHipertension CHAR(2),
   sDrogadiccion CHAR(2),
   sTabaquismo CHAR(2),
+  sCardiopatias CHAR(2),
+  sTuberculosis CHAR(2),
+  sEpilepsia CHAR(2),
+  sInsRenal CHAR(2),
   PRIMARY KEY (nNumero)
 );
 

@@ -403,15 +403,15 @@ if($sErr != ""){
                                 <div id="myTabContent" class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade <?php echo $divFam;?> " id="tab_content1" aria-labelledby="home-tab">
 
-                                        <form class="form-horizontal" role="form" method="post" action="../../Controllers/CtrlAntFam.php">
+                                        <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntFam.php">
                                          <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
 
                                             <div class="form-group ">
                                                 <div class="col-md-4 col-md-offset-4">
 
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7 ">Existen familiares con
-                                                            alcoholismo</label>
+                                                        <label class="control-label col-xs-7 ">¿Existen familiares con
+                                                            alcoholismo?</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
                                                                 <input type="radio" name="alcoholismo" value="si" required="required"> si
@@ -424,8 +424,8 @@ if($sErr != ""){
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Existen familiares con
-                                                            tabaquismo</label>
+                                                        <label class="control-label col-xs-7">¿Existen familiares con
+                                                            tabaquismo?</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
                                                                 <input type="radio" name="tabaquismo" value="si" required="required"> si
@@ -440,8 +440,8 @@ if($sErr != ""){
 
 
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Existen familiares con
-                                                            problemas de drogadicción</label>
+                                                        <label class="control-label col-xs-7">¿Existen familiares con
+                                                            problemas de drogadicción?</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
                                                                 <input type="radio" name="drogas" value="si" required="required"> si
@@ -454,8 +454,8 @@ if($sErr != ""){
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Existen familiares con
-                                                            asma</label>
+                                                        <label class="control-label col-xs-7">¿Existen familiares con
+                                                            asma?</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
                                                                 <input type="radio" name="asma" value="si" required="required"> si
@@ -468,8 +468,8 @@ if($sErr != ""){
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Existen familiares con
-                                                            diabetes</label>
+                                                        <label class="control-label col-xs-7">¿Existen familiares con
+                                                            diabetes?</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
                                                                 <input type="radio" name="diabetes" value="si" required="required"> si
@@ -482,8 +482,8 @@ if($sErr != ""){
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Existen familiares con
-                                                            hipertensión</label>
+                                                        <label class="control-label col-xs-7">¿Existen familiares con
+                                                            hipertensión?</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
                                                                 <input type="radio" name="hipertension" value="si" required="required"> si
@@ -496,8 +496,8 @@ if($sErr != ""){
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Existen familiares con
-                                                            alergias</label>
+                                                        <label class="control-label col-xs-7">¿Existen familiares con
+                                                            alergias?</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
                                                                 <input type="radio" name="alergias" value="si" required="required"> si
@@ -510,8 +510,8 @@ if($sErr != ""){
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Existen familiares que
-                                                            presenten convulsiones</label>
+                                                        <label class="control-label col-xs-7">¿Existen familiares que
+                                                            presenten convulsiones?</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
                                                                 <input type="radio" name="convulsiones" value="si" required="required"> si
@@ -524,8 +524,8 @@ if($sErr != ""){
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Existen familiares con
-                                                            defectos congenitos</label>
+                                                        <label class="control-label col-xs-7">¿Existen familiares con
+                                                            defectos congenitos?</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
                                                                 <input type="radio" name="congenitos" value="si" required="required"> si
@@ -538,8 +538,8 @@ if($sErr != ""){
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Existen familiares con
-                                                            cáncer</label>
+                                                        <label class="control-label col-xs-7">¿Existen familiares con
+                                                            cáncer?</label>
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
                                                                 <input type="radio" name="cancer" value="si" required="required"> si
@@ -548,6 +548,62 @@ if($sErr != ""){
                                                         <div class="col-xs-2">
                                                             <label class="radio-inline">
                                                                 <input type="radio" name="cancer" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Existen familiares con
+                                                            Cardiopatias?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="cardiopatias" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="cardiopatias" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Existen familiares con
+                                                            tuberculosis?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="tb" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="tb" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Existen familiares con
+                                                            epilepsia?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="epilepsia" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="epilepsia" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Existen familiares con
+                                                            insuficiencia renal?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="insren" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="insren" value="no"> no
                                                             </label>
                                                         </div>
                                                     </div>
@@ -808,6 +864,58 @@ if($sErr != ""){
                                                         <div class="col-xs-5">
                                                             <input class="form-control input-sm" type="text" name="ocupacion" required="required">
 
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Cuenta con la vacuna BCG?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="bcg" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name=bcg value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Está vacunado contra la Polio?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="polio" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="polio" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Cuenta con la vacuna pentavalente?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="penta" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="penta" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Está vacunado contra influenza?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="influenza" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="influenza" value="no"> no
+                                                            </label>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">

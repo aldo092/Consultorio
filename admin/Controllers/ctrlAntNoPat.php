@@ -32,6 +32,11 @@ $WC="";
 $Escolaridad="";
 $Religion="";
 $Ocupacion="";
+$BCG="";
+$Polio="";
+$Pentavalente="";
+$Influenza="";
+
 $url="../admin/Sesiones/Pacientes/Pacientes.php";
 
 $oAntNopat= new AntecNoPatologicos();
@@ -48,7 +53,11 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     isset($_POST["water"]) && !empty($_POST["water"]) &&
     isset($_POST["estudios"]) && !empty($_POST["estudios"]) &&
     isset($_POST["religion"]) && !empty($_POST["religion"]) &&
-    isset($_POST["ocupacion"]) && !empty($_POST["ocupacion"])) {
+    isset($_POST["ocupacion"]) && !empty($_POST["ocupacion"])&&
+    isset($_POST["bcg"]) && !empty($_POST["bcg"]) &&
+    isset($_POST["polio"]) && !empty($_POST["polio"]) &&
+    isset($_POST["penta"]) && !empty($_POST["penta"]) &&
+    isset($_POST["influenza"]) && !empty($_POST["influenza"])) {
 
     $Expediente = $_POST["nExpediente"];
     $Alcoholico = $_POST["alcoholismo"];
@@ -61,6 +70,13 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     $Escolaridad = $_POST["estudios"];
     $Religion = $_POST["religion"];
     $Ocupacion = $_POST["ocupacion"];
+    $BCG = $_POST["bcg"];
+    $Polio = $_POST["polio"];
+    $Pentavalente=$_POST["penta"];
+    $Influenza=$_POST["influenza"];
+
+
+
 
     $oAntNopat->setExpediente($Expediente);
     $oAntNopat->setAlcoholismo($Alcoholico);
@@ -73,6 +89,14 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     $oAntNopat->setEscolaridad($Escolaridad);
     $oAntNopat->setReligion($Religion);
     $oAntNopat->setOcupacion($Ocupacion);
+    $oAntNopat->setSBCG($BCG);
+    $oAntNopat->setSPolio($Polio);
+    $oAntNopat->setSPenta($Pentavalente);
+    $oAntNopat->setSInfluenza($Influenza);
+
+
+
+
 
     $NAfec = $oAntNopat->insertar($user);
 
