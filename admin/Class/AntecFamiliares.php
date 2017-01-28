@@ -24,6 +24,10 @@ class AntecFamiliares
     private $sHipertension="";
     private $sDrogradiccion="";
     private $sTabaquismo;
+    private $sCardiopatias;
+    private $sTuberculosis;
+    private $sEpilepsia;
+    private $sInsRenal;
 
     private $oPaciente = null;
 
@@ -157,6 +161,52 @@ class AntecFamiliares
         $this->sTabaquismo = $sTabaquismo;
     }
 
+
+    public function getSCardiopatias()
+    {
+        return $this->sCardiopatias;
+    }
+
+
+    public function setSCardiopatias($sCardiopatias)
+    {
+        $this->sCardiopatias = $sCardiopatias;
+    }
+
+    public function getSTuberculosis()
+    {
+        return $this->sTuberculosis;
+    }
+
+    public function setSTuberculosis($sTuberculosis)
+    {
+        $this->sTuberculosis = $sTuberculosis;
+    }
+
+
+    public function getSEpilepsia()
+    {
+        return $this->sEpilepsia;
+    }
+
+    public function setSEpilepsia($sEpilepsia)
+    {
+        $this->sEpilepsia = $sEpilepsia;
+    }
+
+    public function getSInsRenal()
+    {
+        return $this->sInsRenal;
+    }
+
+
+    public function setSInsRenal($sInsRenal)
+    {
+        $this->sInsRenal = $sInsRenal;
+    }
+
+
+
     function buscarPorPaciente(){
         $oAD = new AccesoDatos();
         $oAntFam = null;
@@ -207,7 +257,11 @@ class AntecFamiliares
                                                   '".$this->sDiabetes."',
                                                   '".$this->sHipertension."',
                                                   '".$this->sDrogradiccion."',
-                                                  '".$this->sTabaquismo."');";
+                                                  '".$this->sTabaquismo."',
+                                                  '".$this->sCardiopatias."',
+                                                  '".$this->sTuberculosis."',
+                                                  '".$this->sEpilepsia."',
+                                                  '".$this->sInsRenal."');";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }

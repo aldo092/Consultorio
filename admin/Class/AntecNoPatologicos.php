@@ -23,6 +23,10 @@ class AntecNoPatologicos
     private $bElectricidad;
     private $bDrenaje;
     private $bServSan;
+    private $sBCG;
+    private $sPolio;
+    private $sPenta;
+    private $sInfluenza;
     private $oPaciente;
 
     public function getPaciente()
@@ -165,6 +169,53 @@ class AntecNoPatologicos
         $this->bServSan = $bServSan;
         return $this;
     }
+
+    public function getSBCG()
+    {
+        return $this->sBCG;
+    }
+
+    public function setSBCG($sBCG)
+    {
+        $this->sBCG = $sBCG;
+    }
+
+
+    public function getSPolio()
+    {
+        return $this->sPolio;
+    }
+
+
+    public function setSPolio($sPolio)
+    {
+        $this->sPolio = $sPolio;
+    }
+
+    public function getSPenta()
+    {
+        return $this->sPenta;
+    }
+
+
+    public function setSPenta($sPenta)
+    {
+        $this->sPenta = $sPenta;
+    }
+
+
+    public function getSInfluenza()
+    {
+        return $this->sInfluenza;
+    }
+
+
+    public function setSInfluenza($sInfluenza)
+    {
+        $this->sInfluenza = $sInfluenza;
+    }
+
+
     
     function buscarPorPaciente(){
         $oAD = new AccesoDatos();
@@ -216,7 +267,11 @@ class AntecNoPatologicos
                                                   '".$this->bAguaPotable."',
                                                   '".$this->bElectricidad."',
                                                   '".$this->bDrenaje."',
-                                                  '".$this->bServSan."');";
+                                                  '".$this->bServSan."',
+                                                  '".$this->sBCG."',
+                                                  '".$this->sPolio."',
+                                                  '".$this->sPenta."',
+                                                  '".$this->sInfluenza."');";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }

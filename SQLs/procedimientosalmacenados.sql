@@ -452,16 +452,16 @@ CREATE PROCEDURE BuscaTodosPacientesExpediente()
 //
 
 /*Fecha de creación 30 de agosto Procedimientos Almacenados de Antecedentes de pacientes*/
-
+/*Fecha de Modificacion 25/01/2017 agregados mas campos requeridos por ginecologia */
 DELIMITER //
 CREATE PROCEDURE insertarAntFam(IN user         VARCHAR(60), IN Expediente VARCHAR(20), IN Alcoholismo CHAR(2),
                                 IN Alergias     CHAR(2), IN Asma CHAR(2), IN Cancer CHAR(2), IN Congenitos CHAR(2),
                                 IN Convulsiones CHAR(2), IN Diabetes CHAR(2),
-                                IN Hipertension CHAR(2), IN Drogas CHAR(2), IN Tabaquismo CHAR(2))
+                                IN Hipertension CHAR(2), IN Drogas CHAR(2), IN Tabaquismo CHAR(2), IN Cardiopatias CHAR(2), IN TB CHAR(2), IN  Epilepsia CHAR(2), IN InsRenal CHAR(2))
   BEGIN
-    INSERT INTO antecedentefam (nNumero, sAlcoholismo, sAlergias, sAsma, sCancer, sCongenitos, sConvulsiones, sDiabetes, sHipertension, sDrogadiccion, sTabaquismo)
-    VALUES (Expediente, Alcoholismo, Alergias, Asma, Cancer, Congenitos, Convulsiones, Diabetes, Hipertension, Drogas,
-                        Tabaquismo);
+    INSERT INTO antecedentefam (nNumero, sAlcoholismo, sAlergias, sAsma, sCancer, sCongenitos, sConvulsiones, sDiabetes, sHipertension, sDrogadiccion, sTabaquismo,
+                                sCardiopatias,sTuberculosis, sEpilepsia,sInsRenal)
+    VALUES (Expediente, Alcoholismo, Alergias, Asma, Cancer, Congenitos, Convulsiones, Diabetes, Hipertension, Drogas,Tabaquismo,Cardiopatias,TB,Epilepsia, InsRenal);
     INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES (user, 'INSERT', current_date, 'antecedentefam',
             CONCAT('se insertaron los antecedentes familiares del expediente ', Expediente));
@@ -469,12 +469,23 @@ CREATE PROCEDURE insertarAntFam(IN user         VARCHAR(60), IN Expediente VARCH
 //
 
 DELIMITER //
-CREATE PROCEDURE insertarAntPat(IN user           VARCHAR(60), IN Expediente VARCHAR(20), IN Alergia VARCHAR(2),
+CREATE PROCEDURE insertarAntPat(IN user VARCHAR(60), IN Expediente VARCHAR(20), IN Alergia VARCHAR(2),
                                 IN Cardiopatia    VARCHAR(100), IN Transfusiones CHAR(2), IN Diabetes VARCHAR(50),
-                                IN Cardiovascular CHAR(2), IN HTA CHAR(2))
-  BEGIN
-    INSERT INTO antepatologicos (nNumero, sAlergias, sCardiopatias, sTranfusiones, sDiabetico, sCardioVasculares, sHTA)
-    VALUES (Expediente, Alergia, Cardiopatia, Transfusiones, Diabetes, Cardiovascular, HTA);
+                                IN Cardiovascular CHAR(2), IN HTA CHAR(2),IN	Fracturas CHAR(2),	IN	Reumaticas CHAR(2),		IN	Rinitis CHAR(2),
+                                IN	Asma CHAR(2),	IN	Convulsiones CHAR(2),	IN	Migrañas CHAR(2),
+                                IN	Psiquiatricos CHAR(2),	IN	TB CHAR(2),	IN	EVC CHAR (2),
+                                IN	Dermatosis CHAR(2),	IN	Audicion CHAR(2),	IN	Vision CHAR(2),
+                                IN	EnfArt CHAR(2),	IN	Varices CHAR(2),	IN	Ulceras CHAR(2),
+                                IN	Apendicits CHAR(2),	IN	Prostata CHAR(2),	IN	Urinarias CHAR(2),
+                                IN	AcidoPep CHAR(2),	IN	SanDig CHAR(2),	IN	Hepatitis CHAR(2),
+                                IN	Hernias CHAR(2),	IN	Colitis CHAR(2),	IN	Colecis CHAR(2),
+                                IN	PatAnal CHAR(2),	IN	Internamientos CHAR(2),	IN	Cirujias CHAR(2))
+
+   BEGIN
+    INSERT INTO antepatologicos (nNumero, sAlergias, sCardiopatias, sTranfusiones, sDiabetico, sCardioVasculares, sHTA,sFracturas ,sReumaticas,sRinitis,  sAsma, Sconvulsiones,sMigrañas,sPsiquiatricos,
+sTB, sEVC, sDermatosis, sAudicion, sVision, sEnfArt, sVarices, sUlceras, sApendicits, sProstata, sUrinarias, sAcidoPep, sSanDig, sHepatitis, sHernias, sColitis, sColecis,  sPatAnal, sInternamientos, sCirujias)
+    VALUES (Expediente, Alergia, Cardiopatia, Transfusiones, Diabetes, Cardiovascular, HTA, Fracturas,Reumaticas, Rinitis, Asma, Convulsiones,Migrañas, Psiquiatricos,TB,EVC,Dermatosis,Audicion,Vision,EnfArt,Varices,
+      Ulceras,Apendicits,Prostata,Urinarias,AcidoPep,SanDig,Hepatitis,Hernias,Colitis,Colecis,PatAnal,Internamientos,Cirujias);
 
     INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES (user, 'INSERT', current_date, 'antepatologicos',
@@ -487,12 +498,12 @@ DELIMITER //
 CREATE PROCEDURE insertarAntNoPat(IN user        VARCHAR(60), IN Expediente VARCHAR(20), IN Religion VARCHAR(100),
                                   IN Tabaquismo  CHAR(2), IN Escolaridad VARCHAR(50), IN Ocupacion VARCHAR(100),
                                   IN Alcoholismo CHAR(2), IN Drogas CHAR(2), IN Agua CHAR(2), IN Electridad CHAR(2),
-                                  IN Drenaje     CHAR(2), IN Wc CHAR(2))
+                                  IN Drenaje     CHAR(2), IN Wc CHAR(2), IN BCG CHAR(2), IN Polio CHAR(2),IN Penta CHAR(2), IN Influenza CHAR(2))
   BEGIN
-    INSERT INTO antenopatologicos (nNumero, sReligion, bTabaquismo, sEscolaridad, sOcupacion, bAlcoholismo, sDrogas, bAguaPotable, bElectricidad, bDrenaje, bServSanit)
+    INSERT INTO antenopatologicos (nNumero, sReligion, bTabaquismo, sEscolaridad, sOcupacion, bAlcoholismo, sDrogas, bAguaPotable, bElectricidad, bDrenaje, bServSanit,  sBCG, sPolio, sPenta,sInfluenza )
 
     VALUES
-      (Expediente, Religion, Tabaquismo, Escolaridad, Ocupacion, Alcoholismo, Drogas, Agua, Electridad, Drenaje, Wc);
+      (Expediente, Religion, Tabaquismo, Escolaridad, Ocupacion, Alcoholismo, Drogas, Agua, Electridad, Drenaje, Wc, BCG, Polio,Penta,Influenza);
 
     INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES (user, 'INSERT', current_date, 'antenopatologicos',
