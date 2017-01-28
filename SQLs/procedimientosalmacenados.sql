@@ -469,12 +469,23 @@ CREATE PROCEDURE insertarAntFam(IN user         VARCHAR(60), IN Expediente VARCH
 //
 
 DELIMITER //
-CREATE PROCEDURE insertarAntPat(IN user           VARCHAR(60), IN Expediente VARCHAR(20), IN Alergia VARCHAR(2),
+CREATE PROCEDURE insertarAntPat(IN user VARCHAR(60), IN Expediente VARCHAR(20), IN Alergia VARCHAR(2),
                                 IN Cardiopatia    VARCHAR(100), IN Transfusiones CHAR(2), IN Diabetes VARCHAR(50),
-                                IN Cardiovascular CHAR(2), IN HTA CHAR(2))
-  BEGIN
-    INSERT INTO antepatologicos (nNumero, sAlergias, sCardiopatias, sTranfusiones, sDiabetico, sCardioVasculares, sHTA)
-    VALUES (Expediente, Alergia, Cardiopatia, Transfusiones, Diabetes, Cardiovascular, HTA);
+                                IN Cardiovascular CHAR(2), IN HTA CHAR(2),IN	Fracturas CHAR(2),	IN	Reumaticas CHAR(2),		IN	Rinitis CHAR(2),
+                                IN	Asma CHAR(2),	IN	Convulsiones CHAR(2),	IN	Migrañas CHAR(2),
+                                IN	Psiquiatricos CHAR(2),	IN	TB CHAR(2),	IN	EVC CHAR (2),
+                                IN	Dermatosis CHAR(2),	IN	Audicion CHAR(2),	IN	Vision CHAR(2),
+                                IN	EnfArt CHAR(2),	IN	Varices CHAR(2),	IN	Ulceras CHAR(2),
+                                IN	Apendicits CHAR(2),	IN	Prostata CHAR(2),	IN	Urinarias CHAR(2),
+                                IN	AcidoPep CHAR(2),	IN	SanDig CHAR(2),	IN	Hepatitis CHAR(2),
+                                IN	Hernias CHAR(2),	IN	Colitis CHAR(2),	IN	Colecis CHAR(2),
+                                IN	PatAnal CHAR(2),	IN	Internamientos CHAR(2),	IN	Cirujias CHAR(2))
+
+   BEGIN
+    INSERT INTO antepatologicos (nNumero, sAlergias, sCardiopatias, sTranfusiones, sDiabetico, sCardioVasculares, sHTA,sFracturas ,sReumaticas,sRinitis,  sAsma, Sconvulsiones,sMigrañas,sPsiquiatricos,
+sTB, sEVC, sDermatosis, sAudicion, sVision, sEnfArt, sVarices, sUlceras, sApendicits, sProstata, sUrinarias, sAcidoPep, sSanDig, sHepatitis, sHernias, sColitis, sColecis,  sPatAnal, sInternamientos, sCirujias)
+    VALUES (Expediente, Alergia, Cardiopatia, Transfusiones, Diabetes, Cardiovascular, HTA, Fracturas,Reumaticas, Rinitis, Asma, Convulsiones,Migrañas, Psiquiatricos,TB,EVC,Dermatosis,Audicion,Vision,EnfArt,Varices,
+      Ulceras,Apendicits,Prostata,Urinarias,AcidoPep,SanDig,Hepatitis,Hernias,Colitis,Colecis,PatAnal,Internamientos,Cirujias);
 
     INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES (user, 'INSERT', current_date, 'antepatologicos',

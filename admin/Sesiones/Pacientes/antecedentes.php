@@ -700,6 +700,362 @@ if($sErr != ""){
                                                     </div>
 
                                                     <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Ha tenido fracturas?
+                                                            </label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="fracturas" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="fracturas" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene o tuvó enfermedades reumáticas?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="reumaticas" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="reumaticas" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene o tuvo Rinits?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="rinitis" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="rinitis" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene Asma?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="asma" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="asma" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Sufre de convulsiones?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="convulsiones" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="convulsiones" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Presenta migrañas regularmente?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="migrañas" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="migrañas" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene problemas psiquiátricos?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="psiquiatricos" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="psiquiatricos" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tuberculosis?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="tb" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="tb" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Presenta enfermedades vascular cerebral?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="evc" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="evc" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene problemas de la piel?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="dermatosis" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="dermatosis" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene problemas de audición?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="audicion" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="audicion" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene problemas de la vista?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="vision" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="vision" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene enfermedades arteriales?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="enfart" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="enfart" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene problemas de varices?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="varices" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="varices" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene o tuvo úlceras?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="ulceras" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="ulceras" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene o tuvo apendicitis?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="apendicitis" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="apendicitis" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene o tuvo problemas de la prostata?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="prostata" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="prostata" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene o tuvo enfermedades urinarias y/o venereas?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="urinarias" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="urinarias" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene o tuvo enfermedades ácido pépticas?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="acipep" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="acipep" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene o tuvo sangrado digestivo?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="sandig" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="sandig" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene o tuvo hepatitis?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="hepatitis" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="hepatitis" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene o tuvo hernias?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="hernias" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="hernias" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿sufre de colitis?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="colitis" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="colitis" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Tiene  o tuvo problemas de colecistitis?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="colecis" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="colecis" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Presenta problemas de patología anal?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="patanal" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="patanal" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Ha sido internado?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="internamientos" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="internamientos" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Se ha sometido a alguna cirujía?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="cirujias" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="cirujias" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="form-group">
                                                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                                                             <button type="submit" class="btn btn-success">Guardar
                                                             </button>
