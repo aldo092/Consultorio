@@ -22,7 +22,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
 if($sErr != ""){
     header("Location: error.php?sError=".$sErr);
 }
-$url="../admin/Sesiones/Pacientes/Pacientes.php";
+
 $Expediente="";
 $Alcoholismo="";
 $fumador="";
@@ -80,16 +80,16 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
 
     if ($nAfec==1){
         $sMsj = "Registro  de antecedentes familiares del expediente ".$Expediente." correcto";
-        header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
+        header("Location:../mensajes.php?sMensaje=".$sMsj);
     } else {
         $sMsj = "Error al guardar los antecedente familiares del expediente".$Expediente;
-        header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
+        header("Location:../mensajes.php?sMensaje=".$sMsj);
 
     }
 
 }else{
     $sMsj = "Faltan datos, registre todos los campos";
-    header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
+    header("Location:../mensajes.php?sMensaje=".$sMsj);
 
 }
 
