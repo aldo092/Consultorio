@@ -42,6 +42,8 @@ $oAntFam=new AntecFamiliares();
 $sErr="";
 $nAfec =0;
 $user= $_SESSION['sUser']->getEmail();
+$url="../admin/Sesiones/Pacientes/Pacientes.php";
+
 
 
 if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
@@ -97,16 +99,16 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
 
     if ($nAfec==1){
         $sMsj = "Registro  de antecedentes familiares del expediente ".$Expediente." correcto";
-        header("Location:../mensajes.php?sMensaje=".$sMsj);
+        header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
     } else {
         $sMsj = "Error al guardar los antecedente familiares del expediente".$Expediente;
-        header("Location:../mensajes.php?sMensaje=".$sMsj);
+        header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
 
     }
 
 }else{
     $sMsj = "Faltan datos, registre todos los campos";
-    header("Location:../mensajes.php?sMensaje=".$sMsj);
+    header("Location:../mensajes.php?sMensaje=".$sMsj."&Destino=".$url);
 
 }
 

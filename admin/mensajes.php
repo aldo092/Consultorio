@@ -43,7 +43,7 @@
                     <br />
 
                     <div>
-                        <h1><i class="fa fa-user-md"></i> uro-ginecologia</h1>
+                        <h1><i class="fa fa-user-md"></i> COEM WEB</h1>
                         <p>©2016 Todos los derechos reservados</p>
                     </div>
                 </div>
