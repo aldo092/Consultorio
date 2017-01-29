@@ -35,6 +35,10 @@ $ETS="";
 $Cesareas="";
 $Papanicolau="";
 $Anticonceptivo="";
+$FUP="";
+$FUM="";
+$Menarca="";
+$Observaciones="";
 $oAntGin= new AntecGinecobstetricos();
 $NAfec=0;
 $user= $_SESSION['sUser']->getEmail();
@@ -51,7 +55,11 @@ if( isset($_POST["nExpediente"])&&
     isset($_POST["ets"]) &&
     isset($_POST["cesareas"]) &&
     isset($_POST["papanicolau"]) &&
-    isset($_POST["anticonceptivo"])){
+    isset($_POST["anticonceptivo"])&&
+    isset($_POST["fup"])&&
+    isset($_POST["fum"])&&
+    isset($_POST["menarca"])&&
+    isset($_POST["observaciones"])){
 
     $Expediente = $_POST["nExpediente"];
     $Gestaciones = $_POST["gestaciones"];
@@ -63,6 +71,10 @@ if( isset($_POST["nExpediente"])&&
     $Cesareas = $_POST["cesareas"];
     $Papanicolau = $_POST["papanicolau"];
     $Anticonceptivo = $_POST["anticonceptivo"];
+    $FUP= $_POST["fup"];
+    $FUM= $_POST["fum"];
+    $Menarca=$_POST["menarca"];
+    $Observaciones=$_POST["observaciones"];
 
 
     $oAntGin->setExpediente($Expediente);
@@ -75,6 +87,10 @@ if( isset($_POST["nExpediente"])&&
     $oAntGin->setCesareas($Cesareas);
     $oAntGin->setUltPapanicolau($Papanicolau);
     $oAntGin->setAnticonceptivos($Anticonceptivo);
+    $oAntGin->setDFUP($FUP);
+    $oAntGin->setDFUM($FUM);
+    $oAntGin->setDMenarca($Menarca);
+    $oAntGin->setSObservaciones($Observaciones);
 
     $NAfec = $oAntGin->insertar($user);
 

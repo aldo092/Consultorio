@@ -240,6 +240,10 @@ CREATE TABLE AnteGinecoObstetricos (
   sETS VARCHAR(200),
   nCesareas INT,
   dUltPapanicolau DATE,
+  dFUP DATE,
+  dFUM DATE,
+  sMenarca INT(2),
+  vObservaciones TEXT,
   PRIMARY KEY (nNumero)
 );
 

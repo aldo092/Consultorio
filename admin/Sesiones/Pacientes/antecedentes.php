@@ -1366,6 +1366,42 @@ if($sErr != ""){
 
                                                             </select>
                                                         </div>
+                                                        </div>
+                                                    <div class="form-group">
+
+                                                        <div class="form-group">
+                                                            <label for="fup" class="control-label col-xs-7">Fecha del último parto</label>
+                                                            <div class=" col-xs-5">
+                                                                <input id="fup" class="date-picker form-control col-md-7 col-xs-12 active" type="date" name="fup" required="required"">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="fum" class="control-label col-xs-7">Fecha de la última menstruación</label>
+                                                            <div class=" col-xs-5">
+                                                                <input id="fum" class="date-picker form-control col-md-7 col-xs-12 active" type="date" name="fum" required="required"">
+                                                            </div>
+                                                        </div>
+
+
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">Edad de su menarca</label>
+                                                        <div class="col-xs-5">
+                                                            <input class="form-control input-sm" type="number" id="menarca" name="menarca" required="required">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">Observaciones del médico</label>
+                                                        <div class="col-xs-5">
+                                                            <input class="form-control input-sm" type="text" name="observaciones" required="required">
+
+                                                        </div>
+                                                    </div>
+
+
+
+
                                                         <div class="form-group">
                                                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                                                                 <button type="submit" class="btn btn-success">Guardar

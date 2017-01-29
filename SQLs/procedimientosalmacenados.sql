@@ -638,11 +638,10 @@ CREATE PROCEDURE buscarMedicoEspecialidad()
 DELIMITER //
 CREATE PROCEDURE insertarAntGin(IN user           VARCHAR(60), IN Expediente VARCHAR(20), IN Gestaciones INT(11),
                                 IN Partos         INT(11), IN Abortos INT(11), IN Ivsa INT(11), IN Parejas INT(11),
-                                IN ETS            VARCHAR(200), IN Cesareas INT(11), IN Papanicolau DATE,
-                                IN Anticonceptivo INT(11))
+                                IN ETS            VARCHAR(200), IN Cesareas INT(11), IN Papanicolau DATE,IN Anticonceptivo INT(11),IN FUP DATE, IN FUM DATE,IN Menarca INT(2), IN Observaciones TEXT)
   BEGIN
-    INSERT INTO anteginecoobstetricos (nNumero, nGestaciones, nPartos, nAbortos, sIVSA, nParejasSexuales, sETS, nCesareas, dUltPapanicolau, nClaveAnticonceptivo)
-    VALUES (Expediente, Gestaciones, Partos, Abortos, Ivsa, Parejas, ETS, Cesareas, Papanicolau, Anticonceptivo);
+    INSERT INTO anteginecoobstetricos (nNumero, nGestaciones, nPartos, nAbortos, sIVSA, nParejasSexuales, sETS, nCesareas, dUltPapanicolau, nClaveAnticonceptivo, dFUP, dFUM, sMenarca, vObservaciones)
+    VALUES (Expediente, Gestaciones, Partos, Abortos, Ivsa, Parejas, ETS, Cesareas, Papanicolau, Anticonceptivo,FUP,FUM,Menarca, Observaciones);
 
     INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES (user, 'INSERT', current_date, 'anteginecoobstetricos',

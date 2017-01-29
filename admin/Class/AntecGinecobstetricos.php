@@ -23,6 +23,10 @@ class AntecGinecobstetricos
     private $sETS="";
     private $nCesareas=0;
     private $dUltPapanicolau;
+    private $dFUP;
+    private $dFUM;
+    private $dMenarca;
+    private $sObservaciones="";
     private $oPaciente = null;
 
     public function getPaciente()
@@ -145,6 +149,74 @@ class AntecGinecobstetricos
         $this->dUltPapanicolau = $dUltPapanicolau;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDFUP()
+    {
+        return $this->dFUP;
+    }
+
+    /**
+     * @param mixed $dFUP
+     */
+    public function setDFUP($dFUP)
+    {
+        $this->dFUP = $dFUP;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDFUM()
+    {
+        return $this->dFUM;
+    }
+
+    /**
+     * @param mixed $dFUM
+     */
+    public function setDFUM($dFUM)
+    {
+        $this->dFUM = $dFUM;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDMenarca()
+    {
+        return $this->dMenarca;
+    }
+
+    /**
+     * @param mixed $dMenarca
+     */
+    public function setDMenarca($dMenarca)
+    {
+        $this->dMenarca = $dMenarca;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSObservaciones()
+    {
+        return $this->sObservaciones;
+    }
+
+    /**
+     * @param string $sObservaciones
+     */
+    public function setSObservaciones($sObservaciones)
+    {
+        $this->sObservaciones = $sObservaciones;
+    }
+
+
+
+
+
     function buscarPorPaciente(){
         $oAD = new AccesoDatos();
         $sQuery = "";
@@ -194,7 +266,11 @@ class AntecGinecobstetricos
                                                   '".$this->sETS."',
                                                   '".$this->nCesareas."',
                                                   '".$this->dUltPapanicolau."',
-                                                  '".$this->oAnticonceptivos."');";
+                                                  '".$this->oAnticonceptivos."',
+                                                  '".$this->dFUP."',
+                                                  '".$this->dFUM."',
+                                                  '".$this->dMenarca."',
+                                                  '".$this->sObservaciones."');";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }
