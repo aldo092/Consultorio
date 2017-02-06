@@ -839,7 +839,7 @@ CREATE PROCEDURE buscarPacientesPorMedico(IN user varchar(60))
 DELIMITER //
 CREATE PROCEDURE buscarDatosPaciente(IN expediente varchar(20))
   BEGIN
-    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, paciente.sSexo, year(curdate())-year(paciente.dFecNacimiento) as edad,
+    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, paciente.sSexo, YEAR(CURDATE())-YEAR(paciente.dFecNacimiento) + IF(DATE_FORMAT(CURDATE(),'%m-%d') > DATE_FORMAT(paciente.dFecNacimiento,'%m-%d'), 0, -1) as edad,
       notaintervencion.bEstadoProce
     FROM paciente
       JOIN expediente
