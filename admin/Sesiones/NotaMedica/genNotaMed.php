@@ -163,7 +163,7 @@ if($sErr != ""){
                     </div>
 
                     <div class="x_content">
-                        <form id="frmExpediente" action="../../Sesiones/NotaIntervencion/registroNotaInt.php" method="post">
+                        <form id="frmExpediente" action="../../Sesiones/NotaMedica/datosNota.php" method="post">
                             <input type="hidden" name="txtExpediente">
                             <input type="hidden" name="txtOp">
                             <p class="text-muted font-13 m-b-30">
