@@ -34,10 +34,6 @@ $alergias="";
 $convulsiones="";
 $defectosCongenito="";
 $Cancer="";
-$cardiopatias="";
-$TB="";
-$Epilepsia="";
-$InsRen="";
 $oAntFam=new AntecFamiliares();
 $sErr="";
 $nAfec =0;
@@ -56,11 +52,7 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     isset($_POST["alergias"]) && !empty($_POST["alergias"])&&
     isset($_POST["convulsiones"]) && !empty($_POST["convulsiones"])&&
     isset($_POST["congenitos"]) && !empty($_POST["congenitos"])&&
-    isset($_POST["cancer"]) && !empty($_POST["cancer"])&&
-    isset($_POST["cardiopatias"]) && !empty($_POST["cardiopatias"])&&
-    isset($_POST["tb"]) && !empty($_POST["tb"])&&
-    isset($_POST["epilepsia"]) && !empty($_POST["epilepsia"])&&
-    isset($_POST["insren"]) && !empty($_POST["insren"])){
+    isset($_POST["cancer"]) && !empty($_POST["cancer"])) {
 
     $Expediente = $_POST["nExpediente"];
     $Alcoholismo = $_POST["alcoholismo"];
@@ -73,11 +65,6 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     $convulsiones = $_POST["convulsiones"];
     $defectosCongenito = $_POST["congenitos"];
     $Cancer = $_POST["cancer"];
-    $cardiopatias=$_POST["cardiopatias"];
-    $TB=$_POST["tb"];
-    $Epilepsia=$_POST["epilepsia"];
-    $InsRen=$_POST["insren"];
-
 
     $oAntFam->setExpediente($Expediente);
     $oAntFam->setAlcoholismo($Alcoholismo);
@@ -90,10 +77,6 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     $oAntFam->setConvulsiones($convulsiones);
     $oAntFam->setCongenitos($defectosCongenito);
     $oAntFam->setCancer($Cancer);
-    $oAntFam->setSCardiopatias($cardiopatias);
-    $oAntFam->setSTuberculosis($TB);
-    $oAntFam->setSEpilepsia($Epilepsia);
-    $oAntFam->setSInsRenal($InsRen);
 
     $nAfec=$oAntFam->insertar($user);
 
