@@ -9,17 +9,18 @@ include_once ("../../Class/Usuarios.php");
 require_once ("../../Class/Menu.php");
 require_once ("../../Class/Funcion.php");
 require_once ("../../Class/Paciente.php");
-require_once ("../../Class/Anestesia.php");
+require_once ("../../Class/Estudios.php");
 session_start();
 $sErr = "";
 $sExpediente = "";
-$oAnestesia = new Anestesia();
+$oEstudios = new Estudios();
 $oUsuarios = new Usuarios();
 $oPaciente = new Paciente();
 $oMenu = new Menu();
 $oFuncion = new Funcion();
 $arrMenus = null;
 $arrAnes = null;
+$arrEst = null;
 $dFec = new DateTime();
 $sOp = "";
 
@@ -34,6 +35,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
             $oMenu = new Menu();
             $oMenu->setUsuario($oUser);
             $arrMenus = $oMenu->buscarMenuUsuario();
+            $arrEst = $oEstudios->buscarEstudiosPorEspecialidad($oUser->getEmail());
             if ($oUser->buscarDatosBasicos()) {
                 $sNombre = $oUser->getPersonal()->getNombres() . " " . $oUser->getPersonal()->getApPaterno() . " " . $oUser->getPersonal()->getApMaterno();
             } else {
@@ -43,8 +45,6 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
             try{
                 if(!$oPaciente->busscarDatosPaciente()){
                     $sErr = "Paciente no registrado o no es atendido por el médico actual";
-                }else{
-                    $arrAnes = $oAnestesia->buscarTodos();
                 }
             }catch(Exception $e){
                 error_log($e->getFile() . " " . $e->getLine() . " " . $e->getMessage(),0);
@@ -223,14 +223,226 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                                                value="<?php echo $oPaciente->getEdad(). " años";?>" disabled >
                                     </div>
                                 </div>
+                                <br/><br/>
                                 <div class="form-group">
-
-                                </div>
-                                <div class="form-group">
-
+                                    <label class="control-label col-md-1 col-sm-3 col-xs-12" for="txtEdad">No. Expediente
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <input type="text" id="txtEdad" name="txtEdad" class="form-control col-md-7 col-xs-12"
+                                               value="<?php echo $sExpediente;?>" disabled >
+                                    </div>
                                 </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <br/><br/>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Información de la Nota Médica (Fecha de hoy: <?php echo $dFec->format("Y-m-d");?>)</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <ul class="dropdown-menu" role="menu">
+                                </ul>
+                            </li>
+                            <li></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                        <div class="row">
+                            <form>
+                                <input type="hidden" value="<?php echo $dFec->format("Y-m-d");?>" name="txtFecha" />
+                                <div class="x_content">
+                                    <div class="clearfix"></div>
+                                    <br/>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Nivel de Urgencia</label>
+                                        <div class="col-md-3 col-sm-9 col-xs-12">
+                                            <select class="form-control" name="urgencia">
+                                                <option value="">Seleccione</option>
+                                                <option value="URGENTE">URGENTE</option>
+                                                <option value="ORDINARIO">ORDINARIO</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <br/>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Estudio a realizar</label>
+                                        <div class="col-md-5 col-sm-9 col-xs-12">
+                                            <select class="form-control" name="estudios">
+                                                <option>Seleccione</option>
+                                                <?php
+                                                if($arrEst != null){
+                                                    foreach ($arrEst as $vEst){
+                                                        ?>
+                                                        <option value="<?php echo $vEst->getClaveInterna(); ?>"><?php echo $vEst->getDescripcion();?></option>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br/><br/>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2 col-sm-3 col-xs-12" for="txtDxIng">Diagnóstico de Ingreso
+                                        </label>
+                                        <div class="col-md-10 col-sm-6 col-xs-12">
+                                            <input type="text" id="txtDxIng" name="txtDxIng" class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                    <br/><br/>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2 col-sm-3 col-xs-12" for="txtResumen">Resumen Clínico
+                                        </label>
+                                        <div class="col-md-10 col-sm-6 col-xs-12">
+                                            <textarea rows="6" id="txtResumen" name="txtResumen" class="form-control col-md-7 col-xs-12"></textarea>
+                                        </div>
+                                    </div>
+                                    <br/><br/><br/><br/><br/><br/><br/><br/>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2 col-sm-3 col-xs-12" for="txtPresion">Presión Arterial
+                                        </label>
+                                        <div class="col-md-2 col-sm-6 col-xs-12">
+                                            <input type="text" id="txtPresion" name="txtPresion" class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                        <label class="control-label col-md-2 col-sm-3 col-xs-12" for="txtSignos">Signos Vitales
+                                        </label>
+                                        <div class="col-md-2 col-sm-6 col-xs-12">
+                                            <input type="text" id="txtSignos" name="txtSignos" class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                        <label class="control-label col-md-2 col-sm-3 col-xs-12" for="txtTemp">Temperatura °C
+                                        </label>
+                                        <div class="col-md-2 col-sm-6 col-xs-12">
+                                            <input type="text" id="txtTemp" name="txtTemp" class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/><br/>
+                                <div class="x_panel">
+                                    <div class="x_content">
+                                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                                <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Estudios de Imagenología</a>
+                                                </li>
+                                                <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Estudios de Laboratorio</a>
+                                                </li>
+                                            </ul>
+                                            <div id="myTabContent" class="tab-content">
+                                                <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-2 col-sm-3 col-xs-12" for="txtTemp">Seleccione los estudios que solicitará de Imagenología
+                                                        </label>
+                                                        <div class="col-md-4 col-sm-9 col-xs-12">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" class="flat" name="estImagen[]" value="CRANEO"> CRANEO
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" class="flat" name="estImagen[]" value="SENOS PARANASALES"> SENOS PARANASALES
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" class="flat" name="estImagen[]" value="ABDOMEN SIMPLE"> ABDOMEN SIMPLE
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" class="flat" name="estImagen[]" value="ESOFAGO ESTOMAGO DUODENO"> ESOFAGO ESTOMAGO DUODENO
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-9 col-xs-12">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" class="flat" name="estImagen[]" value="COLECISTOGRAFIA"> COLECISTOGRAFIA
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" class="flat" name="estImagen[]" value="COLON POR ENEMA"> COLON POR ENEMA
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" class="flat" name="estImagen[]" value="TORAX P.A."> TORAX P.A.
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" class="flat" name="estImagen[]" value="UROGRAFIA EXCRETORA"> UROGRAFIA EXCRETORA
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-9 col-xs-12">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" class="flat" name="estImagen[]" value="COLUMNA VERTEBRAL"> COLUMNA VERTEBRAL
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" class="flat" name="estImagen[]" value="HUESOS"> HUESOS
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtOtrosEst">Otros Estudios
+                                                        </label>
+                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                            <input type="text" id="txtOtrosEst" name="txtOtrosEst" class="form-control col-md-7 col-xs-12">
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <br/>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtRegion">Región Solicitada
+                                                        </label>
+                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                            <input type="text" id="txtRegion" name="txtRegion" class="form-control col-md-7 col-xs-12">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-2 col-sm-3 col-xs-12" for="txtEstSolLab">Estudios Solicitados
+                                                        </label>
+                                                        <div class="col-md-10 col-sm-6 col-xs-12">
+                                                            <textarea rows="6" id="txtEstSolLab" name="txtEstSolLab" class="form-control col-md-7 col-xs-12"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-3 col-xs-12" for="txtEstSolLab">Seleccione el archivo a subir
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="file" name="archivo">
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <br/><br/>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <button type="submit" class="btn btn-lg btn-success">Guardar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                 </div>
             </div>
         </div>

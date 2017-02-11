@@ -166,8 +166,8 @@ class Estudios
             if($rst){
                 foreach ($rst as $vRow){
                     $oEstudios = new Estudios();
-                    $oEstudios->setClaveInterna($rst[0]);
-                    $oEstudios->setDescripcion($rst[1]);
+                    $oEstudios->setClaveInterna($vRow[0]);
+                    $oEstudios->setDescripcion($vRow[1]);
                     $vObj[$i] = $oEstudios;
                     $i = $i + 1;
                 }
