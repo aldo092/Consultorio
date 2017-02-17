@@ -2,18 +2,13 @@
 /**
  * Created by PhpStorm.
  * User: Aldo
- * Date: 05/10/2016
- * Time: 09:27 PM
+ * Date: 08/02/2017
+ * Time: 12:16 PM
  */
-
-
 error_reporting(E_ALL);
 include_once ("../../Class/Usuarios.php");
 require_once ("../../Class/Menu.php");
-require_once ("../../Class/Personal.php");
 require_once ("../../Class/Paciente.php");
-
-
 
 session_start();
 $oUser = new Usuarios();
@@ -22,14 +17,14 @@ $arrMenus = null;
 $sNombre = "";
 $oPaciente= new Paciente();
 $arrPaciente=null;
-
-
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oUser = $_SESSION['sUser'];
     $oMenu = new Menu();
     $oMenu->setUsuario($oUser);
     $arrMenus = $oMenu->buscarMenuUsuario();
     $arrPaciente= $oPaciente->PacientesMedico($oUser->getEmail());
+
+
 
     if($oUser->buscarDatosBasicos()){
         $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
@@ -54,7 +49,7 @@ if($sErr != ""){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Generar Receta Médica</title>
+    <title>Sistema Integral de Gestión de Consultorios</title>
 
     <!-- Bootstrap -->
     <link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -72,8 +67,6 @@ if($sErr != ""){
 
     <!-- Custom Theme Style -->
     <link href="../../../build/css/custom.min.css" rel="stylesheet">
-
-
 
 </head>
 
@@ -109,7 +102,7 @@ if($sErr != ""){
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-home"></i> Principal<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="../../index.php">Principal</a></li>
+                                    <li><a href="index.php">Principal</a></li>
                                 </ul>
                             </li>
                             <?php
@@ -164,12 +157,13 @@ if($sErr != ""){
 
         <!-- /top navigation -->
 
-        <!-- page content -->
+        <!-- /page content -->
+
         <div class="right_col" role="main">
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3> Generar Receta Médica</h3 >
+                        <h3> Reporte de Consulta</h3 >
                     </div>
 
                 </div>
@@ -185,13 +179,13 @@ if($sErr != ""){
                         </div>
                         <div class="x_content">
                             <br>
-                            <form action="../../Controllers/ctrlReceta.php" method="post"  data-parsley-validate class="form-horizontal form-label-left" >
+                            <form action="../../Controllers/ctrlHojaGin.php" method="post"  data-parsley-validate class="form-horizontal form-label-left" >
                                 <input type="hidden" name="medico">
                                 <input type="hidden" name="nombre">
 
                                 <div class="form-group">
                                     <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="paciente">Paciente:</label>
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
                                         <select id="paciente" class="form-control" name="paciente" required="required">
                                             <option value="">Seleccione</option>
                                             <?php
@@ -208,20 +202,95 @@ if($sErr != ""){
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label colo-md-3 col-sm-3 col-xs-12" for="receta">Receta:</label>
-
-                                <div class="col-md-4 col-sm-4 col-xs-12">
-                                    <textarea  id="receta" name="receta" class="form-control" rows="5" required="required" ></textarea>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="padecimiento">Padecimiento Actual<span class="required"></span>
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <textarea class="form-control noresize col-md-7 col-xs-12"  rows="2" id="padecimiento" name="padecimiento" required="required"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TA">TA:<span class="required"></span>
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <input type="text" id="TA" name="TA" required="required" class="form-control col-md-7 col-xs-12">
+                                        <span class="form-control-feedback right" aria-hidden="true">mmHg.</span>
+                                    </div>
+                               </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="FC">FC:<span class="required"></span>
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <input type="text" id="FC" name="FC" required="required" class="form-control col-md-7 col-xs-12">
+                                        <span class="form-control-feedback right" aria-hidden="true">X'</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="FR">FR:<span class="required"></span>
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <input type="text" id="FR" name="FR" required="required" class="form-control col-md-7 col-xs-12">
+                                        <span class="form-control-feedback right" aria-hidden="true">X'</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="temp">Temp:<span class="required"></span>
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <input type="text" id="temp" name="temp" required="required" class="form-control col-md-7 col-xs-12">
+                                        <span class="form-control-feedback right" aria-hidden="true">°C</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="talla">Talla:<span class="required"></span>
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <input type="text" id="talla" name="talla" required="required" class="form-control col-md-7 col-xs-12">
+                                        <span class="form-control-feedback right" aria-hidden="true">Mts.</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="peso">Peso:<span class="required"></span>
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <input type="text" id="peso" name="peso" required="required" class="form-control col-md-7 col-xs-12">
+                                        <span class="form-control-feedback right" aria-hidden="true">Kg.</span>
+                                    </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12 text-justify" for="exploracion">Exploración físcica( Habitus exterior, cabeza, cuello, tórax, abdomen, genitales)<span class="required"></span>
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <textarea class="form-control noresize col-md-7 col-xs-12"  rows="2" id="exploracion" name="exploracion" required="required"></textarea>
+                                    </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12 text-justify" for="laboratoriales">Laboratoriales y Gabinete(Previos y actuales )<span class="required"></span>
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <textarea class="form-control noresize col-md-7 col-xs-12"  rows="2" id="laboratoriales" name="laboratoriales" required="required"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12 text-justify" for="terapia">Terapeutica empleada y resultados:<span class="required"></span>
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <textarea class="form-control noresize col-md-7 col-xs-12"  rows="2" id="terapia" name="terapia" required="required"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12 text-justify" for="diagnosticos">Diagnosticos o problemas clínicos<span class="required"></span>
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <textarea class="form-control noresize col-md-7 col-xs-12"  rows="2" id="diagnosticos" name="diagnosticos" required="required"></textarea>
+                                    </div>
                                 </div>
 
                                 <div class="ln_solid"></div>
                                 <div class="form-group">
                                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                        <button type="submit" class="btn btn-success" onClick="nombre.value=document.getElementById('paciente').options[document.getElementById('paciente').selectedIndex].text;
-                                         medico.value='<?php echo $vRol->getsMedico();?>'" >Guardar</button>
+                                        <button type="submit" class="btn btn-success"  onClick="nombre.value=document.getElementById('paciente').options[document.getElementById('paciente').selectedIndex].text;
+                                            medico.value='<?php echo $vRol->getsMedico();?>'" >Guardar</button>
                                     </div>
                                 </div>
 
@@ -232,7 +301,9 @@ if($sErr != ""){
             </div>
 
         </div>
-        <!-- /page content -->
+    </div>
+</div>
+
 <!-- jQuery -->
 <script src="../../../vendors/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap -->
@@ -242,6 +313,7 @@ if($sErr != ""){
 <!-- validator -->
 <script src="../../../vendors/validator/validator.js"></script>
 <!-- validator -->
+
 
 </body>
 </html>

@@ -126,7 +126,7 @@ class Receta{
             $pdf->Text(16.5, 4, $fecha);
             $pdf->SetY(6);
             $pdf->MultiCell(0, 1, utf8_decode($medicamento));
-        $pdf->SetAuthor('COEM');
+            $pdf->SetAuthor('COEM');
             $pdf->Output($nombreArchivo, 'D');
         }
 

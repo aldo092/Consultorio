@@ -109,6 +109,7 @@ class Horarios
             case 4: return "Jueves"; break;
             case 5: return "Viernes"; break;
             case 6: return "Sabado"; break;
+            case 7:return "Domingo";break;
         }
             }
     

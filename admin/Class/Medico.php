@@ -127,4 +127,34 @@ class Medico extends Personal
         return $this;
     }
 
+    function buscarConsultorios($medico){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $i = 0;
+        if($oAD->Conecta()){
+            $sQuery = "call buscarConsultoriosMedico(".$medico.");";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+        }
+        if($rst){
+            foreach ($rst as $vRowTemp){
+                $oConsultorio = new Consultorio();
+                $oConsultorio->setNIDconsultorio($vRowTemp[0]);
+                $oConsultorio->setNombre($vRowTemp[1]);
+                $vObj[$i] = $oConsultorio;
+                $i = $i + 1;
+            }
+        }else{
+            $vObj = false;
+        }
+        return $vObj;
+
+    }
+
+
+
+
+
 }

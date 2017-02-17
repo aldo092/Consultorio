@@ -35,7 +35,7 @@ $user= $_SESSION['sUser']->getEmail();
 $NAfec=0;
 $Err="";
 $sMsj="";
-$url="../admin/Sesiones/Citas/consultarCitas.php";
+$url="../admin/index.php";
 if (isset($_POST["Operacion"])&& !empty($_POST["Operacion"]))
 {
 if( ($_POST["Operacion"])=="Insertar" &&

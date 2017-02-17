@@ -73,6 +73,7 @@ if($sErr != ""){
     <link href="../../../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
     <script type="text/javascript" src="../../../vendors/AJAX/estados.js"></script>
+    <script type="text/javascript" src="../../../vendors/AJAX/consultorios.js"></script>
 
     <!-- Custom Theme Style -->
     <link href="../../../build/css/custom.min.css" rel="stylesheet">
@@ -266,6 +267,13 @@ if($sErr != ""){
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="localidad" class="control-label col-md-3 col-sm-3 col-xs-12">Colonia</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input id="localidad" class="form-control col-md-7 col-xs-12" type="text" name="localidad"required="required">
+                                    </div>
+                                </div>
+
 
 
                                 <div class="form-group">
@@ -297,12 +305,7 @@ if($sErr != ""){
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="localidad" class="control-label col-md-3 col-sm-3 col-xs-12">Localidad</label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input id="localidad" class="form-control col-md-7 col-xs-12" type="text" name="localidad"required="required">
-                                    </div>
-                                </div>
+
 
 
 
@@ -333,10 +336,11 @@ if($sErr != ""){
                                     </div>
                                 </div>
 
+
                                 <div class="form-group">
                                     <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="medico">Seleccione su médico:</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select id="medico" class="form-control" name="medico"required="required">
+                                        <select id="medico" class="form-control" name="medico" required="required" onchange="cargaconsultorio(this.id)">
                                             <option value="">Seleccione</option>
                                             <?php
                                             if($arrPersonal!= null){
@@ -347,6 +351,16 @@ if($sErr != ""){
                                                 }
                                             }
                                             ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="consultorio" class="control-label col-md-3 col-sm-3 col-xs-12">Seleccione el consultorio del paciente</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select disabled="disabled" name="consultorio" id="consultorio" class="form-control"required="required">
+                                            <option value="0">Seleccione</option>
                                         </select>
                                     </div>
                                 </div>

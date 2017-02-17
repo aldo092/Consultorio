@@ -415,6 +415,29 @@ class Personal
         return $vObj;
     }
 
+    function personalMedico($ID){
+
+        $oAD = new AccesoDatos();
+        $rst = null;
+        $vObj = null;
+        $oNota = null;
+        $sQuery = "";
+        $i = 0;
+        if ($oAD->Conecta()) {
+            $sQuery = "call medicoCedula('".$ID."');";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+        }
+        if ($rst) {
+            $this->setNombres($rst[0][0]);
+            $this->setApPaterno($rst[0][1]);
+            $this->setApMaterno($rst[0][2]);
+            $this->setMedico($rst[0][3]);
+            $bRet=true;
+        }
+        return $bRet;
+    }
+
 
 
 

@@ -105,12 +105,12 @@ CREATE PROCEDURE insertarPaciente(IN user      VARCHAR(60), IN curp VARCHAR(18),
                                   IN apepa     VARCHAR(50), IN apema VARCHAR(50), IN sexo CHAR(1), IN fecha DATE,
                                   IN telefono  VARCHAR(13), IN direccion VARCHAR(100), IN cp VARCHAR(5),
                                   IN correo    VARCHAR(50), IN estadocivil VARCHAR(50), IN rfc VARCHAR(18),
-                                  IN localidad VARCHAR(100), IN municipio INT, IN estado INT, IN medico INT)
+                                  IN localidad VARCHAR(100), IN municipio INT, IN estado INT, IN medico INT, IN consultorio INT)
   BEGIN
-    INSERT INTO paciente (sCurpPaciente, sNombre, sApPaterno, sApMaterno, sSexo, dFecNacimiento, sTelefono, sDireccion, sCP, sEmail, sEstadoCivil, sRFC, sLocalidad, sMunicipio, sEstado, sMedico)
+    INSERT INTO paciente (sCurpPaciente, sNombre, sApPaterno, sApMaterno, sSexo, dFecNacimiento, sTelefono, sDireccion, sCP, sEmail, sEstadoCivil, sRFC, sLocalidad, sMunicipio, sEstado, sMedico,sConsultorio)
     VALUES
       (curp, nombre, apepa, apema, sexo, fecha, telefono, direccion, cp, correo, estadocivil, rfc, localidad, municipio,
-       estado, medico);
+       estado, medico,consultorio);
 
     INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES (user, 'INSERT', current_date, 'paciente',
@@ -469,7 +469,7 @@ CREATE PROCEDURE insertarAntFam(IN user         VARCHAR(60), IN Expediente VARCH
 //
 
 DELIMITER //
-CREATE PROCEDURE insertarAntPat(IN user VARCHAR(60), IN Expediente VARCHAR(20), IN Alergia VARCHAR(2),
+CREATE PROCEDURE insertarAntPat(IN user VARCHAR(60), IN Expediente VARCHAR(20), IN Alergia VARCHAR(200),
                                 IN Cardiopatia    VARCHAR(100), IN Transfusiones CHAR(2), IN Diabetes VARCHAR(50),
                                 IN Cardiovascular CHAR(2), IN HTA CHAR(2),IN	Fracturas CHAR(2),	IN	Reumaticas CHAR(2),		IN	Rinitis CHAR(2),
                                 IN	Asma CHAR(2),	IN	Convulsiones CHAR(2),	IN	Migrañas CHAR(2),
@@ -479,13 +479,13 @@ CREATE PROCEDURE insertarAntPat(IN user VARCHAR(60), IN Expediente VARCHAR(20), 
                                 IN	Apendicits CHAR(2),	IN	Prostata CHAR(2),	IN	Urinarias CHAR(2),
                                 IN	AcidoPep CHAR(2),	IN	SanDig CHAR(2),	IN	Hepatitis CHAR(2),
                                 IN	Hernias CHAR(2),	IN	Colitis CHAR(2),	IN	Colecis CHAR(2),
-                                IN	PatAnal CHAR(2),	IN	Internamientos CHAR(2),	IN	Cirujias CHAR(2))
+                                IN	PatAnal CHAR(2),	IN	Internamientos CHAR(2),	IN	Cirujias CHAR(2),IN Obeso CHAR(2), IN Cancer VARCHAR(30))
 
    BEGIN
     INSERT INTO antepatologicos (nNumero, sAlergias, sCardiopatias, sTranfusiones, sDiabetico, sCardioVasculares, sHTA,sFracturas ,sReumaticas,sRinitis,  sAsma, Sconvulsiones,sMigrañas,sPsiquiatricos,
-sTB, sEVC, sDermatosis, sAudicion, sVision, sEnfArt, sVarices, sUlceras, sApendicits, sProstata, sUrinarias, sAcidoPep, sSanDig, sHepatitis, sHernias, sColitis, sColecis,  sPatAnal, sInternamientos, sCirujias)
+sTB, sEVC, sDermatosis, sAudicion, sVision, sEnfArt, sVarices, sUlceras, sApendicits, sProstata, sUrinarias, sAcidoPep, sSanDig, sHepatitis, sHernias, sColitis, sColecis,  sPatAnal, sInternamientos, sCirujias,Obesidad, Cancer)
     VALUES (Expediente, Alergia, Cardiopatia, Transfusiones, Diabetes, Cardiovascular, HTA, Fracturas,Reumaticas, Rinitis, Asma, Convulsiones,Migrañas, Psiquiatricos,TB,EVC,Dermatosis,Audicion,Vision,EnfArt,Varices,
-      Ulceras,Apendicits,Prostata,Urinarias,AcidoPep,SanDig,Hepatitis,Hernias,Colitis,Colecis,PatAnal,Internamientos,Cirujias);
+      Ulceras,Apendicits,Prostata,Urinarias,AcidoPep,SanDig,Hepatitis,Hernias,Colitis,Colecis,PatAnal,Internamientos,Cirujias,Obeso,Cancer);
 
     INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
     VALUES (user, 'INSERT', current_date, 'antepatologicos',
@@ -812,7 +812,7 @@ CREATE  PROCEDURE buscarPacientesConsultorio (IN consultorio INT)
     from paciente p
       join expediente e on e.sCurpPaciente=p.sCurpPaciente
       join medico m on m.nIdPersonal=p.sMedico
-      join consultorio c on c.nIdPersonal=m.nIdPersonal
+      join consultorio c on c.nIdConsultorio=p.sConsultorio
     where c.nIdConsultorio=consultorio;
 
   END //
@@ -894,7 +894,7 @@ CREATE PROCEDURE buscarDatosProcedimiento(IN expediente varchar(20))
 DELIMITER //
 CREATE  PROCEDURE BuscarTodasCitas ()
   BEGIN
-    select c.nFolioCita, co.sDescripcion as Consultorio,c.nNumero, h.sHoraInicio,c.dFecRegistro, c.dFechaCita, s.sDescripcion
+    select c.nFolioCita,p.sNombre, p.sApPaterno, p.sApMaterno, co.sDescripcion, h.sHoraInicio, c.dFechaCita,  s.sNombre as estatus
     from cita c
       join consultorio co
         on c.nIdConsultorio=co.nIdConsultorio
@@ -902,9 +902,12 @@ CREATE  PROCEDURE BuscarTodasCitas ()
         on c.nClaveHorario=h.nClaveHorario
       join estatus s
         on c.nIdEstatus=s.nIdEstatus
-    order by c.nFolioCita ;
-
-
+      join expediente ex
+        on ex.nNumero=c.nNumero
+      join paciente p
+        on p.sCurpPaciente=ex.sCurpPaciente
+    where c.nIdEstatus=1
+    order by c.dFechaCita;
   END //
 
 DELIMITER //
@@ -1035,7 +1038,7 @@ CREATE PROCEDURE insertarReceta(IN user VARCHAR(60),IN Paciente VARCHAR(20),IN D
 DELIMITER //
 CREATE PROCEDURE PacientesDoctor(IN user varchar(60))
   BEGIN
-    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, expediente.nnumero,paciente.sMedico
+    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, expediente.nnumero,paciente.sMedico,paciente.sSexo, consultorio.sDescripcion
     FROM paciente
       JOIN expediente
         ON expediente.sCurpPaciente = paciente.sCurpPaciente
@@ -1043,9 +1046,13 @@ CREATE PROCEDURE PacientesDoctor(IN user varchar(60))
         ON medico.nIdPersonal = paciente.sMedico
       JOIN personal
         ON personal.nIdPersonal = medico.nIdPersonal
-         WHERE personal.sEmail = user;
+      JOIN consultorio
+        ON consultorio.nIdConsultorio=paciente.sConsultorio
+    WHERE personal.sEmail = user;
   END
 //
+
+
 
 /*Buscar  todos los procedimientos cerrados de un paciente */
 
@@ -1107,3 +1114,173 @@ CREATE PROCEDURE updateStatusAccess(IN user varchar(100))
 
   END
 //
+
+delimiter //
+CREATE PROCEDURE consultarHistorialClinicoGin (IN paciente VARCHAR(20))
+  BEGIN
+    select p.sApPaterno, p.sApMaterno, p.sNombre, e.nNumero, p.sDireccion, m.NOM_MUN, edo.NOM_ENT, p.sTelefono,
+      af.sDiabetes, af.sHipertension, af.sCardiopatias, af.sTuberculosis, af.sCancer, af.sEpilepsia, af.sInsRenal,
+      an.bTabaquismo, an.bAlcoholismo, an.sDrogas,an.sBCG, an.sPolio, an.sPenta, an.sInfluenza,
+      ap.sAlergias, ap.sCardiopatias as CP2, ap.sTranfusiones, ap.sDiabetico, ap.sCardioVasculares, ap.sHTA, ap.sFracturas,ap.sReumaticas,ap.sRinitis, ap.sAsma,ap.sConvulsiones, ap.sMigrañas,
+      ap.sPsiquiatricos, ap.sTB, ap.sEVC, ap.sDermatosis, ap.sAudicion,ap.sVision, ap.sEnfArt, ap.sVarices, ap.sUlceras,ap.sApendicits, ap.sProstata,ap.sUrinarias, ap.sAcidoPep, ap.sSanDig,
+      ap.sHepatitis, ap.sHernias, ap.sColitis, ap.sColecis, ap.sPatAnal, ap.sInternamientos, ap.sCirujias,
+      ag.sMenarca, ag.sIVSA, ag.dFUM, ag.dFUP, ag.nGestaciones, ag.nPartos, ag.nCesareas,ag.nAbortos, ag.vObservaciones,ap.Obesidad,ap.Cancer
+    from paciente p
+      JOIN expediente e
+        on e.sCurpPaciente=p.sCurpPaciente
+      JOIN municipios m
+        on m.CVE_MUN=p.sMunicipio
+      JOIN estados edo
+        on edo.CVE_ENT=p.sEstado
+      JOIN antecedentefam af
+        on af.nNumero=e.nNumero
+      JOIN antenopatologicos an
+        on an.nNumero=e.nNumero
+      JOIN antepatologicos ap
+        on ap.nNumero=e.nNumero
+      JOIN anteginecoobstetricos ag
+        on ag.nNumero=e.nNumero
+    where e.nNumero=paciente;
+  END //
+
+delimiter //
+CREATE PROCEDURE consultarHistorialClinicoUro (IN paciente VARCHAR(20))
+  BEGIN
+    select p.sApPaterno, p.sApMaterno, p.sNombre, e.nNumero, p.sDireccion, m.NOM_MUN, edo.NOM_ENT, p.sTelefono,
+      af.sDiabetes, af.sHipertension, af.sCardiopatias, af.sTuberculosis, af.sCancer, af.sEpilepsia, af.sInsRenal,
+      an.bTabaquismo, an.bAlcoholismo, an.sDrogas,an.sBCG, an.sPolio, an.sPenta, an.sInfluenza,
+      ap.sAlergias, ap.sCardiopatias as CP2, ap.sTranfusiones, ap.sDiabetico, ap.sCardioVasculares, ap.sHTA, ap.sFracturas,ap.sReumaticas,ap.sRinitis, ap.sAsma,ap.sConvulsiones, ap.sMigrañas,
+      ap.sPsiquiatricos, ap.sTB, ap.sEVC, ap.sDermatosis, ap.sAudicion,ap.sVision, ap.sEnfArt, ap.sVarices, ap.sUlceras,ap.sApendicits, ap.sProstata,ap.sUrinarias, ap.sAcidoPep, ap.sSanDig,
+      ap.sHepatitis, ap.sHernias, ap.sColitis, ap.sColecis, ap.sPatAnal, ap.sInternamientos, ap.sCirujias,ap.Obesidad,ap.Cancer
+    from paciente p
+      JOIN expediente e
+        on e.sCurpPaciente=p.sCurpPaciente
+      JOIN municipios m
+        on m.CVE_MUN=p.sMunicipio
+      JOIN estados edo
+        on edo.CVE_ENT=p.sEstado
+      JOIN antecedentefam af
+        on af.nNumero=e.nNumero
+      JOIN antenopatologicos an
+        on an.nNumero=e.nNumero
+      JOIN antepatologicos ap
+        on ap.nNumero=e.nNumero
+      where e.nNumero=paciente;
+  END //
+
+delimiter //
+CREATE PROCEDURE  buscarConsultoriosMedico(IN medico INT)
+  BEGIN
+    select nIdConsultorio, sDescripcion from consultorio WHERE nIdPersonal=medico;
+  END //
+
+delimiter //
+CREATE PROCEDURE insertarHojaGin (IN user VARCHAR(60),IN Expediente VARCHAR(20), IN Medico INT, IN Padecimiento VARCHAR(200),
+  IN TA VARCHAR(30), IN FC VARCHAR(30), IN FR VARCHAR(30), IN Temp FLOAT, IN  Talla FLOAT, IN Peso FLOAT, IN IMC FLOAT, IN Exploracion VARCHAR(500),
+  IN  Laboratoriales VARCHAR(500), IN Terapeutica VARCHAR(500), IN  Diagnosticos VARCHAR(500))
+  BEGIN
+    INSERT INTO HojaGin(Paciente, Medico, Padecimiento, TA, FC, FR, Temp, Talla, Peso, IMC, Exploracion, Laboratoriales, Terapeutica, Diagnosticos, Fecha)VALUES
+      (Expediente,Medico,Padecimiento,TA,FC,FR,Temp,Talla,Peso, IMC,Exploracion,Laboratoriales,Terapeutica,Diagnosticos,CURRENT_DATE);
+    INSERT INTO bitacora(sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES(user, 'INSERT', current_date, 'Hoja_Ginecologia', CONCAT('Captura de diagnotico para el paciente ', Expediente, 'por ', user));
+  END //
+
+delimiter //
+CREATE PROCEDURE medicoCedula (IN medico INT)
+  BEGIN
+    select per.sNombres, per.sApPaterno, per.sApMaterno, med.sNumCedula
+    FROM personal per
+      JOIN medico med
+        on per.nIdPersonal=med.nIdPersonal
+    where med.nIdPersonal=medico;
+  END //
+
+delimiter //
+CREATE PROCEDURE Especialidad (IN medico VARCHAR(60))
+  BEGIN
+    select nIdEspecialidad from medico m
+      join  personal p
+        on p.nIdPersonal=m.nIdPersonal
+    where p.sEmail=medico;
+  END //
+
+
+DELIMITER //
+CREATE PROCEDURE BuscarCitasMedico(IN Medico VARCHAR(60))
+  BEGIN
+    select c.nFolioCita,p.sNombre, p.sApPaterno, p.sApMaterno, co.sDescripcion, h.sHoraInicio, c.dFechaCita, s.sNombre as estatus
+    from cita c
+      join consultorio co
+        on c.nIdConsultorio=co.nIdConsultorio
+      join horarios h
+        on c.nClaveHorario=h.nClaveHorario
+      join estatus s
+        on c.nIdEstatus=s.nIdEstatus
+      join expediente ex
+        on ex.nNumero=c.nNumero
+      join paciente p
+        on p.sCurpPaciente=ex.sCurpPaciente
+      JOIN medico med
+        on med.nIdPersonal=co.nIdPersonal
+      join personal per
+        on per.nIdPersonal=med.nIdPersonal
+    where c.nIdEstatus=1 and
+          per.sEmail=Medico
+    order by c.dFechaCita;
+  END//
+
+DELIMITER //
+CREATE PROCEDURE BuscarRol(IN usuario VARCHAR(60))
+  BEGIN
+    select nIdRol from usuario_rol
+    where sEmail=usuario;
+  END;
+
+
+DELIMITER //
+CREATE PROCEDURE CitasDiarias( IN Hoy DATE)
+  BEGIN
+    select c.nFolioCita,p.sNombre, p.sApPaterno, p.sApMaterno, co.sDescripcion, h.sHoraInicio, s.sNombre as estatus
+    from cita c
+      join consultorio co
+        on c.nIdConsultorio=co.nIdConsultorio
+      join horarios h
+        on c.nClaveHorario=h.nClaveHorario
+      join estatus s
+        on c.nIdEstatus=s.nIdEstatus
+      join expediente ex
+        on ex.nNumero=c.nNumero
+      join paciente p
+        on p.sCurpPaciente=ex.sCurpPaciente
+    where c.nIdEstatus=1
+          and c.dFechaCita=Hoy
+    order by h.sHoraInicio Desc;
+  END //
+
+
+DELIMITER //
+CREATE PROCEDURE CitasDiariasMedico(IN Hoy DATE, IN Medico VARCHAR(60))
+  BEGIN
+    select c.nFolioCita,p.sNombre, p.sApPaterno, p.sApMaterno, co.sDescripcion, h.sHoraInicio,s.sNombre as estatus
+    from cita c
+      join consultorio co
+        on c.nIdConsultorio=co.nIdConsultorio
+      join horarios h
+        on c.nClaveHorario=h.nClaveHorario
+      join estatus s
+        on c.nIdEstatus=s.nIdEstatus
+      join expediente ex
+        on ex.nNumero=c.nNumero
+      join paciente p
+        on p.sCurpPaciente=ex.sCurpPaciente
+      JOIN medico med
+        on med.nIdPersonal=co.nIdPersonal
+      join personal per
+        on per.nIdPersonal=med.nIdPersonal
+    where c.nIdEstatus=1
+          and per.sEmail=Medico
+          and c.dFechaCita=Hoy
+    order by h.sHoraInicio Desc;
+  END //
+
+

@@ -54,6 +54,8 @@ $Colecis="";
 $PatAnal="";
 $Internamientos="";
 $Cirujias="";
+$Obeso="";
+$Cancer="";
 $oAntPat = new AntePatologicos();
 $NAfec=0;
 $user= $_SESSION['sUser']->getEmail();
@@ -95,7 +97,9 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     isset($_POST["colecis"]) && !empty($_POST["colecis"])&&
     isset($_POST["patanal"]) && !empty($_POST["patanal"])&&
     isset($_POST["internamientos"]) && !empty($_POST["internamientos"])&&
-    isset($_POST["cirujias"]) && !empty($_POST["cirujias"])){
+    isset($_POST["cirujias"]) && !empty($_POST["cirujias"])&&
+    isset($_POST["obesidad"]) && !empty($_POST["obesidad"])&&
+    isset($_POST["cancer"]) && !empty($_POST["cancer"])){
 
     $Expediente = $_POST["nExpediente"];
     $Alergias = $_POST["alergias"];
@@ -131,6 +135,8 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     $PatAnal= $_POST["patanal"];
     $Internamientos=$_POST["internamientos"];
     $Cirujias= $_POST["cirujias"];
+    $Obeso=$_POST["obesidad"];
+    $Cancer=$_POST["cancer"];
 
 
     $oAntPat->setExpediente($Expediente);
@@ -167,10 +173,11 @@ if( isset($_POST["nExpediente"])&&!empty($_POST["nExpediente"])&&
     $oAntPat->setSPatAnal($PatAnal);
     $oAntPat->setSInternamientos($Internamientos);
     $oAntPat->setSCirujias($Cirujias);
+    $oAntPat->setObesidad($Obeso);
+    $oAntPat->setCancer($Cancer);
 
 
     $NAfec=$oAntPat->insertar($user);
-    var_dump($NAfec);
 
     if ($NAfec==1) {
         $sMsj = "Registro  de antecedentes patológicos del expediente ".$Expediente." correcto";

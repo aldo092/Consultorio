@@ -46,6 +46,8 @@ class AntePatologicos
     Private	$sPatAnal="";
     Private	$sInternamientos="";
     Private	$sCirujias="";
+    Private $Cancer="";
+    Private $Obesidad="";
 
     private $oPaciente;
 
@@ -140,437 +142,295 @@ class AntePatologicos
         $this->sHTA = $sHTA;
     }
 
-    /**
-     * @return string
-     */
     public function getSFracturas()
     {
         return $this->sFracturas;
     }
 
-    /**
-     * @param string $sFracturas
-     */
     public function setSFracturas($sFracturas)
     {
         $this->sFracturas = $sFracturas;
     }
 
-    /**
-     * @return string
-     */
     public function getSReumaticas()
     {
         return $this->sReumaticas;
     }
 
-    /**
-     * @param string $sReumaticas
-     */
     public function setSReumaticas($sReumaticas)
     {
         $this->sReumaticas = $sReumaticas;
     }
 
-    /**
-     * @return string
-     */
+
     public function getSRinitis()
     {
         return $this->sRinitis;
     }
 
-    /**
-     * @param string $sRinitis
-     */
     public function setSRinitis($sRinitis)
     {
         $this->sRinitis = $sRinitis;
     }
 
-    /**
-     * @return string
-     */
     public function getSAsma()
     {
         return $this->sAsma;
     }
 
-    /**
-     * @param string $sAsma
-     */
     public function setSAsma($sAsma)
     {
         $this->sAsma = $sAsma;
     }
-
-    /**
-     * @return string
-     */
     public function getSconvulsiones()
     {
         return $this->Sconvulsiones;
     }
 
-    /**
-     * @param string $Sconvulsiones
-     */
     public function setSconvulsiones($Sconvulsiones)
     {
         $this->Sconvulsiones = $Sconvulsiones;
     }
 
-    /**
-     * @return string
-     */
     public function getSMigrañas()
     {
         return $this->sMigrañas;
     }
 
-    /**
-     * @param string $sMigrañas
-     */
     public function setSMigrañas($sMigrañas)
     {
         $this->sMigrañas = $sMigrañas;
     }
 
-    /**
-     * @return string
-     */
     public function getSPsiquiatricos()
     {
         return $this->sPsiquiatricos;
     }
 
-    /**
-     * @param string $sPsiquiatricos
-     */
     public function setSPsiquiatricos($sPsiquiatricos)
     {
         $this->sPsiquiatricos = $sPsiquiatricos;
     }
 
-    /**
-     * @return string
-     */
     public function getSTB()
     {
         return $this->sTB;
     }
 
-    /**
-     * @param string $sTB
-     */
     public function setSTB($sTB)
     {
         $this->sTB = $sTB;
     }
 
-    /**
-     * @return string
-     */
     public function getSEVC()
     {
         return $this->sEVC;
     }
 
-    /**
-     * @param string $sEVC
-     */
     public function setSEVC($sEVC)
     {
         $this->sEVC = $sEVC;
     }
 
-    /**
-     * @return string
-     */
     public function getSDermatosis()
     {
         return $this->sDermatosis;
     }
 
-    /**
-     * @param string $sDermatosis
-     */
     public function setSDermatosis($sDermatosis)
     {
         $this->sDermatosis = $sDermatosis;
     }
 
-    /**
-     * @return string
-     */
     public function getSAudicion()
     {
         return $this->sAudicion;
     }
 
-    /**
-     * @param string $sAudicion
-     */
     public function setSAudicion($sAudicion)
     {
         $this->sAudicion = $sAudicion;
     }
 
-    /**
-     * @return string
-     */
     public function getSVision()
     {
         return $this->sVision;
     }
 
-    /**
-     * @param string $sVision
-     */
     public function setSVision($sVision)
     {
         $this->sVision = $sVision;
     }
 
-    /**
-     * @return string
-     */
     public function getSEnfArt()
     {
         return $this->sEnfArt;
     }
 
-    /**
-     * @param string $sEnfArt
-     */
     public function setSEnfArt($sEnfArt)
     {
         $this->sEnfArt = $sEnfArt;
     }
 
-    /**
-     * @return string
-     */
     public function getSVarices()
     {
         return $this->sVarices;
     }
 
-    /**
-     * @param string $sVarices
-     */
     public function setSVarices($sVarices)
     {
         $this->sVarices = $sVarices;
     }
 
-    /**
-     * @return string
-     */
     public function getSUlceras()
     {
         return $this->sUlceras;
     }
 
-    /**
-     * @param string $sUlceras
-     */
     public function setSUlceras($sUlceras)
     {
         $this->sUlceras = $sUlceras;
     }
 
-    /**
-     * @return string
-     */
     public function getSApendicits()
     {
         return $this->sApendicits;
     }
-
-    /**
-     * @param string $sApendicits
-     */
     public function setSApendicits($sApendicits)
     {
         $this->sApendicits = $sApendicits;
     }
 
-    /**
-     * @return string
-     */
     public function getSProstata()
     {
         return $this->sProstata;
     }
 
-    /**
-     * @param string $sProstata
-     */
     public function setSProstata($sProstata)
     {
         $this->sProstata = $sProstata;
     }
 
-    /**
-     * @return string
-     */
     public function getSUrinarias()
     {
         return $this->sUrinarias;
     }
 
-    /**
-     * @param string $sUrinarias
-     */
     public function setSUrinarias($sUrinarias)
     {
         $this->sUrinarias = $sUrinarias;
     }
 
-    /**
-     * @return string
-     */
     public function getSAcidoPep()
     {
         return $this->sAcidoPep;
     }
 
-    /**
-     * @param string $sAcidoPep
-     */
     public function setSAcidoPep($sAcidoPep)
     {
         $this->sAcidoPep = $sAcidoPep;
     }
 
-    /**
-     * @return string
-     */
     public function getSSanDig()
     {
         return $this->sSanDig;
     }
 
-    /**
-     * @param string $sSanDig
-     */
     public function setSSanDig($sSanDig)
     {
         $this->sSanDig = $sSanDig;
     }
-
-    /**
-     * @return string
-     */
     public function getSHepatitis()
     {
         return $this->sHepatitis;
     }
 
-    /**
-     * @param string $sHepatitis
-     */
     public function setSHepatitis($sHepatitis)
     {
         $this->sHepatitis = $sHepatitis;
     }
 
-    /**
-     * @return string
-     */
     public function getSHernias()
     {
         return $this->sHernias;
     }
 
-    /**
-     * @param string $sHernias
-     */
     public function setSHernias($sHernias)
     {
         $this->sHernias = $sHernias;
     }
 
-    /**
-     * @return string
-     */
     public function getSColitis()
     {
         return $this->sColitis;
     }
 
-    /**
-     * @param string $sColitis
-     */
     public function setSColitis($sColitis)
     {
         $this->sColitis = $sColitis;
     }
 
-    /**
-     * @return string
-     */
     public function getSColecis()
     {
         return $this->sColecis;
     }
 
-    /**
-     * @param string $sColecis
-     */
     public function setSColecis($sColecis)
     {
         $this->sColecis = $sColecis;
     }
 
-    /**
-     * @return string
-     */
     public function getSPatAnal()
     {
         return $this->sPatAnal;
     }
 
-    /**
-     * @param string $sPatAnal
-     */
     public function setSPatAnal($sPatAnal)
     {
         $this->sPatAnal = $sPatAnal;
     }
 
-    /**
-     * @return string
-     */
     public function getSInternamientos()
     {
         return $this->sInternamientos;
     }
 
-    /**
-     * @param string $sInternamientos
-     */
     public function setSInternamientos($sInternamientos)
     {
         $this->sInternamientos = $sInternamientos;
     }
 
-    /**
-     * @return string
-     */
     public function getSCirujias()
     {
         return $this->sCirujias;
     }
 
-    /**
-     * @param string $sCirujias
-     */
     public function setSCirujias($sCirujias)
     {
         $this->sCirujias = $sCirujias;
     }
+
+    public function getCancer()
+    {
+        return $this->Cancer;
+    }
+
+    public function setCancer($Cancer)
+    {
+        $this->Cancer = $Cancer;
+    }
+
+    public function getObesidad()
+    {
+        return $this->Obesidad;
+    }
+
+    public function setObesidad($Obesidad)
+    {
+        $this->Obesidad = $Obesidad;
+    }
+
+
 
 
     function buscarPorPaciente(){
@@ -641,7 +501,9 @@ class AntePatologicos
                                                   '".$this->sColecis."',
                                                   '".$this->sPatAnal."',
                                                   '".$this->sInternamientos."',
-                                                  '".$this->sCirujias."');";
+                                                  '".$this->sCirujias."',
+                                                  '".$this->Obesidad."',
+                                                  '".$this->Cancer."');";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }

@@ -145,20 +145,17 @@ class Cita
             foreach ($rst as $vRowTemp){
                 $oCita = new Cita();
                 $oCita->setFolioCita($vRowTemp[0]);
-                $oCita->setConsultorio($vRowTemp[1]);
-                $oCita->setPaciente($vRowTemp[2]);
-                $oCita->setSHorario($vRowTemp[3]);
-                $oCita->setFechaRegistro($vRowTemp[4]);
-                $oCita->setFechaCita($vRowTemp[5]);
-                $oCita->setEstatus($vRowTemp[6]);
+               $oCita->setPaciente(new Paciente());
+                $oCita->getPaciente()->setNombre($vRowTemp[1])->setApPaterno($vRowTemp[2])->setApMaterno($vRowTemp[3]);
+                $oCita->setConsultorio($vRowTemp[4]);
+                $oCita->setSHorario($vRowTemp[5]);
+                $oCita->setFechaCita($vRowTemp[6]);
+                $oCita->setEstatus($vRowTemp[7]);
                 $vObj[$i] = $oCita;
                 $i = $i + 1;
             }
         }else{
             $vObj = false;
-
-
-
         }
         return $vObj;
 
@@ -201,7 +198,102 @@ class Cita
             }
         }
         return $i;
+    }
 
+    function BuscaCitasMedico ($medico){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $i = 0;
+        $oCita = null;
+        if($oAD->Conecta()){
+            $sQuery = "call BuscarCitasMedico('".$medico."');";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+
+        }
+        if($rst){
+            foreach ($rst as $vRowTemp){
+                $oCita = new Cita();
+                $oCita->setFolioCita($vRowTemp[0]);
+                $oCita->setPaciente(new Paciente());
+                $oCita->getPaciente()->setNombre($vRowTemp[1])->setApPaterno($vRowTemp[2])->setApMaterno($vRowTemp[3]);
+                $oCita->setConsultorio($vRowTemp[4]);
+                $oCita->setSHorario($vRowTemp[5]);
+                $oCita->setFechaCita($vRowTemp[6]);
+                $oCita->setEstatus($vRowTemp[7]);
+                $vObj[$i] = $oCita;
+                $i = $i + 1;
+            }
+        }else{
+            $vObj = false;
+        }
+        return $vObj;
+
+    }
+
+
+    function BuscaCitasDiariasMedico ($hoy, $medico){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $i = 0;
+        $oCita = null;
+        if($oAD->Conecta()){
+            $sQuery = "call CitasDiariasMedico('".$hoy."' , '".$medico."');";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+
+        }
+        if($rst){
+            foreach ($rst as $vRowTemp){
+                $oCita = new Cita();
+                $oCita->setFolioCita($vRowTemp[0]);
+                $oCita->setPaciente(new Paciente());
+                $oCita->getPaciente()->setNombre($vRowTemp[1])->setApPaterno($vRowTemp[2])->setApMaterno($vRowTemp[3]);
+                $oCita->setConsultorio($vRowTemp[4]);
+                $oCita->setSHorario($vRowTemp[5]);
+                $oCita->setEstatus($vRowTemp[6]);
+                $vObj[$i] = $oCita;
+                $i = $i + 1;
+            }
+        }else{
+            $vObj = false;
+        }
+        return $vObj;
+
+    }
+
+    function BuscaTodasCitasDiarias ($hoy){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $i = 0;
+        $oCita = null;
+        if($oAD->Conecta()){
+            $sQuery = "call CitasDiarias('".$hoy."');";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+        }
+        if($rst){
+            foreach ($rst as $vRowTemp){
+                $oCita = new Cita();
+                $oCita->setFolioCita($vRowTemp[0]);
+                $oCita->setPaciente(new Paciente());
+                $oCita->getPaciente()->setNombre($vRowTemp[1])->setApPaterno($vRowTemp[2])->setApMaterno($vRowTemp[3]);
+                $oCita->setConsultorio($vRowTemp[4]);
+                $oCita->setSHorario($vRowTemp[5]);
+                $oCita->setEstatus($vRowTemp[6]);
+                $vObj[$i] = $oCita;
+                $i = $i + 1;
+            }
+        }else{
+            $vObj = false;
+        }
+        return $vObj;
 
     }
 

@@ -70,4 +70,24 @@ class Especialidad
         return $vObj;
     }
 
+    function medicoEspecialidad($medico){
+        $oAD = new AccesoDatos();
+        $rst = null;
+        $vObj = null;
+        $oNota = null;
+        $sQuery = "";
+        $i = 0;
+        if ($oAD->Conecta()) {
+            $sQuery = "call especialidad('".$medico."');";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+        }
+        if ($rst) {
+            $this->setIdEspecialidad($rst[0][0]);
+            $bRet=true;
+        }
+        return $bRet;
+
+    }
+
 }

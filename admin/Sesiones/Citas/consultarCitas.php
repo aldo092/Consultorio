@@ -7,6 +7,7 @@ require_once ("../../Class/Personal.php");
 require_once ("../../Class/Cita.php");
 require_once ("../../Class/Paciente.php");
 require_once ("../../Class/Horarios.php");
+require_once ("../../Class/Roles.php");
 session_start();
 $oUser = new Usuarios();
 $sErr = "";
@@ -16,16 +17,27 @@ $sNombre = "";
 $oCita= new Cita();
 $oPaciente=new Paciente();
 $oHorario =new Horarios();
+$oRol= new Roles();
 $arrCita= null;
+$oRol->buscarRol($_SESSION['sUser']->getEmail());
 
 
 
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oUser = $_SESSION['sUser'];
+    $idRol=  $oRol->getIdRol();
     $oMenu = new Menu();
     $oMenu->setUsuario($oUser);
     $arrMenus = $oMenu->buscarMenuUsuario();
-    $arrCita= $oCita->BuscaTodasCitas();
+    if ($idRol=="3"){
+        $arrCita= $oCita->BuscaTodasCitas();
+    }
+    else{
+        if($idRol=="2"){
+            $arrCita= $oCita->BuscaCitasMedico($_SESSION['sUser']->getEmail());
+
+        }
+    }
     if($oUser->buscarDatosBasicos()){
         $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
     }else{
@@ -163,7 +175,7 @@ if($sErr != ""){
                 <div class="x_panel">
 
                     <div class="x_title">
-                        <h2>Lista de Citas Registrados en el sistema</h2>
+                        <h2>Lista de Citas Registradas en el sistema</h2>
 
                         <div class="clearfix"></div>
                     </div>
@@ -181,10 +193,9 @@ if($sErr != ""){
                                 <thead>
                                 <tr>
                                     <th>Folio</th>
-                                    <th>Consultorio</th>
                                     <th>Paciente</th>
+                                    <th>Consultorio</th>
                                     <th>Hora de la Cita</th>
-                                    <th>Fecha que se creó la cita</th>
                                     <th>Fecha de la cita</th>
                                     <th>Estatus de la cita</th>
                                     <th>Accion</th>
@@ -199,10 +210,9 @@ if($sErr != ""){
                                         ?>
                                         <tr>
                                             <td><?php echo $vRT->getFolioCita();?></td>
+                                            <td><?php echo $vRT->getPaciente()->getNombre()." ".$vRT->getPaciente()->getApPaterno()." ".$vRT->getPaciente()->getApMaterno();?></td>
                                             <td><?php echo $vRT->getConsultorio();?></td>
                                             <td><?php echo $vRT->getSHorario();?></td>
-                                            <td><?php echo $vRT->getPaciente();?></td>
-                                            <td><?php echo $vRT->getFechaRegistro();?></td>
                                             <td><?php echo $vRT->getFechaCita();?></td>
                                             <td><?php echo $vRT->getEstatus();?></td>
 

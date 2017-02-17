@@ -176,11 +176,9 @@ CREATE TABLE Paciente (
   sMunicipio INT,
   sEstado INT,
   sMedico INT,
+  sConsultorio INT,
   PRIMARY KEY (sCurpPaciente)
 );
-
-
-
 
 CREATE TABLE Expediente (
   nNumero VARCHAR(20) NOT NULL,
@@ -283,6 +281,8 @@ CREATE TABLE AntePatologicos (
   sPatAnal CHAR(2),
   sInternamientos CHAR(2),
   sCirujias CHAR(2),
+  Obesidad CHAR(2),
+  Cancer VARCHAR(30),
   PRIMARY KEY (nNumero)
 );
 
@@ -707,6 +707,11 @@ INSERT INTO roles(sDescripcion) VALUES('RECEPCIONISTA');
 INSERT INTO Usuarios(sEmail, sPassword, dFechaRegistro)
 VALUES ('sisalpasolft@gmail.com',md5('acm1pt'), CURRENT_DATE());
 
+INSERT INTO Usuarios(sEmail, sPassword, dFechaRegistro)
+    VALUES ('',md5('ACPDM2017'),CURRENT_DATE());
+
+INSERT INTO Personal(sNombres, sApMaterno, sApPaterno, sTelefono, sSexo, sCURP, sEmail, bEstatus, sImagen)
+
 INSERT INTO Personal(sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCURP, sEmail, bEstatus)
 VALUES ('Sistema','Expediente','Electrónico', '2717493689','M','LALP920516HVZLPB07','sisalpasolft@gmail.com' ,1);
 
@@ -821,7 +826,7 @@ INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(19,2);
 
 CREATE TABLE Estados (CVE_ENT INT primary key, NOM_ENT VARCHAR(50));
 
-INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (1,'Aguascalientes');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (2,'Baja California');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (3,'Baja California Sur');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (4,'Campeche');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (5,'Coahuila de Zaragoza');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (6,'Colima');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (7,'Chiapas');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (8,'Chihuahua');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (9,'Ciudad de México');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (10,'Durango');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (11,'Guanajuato');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (12,'Guerrero');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (13,'Hidalgo');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (14,'Jalisco');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (15,'México');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (16,'Michoacán de Ocampo');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (17,'Morelos');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (18,'Nayarit');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (19,'Nuevo León');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (20,'Oaxaca');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (21,'Puebla');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (22,'Querétaro');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (23,'Quintana Roo');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (24,'San Luis Potosí');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (25,'Sinaloa');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (26,'Sonora');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (27,'Tabasco');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (28,'Tamaulipas');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (29,'Tlaxcala');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (30,'Veracruz de Ignacio de la Llave');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (31,'Yucatán');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (32,'Zacatecas');
+INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (1,'Ags.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (2,'B.C.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (3,'B.C.S');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (4,'Camp.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (5,'Coah.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (6,'Col.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (7,'Chis.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (8,'Chih.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (9,'CDMX');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (10,'Dgo.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (11,'Gto.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (12,'Gro.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (13,'Hgo.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (14,'Jal.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (15,'Edo.Mex.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (16,'Mich.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (17,'Mor.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (18,'Nay.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (19,'N.L.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (20,'Oax.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (21,'Pue.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (22,'Qro.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (23,'Q. Roo');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (24,'S.L.P.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (25,'Sin.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (26,'Son.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (27,'Tab.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (28,'Tamps.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (29,'Tlax.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (30,'Ver.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (31,'Yuc.');INSERT INTO Estados(CVE_ENT, NOM_ENT) VALUES (32,'Zac.');
 
 
 CREATE TABLE Municipios(CVE_ENT INT, CVE_MUN INT primary key, NOM_MUN VARCHAR(200));
@@ -915,6 +920,8 @@ insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','13:30','14:1
 insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','14:15','15:00');
 insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','15:00','15:45');
 insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','15:45','16:30');
+
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Domingo','15:45','16:30');
 
 
 /*Insertar especialidaddes*/
@@ -1048,11 +1055,6 @@ REFERENCES Estatus(nIdEstatus)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
 
-
-
-
-
-
 /*Agregar columna de estatus a la tabla de citas  */
 ALTER TABLE cita
 ADD COLUMN nIdEstatus INT(11) NOT NULL AFTER dFechaCita;
@@ -1063,5 +1065,20 @@ ALTER TABLE cita
 ADD CONSTRAINT estatus_cita_fk
 FOREIGN KEY (nIdEstatus)
 REFERENCES estatus (nIdEstatus)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+CREATE TABLE HojaGin
+(Numero INT AUTO_INCREMENT PRIMARY KEY , Paciente VARCHAR(20),Medico INT(11),Padecimiento VARCHAR(200), TA VARCHAR(30), FC VARCHAR(30), FR VARCHAR(30), Temp FLOAT, Talla FLOAT, Peso FLOAT, IMC FLOAT, Exploracion VARCHAR(500), Laboratoriales VARCHAR(500), Terapeutica VARCHAR(500), Diagnosticos VARCHAR(500), Fecha DATE);
+
+ALTER TABLE HojaGin ADD CONSTRAINT paciente_HojaGin_fk
+FOREIGN KEY (Paciente)
+  REFERENCES Expediente(nNumero)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE HojaGin ADD CONSTRAINT medico_HojaGin_fk
+FOREIGN KEY (Medico)
+REFERENCES Medico(nIdPersonal)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;

@@ -8,16 +8,33 @@
 error_reporting(E_ALL);
 include_once ("Class/Usuarios.php");
 require_once ("Class/Menu.php");
+require_once ("Class/Roles.php");
+require_once ("Class/Cita.php");
 session_start();
 $oUser = new Usuarios();
 $sErr = "";
 $arrMenus = null;
 $sNombre = "";
+$oRol= new Roles();
+$oCita= new Cita();
+$arrCita= null;
+$fecha = date("Y/n/j");
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oUser = $_SESSION['sUser'];
+    $oRol->buscarRol($_SESSION['sUser']->getEmail());
+    $idRol=  $oRol->getIdRol();
     $oMenu = new Menu();
     $oMenu->setUsuario($oUser);
     $arrMenus = $oMenu->buscarMenuUsuario();
+    if ($idRol=="3"){
+        $arrCita= $oCita->BuscaTodasCitasDiarias($fecha);
+    }
+    else{
+        if($idRol=="2"){
+            $arrCita= $oCita->BuscaCitasDiariasMedico($fecha,$_SESSION['sUser']->getEmail());
+
+        }
+    }
 
     if($oUser->buscarDatosBasicos()){
         $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
@@ -149,6 +166,82 @@ if($sErr != ""){
         <!-- /top navigation -->
 
         <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+
+                        <div class="x_title">
+                            <h2>Citas  programadas para el dia de hoy </h2>
+
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <form id="frmExpediente" action="Sesiones/Citas/ControlCitas.php" method="post">
+                                <input type="hidden" name="Folio">
+                                <input type="hidden" name="Operacion">
+
+
+                                <p class="text-muted font-13 m-b-30">
+                                </p>
+
+                                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Folio</th>
+                                        <th>Paciente</th>
+                                        <th>Consultorio</th>
+                                        <th>Hora de la Cita</th>
+                                        <th>Estatus de la cita</th>
+                                        <th>Accion</th>
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    if($arrCita != null){
+                                        foreach($arrCita as $vRT){
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $vRT->getFolioCita();?></td>
+                                                <td><?php echo $vRT->getPaciente()->getNombre()." ".$vRT->getPaciente()->getApPaterno()." ".$vRT->getPaciente()->getApMaterno();?></td>
+                                                <td><?php echo $vRT->getConsultorio();?></td>
+                                                <td><?php echo $vRT->getSHorario();?></td>
+                                                <td><?php echo $vRT->getEstatus();?></td>
+
+
+                                                <td>
+                                                    <input type="submit" value="Cambiar Estatus" class=" btn btn-primary" onClick="Operacion.value='M';Folio.value='<?php echo $vRT->getFolioCita();?>'" >
+                                                    <input type="submit" value="Cancelar Cita" class=" btn btn-primary" onClick="Operacion.value='E';Folio.value='<?php echo $vRT->getFolioCita();?>'" >
+
+
+                                                </td>
+
+                                            </tr>
+                                            <?php
+                                        }
+                                    }else{
+                                        ?>
+                                        <tr>
+                                            <td>
+                                                <p>No se encontraron registros</p>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- /page content -->
 

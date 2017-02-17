@@ -31,6 +31,7 @@ class Paciente
     private $sRFC="";
     private $nEdad = 0;
     private $oNotaInt = null;
+    private $nConsultorio=0;
 
 
     public function getNotaInt()
@@ -251,6 +252,17 @@ class Paciente
         $this->sMedico = $sMedico;
     }
 
+    public function getNConsultorio()
+    {
+        return $this->nConsultorio;
+    }
+
+    public function setNConsultorio($nConsultorio)
+    {
+        $this->nConsultorio = $nConsultorio;
+    }
+
+
 
     function buscarPacientesExpediente(){
         $oAD = new AccesoDatos();
@@ -404,7 +416,8 @@ class Paciente
                                                  '".$this->sLocalidad."',
                                                  '".$this->sMunicipio."',
                                                  '".$this->Estado."',            
-                                                 '".$this->sMedico."');";
+                                                 '".$this->sMedico."',
+                                                 '".$this->nConsultorio."');";
                 $i = $oAD->ejecutaComando($sQuery);
                 $oAD->Desconecta();
             }
@@ -568,6 +581,9 @@ class Paciente
                     $oPaciente->setApMaterno($vRow[2]);
                     $oPaciente->getExpediente()->setNumero($vRow[3]);
                     $oPaciente->setSMedico($vRow[4]);
+                    $oPaciente->setSexo($vRow[5]);
+                    $oPaciente->setNConsultorio($vRow[6]);
+
                     $vObj[$i] = $oPaciente;
                     $i = $i + 1;
                 }

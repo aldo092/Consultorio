@@ -11,16 +11,16 @@ $oUser = new Usuarios();
 $sErr = "";
 $arrMenus = null;
 $sNombre = "";
-
 $oPaciente= new Paciente();
 $arrPaciente= null;
+
 
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     $oUser = $_SESSION['sUser'];
     $oMenu = new Menu();
     $oMenu->setUsuario($oUser);
     $arrMenus = $oMenu->buscarMenuUsuario();
-    $arrPaciente= $oPaciente->buscarPacientesExpediente();
+    $arrPaciente= $oPaciente->PacientesMedico($oUser->getEmail());
     if($oUser->buscarDatosBasicos()){
         $sNombre = $oUser->getPersonal()->getNombres()." ".$oUser->getPersonal()->getApPaterno()." ".$oUser->getPersonal()->getApMaterno();
     }else{
@@ -166,20 +166,15 @@ if($sErr != ""){
                     <div class="x_content">
                         <form id="frmExpediente" action="../../Sesiones/Pacientes/antecedentes.php" method="post">
                             <input type="hidden" name="txtExpediente">
-                            <input type="hidden" name="txtSexo">
-
                             <p class="text-muted font-13 m-b-30">
                             </p>
-
                             <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
                                     <th>Expediente</th>
-                                    <th>CURP</th>
                                     <th>Nombre</th>
+                                    <th>Consultorio</th>
                                     <th>Accion</th>
-
-
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -188,13 +183,14 @@ if($sErr != ""){
                                     foreach($arrPaciente as $vRT){
                                         ?>
                                         <tr>
-                                            <td><?php echo $vRT->getExpediente();?></td>
-                                            <td><?php echo $vRT->getCURPPaciente();?></td>
+                                            <td><?php echo $vRT->getExpediente()->getNumero();?></td>
                                             <td><?php echo $vRT->getApPaterno()." ".$vRT->getApMaterno()." ".$vRT->getNombre(); ?></td>
-                                            <td>
-                                                <input type="submit" value="Agregar Antecedentes" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $vRT->getExpediente();?>';txtSexo.value='<?php echo $vRT->getSexo();?>'" >
+                                            <td><?php echo $vRT->getNConsultorio();?></td>
+                                            <td><input type="submit" value="Agregar Antecedentes" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $vRT->getExpediente()->getNumero();?>';" >
 
                                             </td>
+
+
 
                                         </tr>
                                         <?php

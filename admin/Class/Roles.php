@@ -81,5 +81,27 @@ class Roles
         }
         return $i;
     }
+
+
+    function buscarRol($usuario){
+        $oAD = new AccesoDatos();
+        $rst = null;
+        $vObj = null;
+        $oNota = null;
+        $sQuery = "";
+        $i = 0;
+        if ($oAD->Conecta()) {
+            $sQuery = "call BuscarRol('".$usuario."');";
+            $rst = $oAD->ejecutaQuery($sQuery);
+            $oAD->Desconecta();
+        }
+        if ($rst) {
+            $this->setIdRol($rst[0][0]);
+            $bRet=true;
+        }
+        return $bRet;
+    }
+
+
     
 }

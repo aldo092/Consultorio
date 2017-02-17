@@ -43,6 +43,7 @@ $cp="";
 $correo="";
 $edocivil="";
 $medico="";
+$consultorio="";
 
 $asegurado="";
 
@@ -81,7 +82,8 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
     isset($_POST["email"]) && !empty($_POST["email"])&&
     isset($_POST["asegurado"]) && !empty($_POST["asegurado"])&&
     isset($_POST["edocivil"]) && !empty($_POST["edocivil"])&&
-    isset($_POST["medico"]) && !empty($_POST["medico"])){
+    isset($_POST["medico"]) && !empty($_POST["medico"])&&
+    isset($_POST["consultorio"])&&!empty($_POST["consultorio"])){
 
     if(($_POST["asegurado"])=="Si" &&
         isset($_POST["aseguradora"]) && !empty($_POST["aseguradora"]) &&
@@ -100,6 +102,7 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
         $correo = $_POST["email"];
         $edocivil = $_POST["edocivil"];
         $medico=$_POST["medico"];
+        $consultorio=$_POST["consultorio"];
         $localidad=$_POST["localidad"];
         $municipio=$_POST["municipio"];
         $estado=$_POST["estado"];
@@ -130,6 +133,7 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
         $oPaciente->setEstado($estado);
         $oPaciente->setSRFC($rfc);
         $oPaciente->setSMedico($medico);
+        $oPaciente->setNConsultorio($consultorio);
 
         $oExpediente->setPaciente($curp);
         $oExpediente->setNumero($Nexpediente);
@@ -166,6 +170,7 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
         $correo = $_POST["email"];
         $edocivil = $_POST["edocivil"];
         $medico=$_POST["medico"];
+        $consultorio=$_POST["consultorio"];
         $localidad=$_POST["localidad"];
         $municipio=$_POST["municipio"];
         $estado=$_POST["estado"];
@@ -192,6 +197,7 @@ if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) &&
         $oPaciente->setEstado($estado);
         $oPaciente->setSRFC($rfc);
         $oPaciente->setSMedico($medico);
+        $oPaciente->setNConsultorio($consultorio);
 
         $oExpediente->setPaciente($curp);
         $oExpediente->setNumero($Nexpediente);

@@ -9,9 +9,11 @@ require_once ("../../Class/AntecFamiliares.php");
 require_once ("../../Class/AntePatologicos.php");
 require_once ("../../Class/AntecNoPatologicos.php");
 require_once ("../../Class/AntecGinecobstetricos.php");
+require_once("../../Class/Especialidad.php");
 
 session_start();
 $oUser = new Usuarios();
+$oEspe= new Especialidad();
 $sErr = "";
 $arrMenus = null;
 $Expediente ="";
@@ -39,11 +41,12 @@ $divNoPat="";
 $divGin="";
 $todos="";
 $mensaje="";
+$oEspe->medicoEspecialidad($_SESSION['sUser']->getEmail());
 
 if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])) {
     if (isset($_POST["txtExpediente"]) && !empty($_POST["txtExpediente"])) {
         $Expediente = $_POST['txtExpediente'];
-        $Sexo = $_POST['txtSexo'];
+        $Medico = $oEspe->getIdEspecialidad();
         $AntFam = $oAntFam->ExisteAntFam($Expediente);
         $AntPat = $oAntPat->ExisteAntPat($Expediente);
         $AntNpat = $oAntNPat->ExisteAntNoPat($Expediente);
@@ -51,128 +54,139 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])) {
 
 
        /* si solo exiten ant familiares y es hombre */
-        if ($Sexo == "M" and $AntFam == true and $AntPat == false and $AntNpat == false) {
+        if ($Medico == "1" and $AntFam == true and $AntPat == false and $AntNpat == false) {
             $antGin = "hidden";
             $antFam = "hidden";
             $divPat = "active in";
         } else {
             /* si existen ant familiares y patologicos y eshombre */
-            if ($Sexo == "M" and $AntFam == true and $AntPat == true and $AntNpat == false) {
+            if ($Medico =="1"  and $AntFam == true and $AntPat == true and $AntNpat == false) {
                 $antGin = "hidden";
                 $antFam = "hidden";
                 $antPat = "hidden";
                 $divNoPat = "active in";
             } else {
                 /* si es hombre y tiene todos los antecedentes registrados*/
-                if ($Sexo == "M" and $AntFam == true and $AntPat == true and $AntNpat == true) {
+                if ($Medico == "1" and $AntFam == true and $AntPat == true and $AntNpat == true) {
                    $todos= "hidden";
-                    $mensaje = "Se han registrado todos los antecedentes de este paciente";
+                    $mensaje = "<form id='frmHistorial' action='../../Controllers/ctrlHC.php' method='post'>
+                                            <input  type='hidden' name='txtExpediente' value='$Expediente'>
+                                            <input type='hidden' name='txtMedico' value='$Medico'>
+                                            Se han registrado todos los antecedentes de este paciente <br><br> <div class='btn-group '>
+                                             <input type='submit' value='Descargar historial clínico' class='btn btn-primary'></form>"
+                                            ."<input type='button' class='btn btn-primary' onClick=\"document.location = 'Pacientes.php'\"  value='Regresar al listado de pacientes'> </div>";
                 } else {
                     /*si es hombre y le faltan antecedentes patologicos */
-                    if ($Sexo == "M" and $AntFam == true and $AntPat == false and $AntNpat == true) {
+                    if ($Medico ==" 1" and $AntFam == true and $AntPat == false and $AntNpat == true) {
                         $antGin = "hidden";
                         $antFam = "hidden";
                         $antNoPat = "hidden";
                         $divPat = "active in";
                     } else {
                         /*si es hombre y le faltan todos los antecedentes*/
-                        if ($Sexo == "M" and $AntFam == false and $AntPat == false and $AntNpat == false) {
+                        if ($Medico == "1" and $AntFam == false and $AntPat == false and $AntNpat == false) {
                             $antGin= "hidden";
                             $divFam= "active in";
 
                         } else {
                             /*si es hombre y tiene antecedentes patologicos */
-                            if ($Sexo == "M" and $AntFam == false and $AntPat == true and $AntNpat == false) {
+                            if ($Medico == "1" and $AntFam == false and $AntPat == true and $AntNpat == false) {
                                 $antPat = "hidden";
                                 $divFam = "active in";
                                 $antGin = "hidden";
                             }else{
-                                if($Sexo == "M" and $AntFam == false and $AntPat == false and $AntNpat == true){
+                                if($Medico == "1" and $AntFam == false and $AntPat == false and $AntNpat == true){
                                     $antGin="hidden";
                                     $antNoPat="hidden";
                                     $divFam="active in";
                                 }else{
-                                    if($Sexo=="F" and $AntFam==false and $AntPat==false and $AntNpat==false and $AntGin==false){
+                                    if($Medico=="2" and $AntFam==false and $AntPat==false and $AntNpat==false and $AntGin==false){
                                         $divFam="active in";
                                     }else{
-                                        if($Sexo=="F" and $AntFam==true and $AntPat==true and $AntNpat==true and $AntGin==true){
+                                        if($Medico =="2" and $AntFam==true and $AntPat==true and $AntNpat==true and $AntGin==true){
                                             $todos= "hidden";
-                                            $mensaje = "Se han registrado todos los antecedentes de este paciente";
+                                            $mensaje ="<form id='frmHistorial' action='../../Controllers/ctrlHC.php' method='post'>
+                                            <input  type='hidden' name='txtExpediente' value='$Expediente'>
+                                            <input type='hidden' name='txtMedico' value='$Medico'>
+                                            Se han registrado todos los antecedentes de este paciente <br><br> <div class='btn-group '>
+                                             <input type='submit' value='Descargar historial clínico' class='btn btn-primary'></form>"
+                                                ."<input type='button' class='btn btn-primary' onClick=\"document.location = 'Pacientes.php'\"  value='Regresar al listado de pacientes'> </div>";
+
                                         }else{
-                                            if($Sexo=="F" and $AntFam==true and $AntPat==false and $AntNpat==false and $AntGin==false){
+                                            if($Medico=="2" and $AntFam==true and $AntPat==false and $AntNpat==false and $AntGin==false){
                                                 $antFam="hidden";
                                                 $divPat="active in";
                                             }else{
-                                                if($Sexo=="F" and $AntFam==true and $AntPat==true and $AntNpat==false and $AntGin==false){
+                                                if($Medico=="2" and $AntFam==true and $AntPat==true and $AntNpat==false and $AntGin==false){
                                                     $antFam="hidden";
                                                     $antPat="hidden";
                                                     $divNoPat="active in";
                                                 }else{
-                                                    if($Sexo=="F" and $AntFam==true and $AntPat==true and $AntNpat==true and $AntGin==false){
+                                                    if($Medico=="2" and $AntFam==true and $AntPat==true and $AntNpat==true and $AntGin==false){
                                                         $antFam="hidden";
                                                         $antPat="hidden";
                                                         $antNoPat="hidden";
                                                         $divGin="active in";
                                                     }
                                                     else{
-                                                        if($Sexo=="F" and $AntFam==false and $AntPat==true and $AntNpat==false and $AntGin==false){
+                                                        if($Medico=="2" and $AntFam==false and $AntPat==true and $AntNpat==false and $AntGin==false){
                                                             $antPat="hidden";
                                                             $divFam="active in";
                                                         }else{
-                                                            if($Sexo=="F" and $AntFam==false and $AntPat==false and $AntNpat==true and $AntGin==false){
+                                                            if($Medico=="2" and $AntFam==false and $AntPat==false and $AntNpat==true and $AntGin==false){
                                                                 $antNoPat="hidden";
                                                                 $divFam="active in";
                                                             }else{
-                                                                if($Sexo=="F" and $AntFam==false and $AntPat==false and $AntNpat==false and $AntGin==true){
+                                                                if($Medico=="2" and $AntFam==false and $AntPat==false and $AntNpat==false and $AntGin==true){
                                                                     $antGin="hidden";
                                                                     $divFam="active in";
 
                                                                 }else{
-                                                                    if($Sexo=="F" and $AntFam==true and $AntPat==false and $AntNpat==false and $AntGin==true){
+                                                                    if($Medico=="2" and $AntFam==true and $AntPat==false and $AntNpat==false and $AntGin==true){
                                                                         $antGin="hidden";
                                                                         $antFam="hidden";
                                                                         $divPat="active in";
                                                                     }else{
-                                                                        if($Sexo=="F" and $AntFam==true and $AntPat==true and $AntNpat==false and $AntGin==true){
+                                                                        if($Medico=="2" and $AntFam==true and $AntPat==true and $AntNpat==false and $AntGin==true){
                                                                             $antFam="hidden";
                                                                             $antPat="hidden";
                                                                             $antGin="hidden";
                                                                             $divNoPat="active in";
                                                                         }else{
-                                                                            if($Sexo=="F" and $AntFam==true and $AntPat==false and $AntNpat==true and $AntGin==false){
+                                                                            if($Medico=="2" and $AntFam==true and $AntPat==false and $AntNpat==true and $AntGin==false){
                                                                                 $antFam="hidden";
                                                                                 $antNoPat="hidden";
                                                                                 $divPat="active in";
                                                                             }else{
-                                                                                if($Sexo=="F" and $AntFam==false and $AntPat==true and $AntNpat==true and $AntGin==false){
+                                                                                if($Medico=="2" and $AntFam==false and $AntPat==true and $AntNpat==true and $AntGin==false){
                                                                                     $antNoPat="hidden";
                                                                                     $antPat="hidden";
                                                                                     $divFam="active in";
                                                                                 }else{
-                                                                                    if($Sexo=="F" and $AntFam==false and $AntPat==false and $AntNpat==true and $AntGin==true){
+                                                                                    if($Medico=="2" and $AntFam==false and $AntPat==false and $AntNpat==true and $AntGin==true){
                                                                                         $antNoPat="hidden";
                                                                                         $antGin="hidden";
                                                                                         $divFam="active in";
 
                                                                                 }else{
-                                                                                        if($Sexo=="F" and $AntFam==false and $AntPat==true and $AntNpat==true and $AntGin==true){
+                                                                                        if($Medico=="2" and $AntFam==false and $AntPat==true and $AntNpat==true and $AntGin==true){
                                                                                             $antGin="hidden";
                                                                                             $antPat="hidden";
                                                                                             $antNoPat="hidden";
                                                                                             $divFam= "active in";
                                                                                         }else{
-                                                                                            if($Sexo=="F" and $AntFam==false and $AntPat==true and $AntNpat==false and $AntGin==true){
+                                                                                            if($Medico=="2" and $AntFam==false and $AntPat==true and $AntNpat==false and $AntGin==true){
                                                                                                 $divFam="active in";
                                                                                                 $antPat="hidden";
                                                                                                 $antGin="hidden";
                                                                                             }else{
-                                                                                                if($Sexo=="F" and $AntFam==true and $AntPat==false and $AntNpat==true and $AntGin==true){
+                                                                                                if($Medico=="2" and $AntFam==true and $AntPat==false and $AntNpat==true and $AntGin==true){
                                                                                                     $antFam="hidden";
                                                                                                     $antNoPat="hidden";
                                                                                                     $antGin="hidden";
                                                                                                     $divPat="active in";
                                                                                                 }else{
-                                                                                                    if ($Sexo == "M" and $AntFam ==false and $AntPat == true and $AntNpat == true) {
+                                                                                                    if ($Medico == "1" and $AntFam ==false and $AntPat == true and $AntNpat == true) {
                                                                                                         $antGin="hidden";
                                                                                                         $antPat="hidden";
                                                                                                         $antNoPat="hidden";
@@ -225,6 +239,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])) {
         $oUser = $_SESSION['sUser'];
         $oMenu = new Menu();
         $oMenu->setUsuario($oUser);
+
         $arrMenus = $oMenu->buscarMenuUsuario();
         $arrAnticon=$oAnticonceptivo->buscarTodos();
         if ($oUser->buscarDatosBasicos()) {
@@ -371,9 +386,9 @@ if($sErr != ""){
         <div class="right_col" role="main">
             <div class="">
                 <div class="page-title">
-                    <div class="title_left">
-                        <h3>Registro de Antecedentes de Pacientes </h3>
-                        <h2> <?php echo $mensaje?></h2>
+                    <div class="title_left  ">
+                        <h3 class="col-sm-12 text-center">Registro de Antecedentes de Pacientes </h3>
+                        <h2 class="col-md-12 text-center"> <?php echo $mensaje?></h2>
                     </div>
 
 
@@ -403,7 +418,7 @@ if($sErr != ""){
                                 <div id="myTabContent" class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade <?php echo $divFam;?> " id="tab_content1" aria-labelledby="home-tab">
 
-                                        <form class="form-horizontal" role="form" method="post" action="../../Controllers/ctrlAntFam.php">
+                                        <form class="form-horizontal" role="form" method="post" action="../../Controllers/CtrlAntFam.php">
                                          <input type="hidden" name="nExpediente" value="<?php echo $Expediente;?>">
 
                                             <div class="form-group ">
@@ -655,13 +670,22 @@ if($sErr != ""){
                                                         </div>
                                                     </div>
 
-
                                                     <div class="form-group">
-                                                        <label class="control-label col-xs-7">Padece Cardiopatía</label>
-                                                        <div class="col-xs-5">
-                                                            <input class="form-control input-sm" type="text" name="cardiopatia" required="required" >
+                                                        <label class="control-label col-xs-7">¿Padece Cardiopatía?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="cardiopatia" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="cardiopatia" value="no"> no
+                                                            </label>
                                                         </div>
                                                     </div>
+
+
+
                                                     <div class="form-group">
                                                         <label class="control-label col-xs-7">Ha recibido transfusiones
                                                             de sangre</label>
@@ -1052,6 +1076,23 @@ if($sErr != ""){
                                                                 <input type="radio" name="cirujias" value="no"> no
                                                             </label>
                                                         </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-7">¿Presenta obesidad?</label>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="obesidad" value="si" required="required"> si
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="obesidad" value="no"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <label class="control-label col-xs-7">Tipo de cáncer presentado</label>
+                                                    <div class="col-xs-5">
+                                                        <input class="form-control input-sm" type="text" name ="cancer" placeholder="ninguno" required="required">
                                                     </div>
 
 
