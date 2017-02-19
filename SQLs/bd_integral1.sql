@@ -74,7 +74,7 @@ CREATE TABLE usuario_rol (
 
 CREATE TABLE Accesos (
   sEmail VARCHAR(60) NOT NULL,
-  nNIP INT NOT NULL,
+  nNIP VARCHAR(200) NOT NULL,
   bEstado SMALLINT NOT NULL,
   PRIMARY KEY (sEmail, nNIP)
 );
@@ -713,14 +713,14 @@ INSERT INTO roles(sDescripcion) VALUES('MEDICO');
 INSERT INTO roles(sDescripcion) VALUES('RECEPCIONISTA');
 
 INSERT INTO Usuarios(sEmail, sPassword, dFechaRegistro)
-VALUES ('sisalpasolft@gmail.com',md5('acm1pt'), CURRENT_DATE());
+VALUES ('sisalpasoft@gmail.com',md5('acm1pt'), CURRENT_DATE());
 
 /*Dr. Pliego */
 INSERT INTO Usuarios(sEmail, sPassword, dFechaRegistro)
 VALUES ('urogopli@gmail.com',md5('3878720'),CURRENT_DATE());
 /*Dra. Norma */
 INSERT INTO Usuarios(sEmail, sPassword, dFechaRegistro)
-VALUES ('urogopli@gmail.com',md5('5090513'),CURRENT_DATE());
+VALUES ('llarena_92@hotmail.com',md5('valeria'),CURRENT_DATE());
 
 INSERT INTO Personal(sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCURP, sEmail, bEstatus)
 VALUES ('Sistema','Expediente','Electrónico', '2717493689','M','LALP920516HVZLPB07','sisalpasoft@gmail.com' ,1);
@@ -737,11 +737,10 @@ VALUES(2,'3878720','2003-01-01','6926620','2011-01-01','2711575539','',1);
 INSERT INTO medico(nIdPersonal, sNumCedula, dFechaExpedicionCed, sNumCedEsp, dFecExpedCedEsp, sNumTelefono1, sNumTelefono2, nIdEspecialidad)
 VALUES(3,'5090513','2007-01-01','0','0','2721575539','',2);
 
-INSERT INTO Accesos(sEmail, nNIP, bEstado) VALUES ('sisalpasolft@gmail.com',md5(3728),1);
+INSERT INTO Accesos(sEmail, nNIP, bEstado) VALUES ('sisalpasoft@gmail.com',md5(3728),1);
 INSERT INTO Accesos(sEmail, nNIP, bEstado) VALUES ('urogopli@gmail.com',md5(2813),1);
 
-INSERT INTO usuario_rol (sEmail, nIdRol) VALUES('sisalpasolft@gmail.com',1);
-INSERT INTO usuario_rol (sEmail, nIdRol) VALUES('urogopli@gmail.com',1);
+INSERT INTO usuario_rol (sEmail, nIdRol) VALUES('sisalpasoft@gmail.com',1);
 INSERT INTO usuario_rol (sEmail, nIdRol) VALUES('urogopli@gmail.com',2);
 
 /*Menús del Sistema */
@@ -1182,3 +1181,6 @@ REFERENCES Medico(nIdPersonal)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
+INSERT INTO estatus(sNombre) VALUES('Pendiente');
+INSERT INTO estatus(sNombre) VALUES('Atendida');
+INSERT INTO estatus(sNombre) VALUES('No atendida');
