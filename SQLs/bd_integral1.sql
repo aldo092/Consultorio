@@ -176,9 +176,17 @@ CREATE TABLE Paciente (
   sMunicipio INT,
   sEstado INT,
   sMedico INT,
-  sConsultorio INT,
+  sConsultorio SMALLINT,
   PRIMARY KEY (sCurpPaciente)
 );
+
+ALTER TABLE Paciente ADD CONSTRAINT consutorio_paciente_fk
+FOREIGN KEY (sConsultorio)
+REFERENCES Consultorio ( nIdConsultorio)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
 
 CREATE TABLE Expediente (
   nNumero VARCHAR(20) NOT NULL,
@@ -921,7 +929,12 @@ insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','14:15','15:0
 insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','15:00','15:45');
 insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Sabado','15:45','16:30');
 
-insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Domingo','15:45','16:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Domingo','9:00','9:45');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Domingo','9:45','10:30');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Domingo','10:30','11:15');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Domingo','11:15','12:00');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Domingo','12:00','12:45');
+insert into Horarios(sDia, sHoraInicio, sHoraFin) VALUES ('Domingo','12:45','13:30');
 
 
 /*Insertar especialidaddes*/
@@ -943,8 +956,16 @@ INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialid
 INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Exploración Androscópica', 0.16, 800, 800, 1);
 INSERT INTO estudios(sDescripcion, nIVA, nCostoNormal, nCostoAseg, nIdEspecialidad) VALUES ('Uretrocistoscopía', 0.16, 800, 800, 1);
 
-
-/*horarios*/
+/*Agregar Consultorios*/
+INSERT INTO Consultorio(nIdPersonal, sDescripcion) VALUES
+  (2,'Consutorio de Urología Córdoba');
+INSERT INTO Consultorio(nIdPersonal, sDescripcion) VALUES
+  (3,'Consutorio de Ginecología Córdoba');
+INSERT INTO Consultorio(nIdPersonal, sDescripcion) VALUES
+  (2,'Consutorio de Urología Huatusco');
+INSERT INTO Consultorio(nIdPersonal, sDescripcion) VALUES
+  (3,'Consutorio de Ginecología Huatusco');
+/*horarios de  Urolgia Cordoba*/
 INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	1	);
 INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	2	);
 INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	3	);
@@ -1005,7 +1026,81 @@ INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	57	);
 INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	58	);
 INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	59	);
 INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	1	,	60	);
-
+/*Horarios de Ginecologia Cordoba*/
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	1	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	2	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	3	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	4	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	5	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	6	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	7	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	8	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	9	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	10	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	11	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	12	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	13	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	14	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	15	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	16	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	17	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	18	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	19	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	20	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	21	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	22	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	23	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	24	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	25	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	26	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	27	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	28	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	29	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	30	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	31	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	32	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	33	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	34	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	35	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	36	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	37	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	38	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	39	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	40	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	41	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	42	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	43	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	44	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	45	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	46	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	47	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	48	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	49	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	50	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	51	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	52	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	53	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	54	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	55	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	56	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	57	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	58	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	59	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	2	,	60	);
+/* Horarios de Urolgia Huatusco*/
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	3	,	61	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	3	,	62);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	3	,	63	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	3	,	64	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	3	,	65	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	3	,	66	);
+/* Horarios de Urolgia Huatusco*/
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	4	,	61	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	4	,	62  );
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	4	,	63	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	4	,	64	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	4	,	65	);
+INSERT INTO asignaconsultorio(nIdConsultorio, nClaveHorario)VALUES	(	4	,	66	);
 /*Tipos de anestesia*/
 INSERT INTO anestesia(sDescripcion) VALUES ('Local');
 INSERT INTO anestesia(sDescripcion) VALUES ('Regional');
@@ -1022,12 +1117,9 @@ INSERT INTO manejoheridas(sDescripcion) VALUES ('Abierta');
 INSERT INTO manejoheridas(sDescripcion) VALUES ('Abierta piel y tejidos subcutáneos');
 INSERT INTO manejoheridas(sDescripcion) VALUES ('Abiertas fascias');
 
-/*Antibióticos */
+/*Antibióticos  */
 INSERT INTO antibiotico(sDescripcion) VALUES('Profiláctico');
 INSERT INTO antibiotico(sDescripcion) VALUES('Terapéutico');
-
-
-
 /*Tabla de recetas */
 CREATE TABLE receta(Folio INT AUTO_INCREMENT PRIMARY KEY ,fecha_expedicion DATE, Paciente VARCHAR(20),descripcion TEXT,medico INT);
 
@@ -1082,3 +1174,4 @@ FOREIGN KEY (Medico)
 REFERENCES Medico(nIdPersonal)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
