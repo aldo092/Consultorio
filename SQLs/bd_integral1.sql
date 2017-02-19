@@ -742,6 +742,7 @@ INSERT INTO Accesos(sEmail, nNIP, bEstado) VALUES ('urogopli@gmail.com',md5(2813
 
 INSERT INTO usuario_rol (sEmail, nIdRol) VALUES('sisalpasolft@gmail.com',1);
 INSERT INTO usuario_rol (sEmail, nIdRol) VALUES('urogopli@gmail.com',1);
+INSERT INTO usuario_rol (sEmail, nIdRol) VALUES('urogopli@gmail.com',2);
 
 /*Menús del Sistema */
 INSERT INTO menu (sDescripcion) values ('Pacientes');
