@@ -707,17 +707,33 @@ INSERT INTO roles(sDescripcion) VALUES('RECEPCIONISTA');
 INSERT INTO Usuarios(sEmail, sPassword, dFechaRegistro)
 VALUES ('sisalpasolft@gmail.com',md5('acm1pt'), CURRENT_DATE());
 
+/*Dr. Pliego */
 INSERT INTO Usuarios(sEmail, sPassword, dFechaRegistro)
-    VALUES ('',md5('ACPDM2017'),CURRENT_DATE());
-
-INSERT INTO Personal(sNombres, sApMaterno, sApPaterno, sTelefono, sSexo, sCURP, sEmail, bEstatus, sImagen)
+VALUES ('urogopli@gmail.com',md5('3878720'),CURRENT_DATE());
+/*Dra. Norma */
+INSERT INTO Usuarios(sEmail, sPassword, dFechaRegistro)
+VALUES ('urogopli@gmail.com',md5('5090513'),CURRENT_DATE());
 
 INSERT INTO Personal(sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCURP, sEmail, bEstatus)
-VALUES ('Sistema','Expediente','Electrónico', '2717493689','M','LALP920516HVZLPB07','sisalpasolft@gmail.com' ,1);
+VALUES ('Sistema','Expediente','Electrónico', '2717493689','M','LALP920516HVZLPB07','sisalpasoft@gmail.com' ,1);
+
+INSERT INTO Personal(sNombres, sApMaterno, sApPaterno, sTelefono, sSexo, sCURP, sEmail, bEstatus)
+VALUES('Andres Caleb','Pliego','Díaz Mirón','2711575539','M','LALP920516HVZLPB07','urogopli@gmail.com',1);
+
+INSERT INTO Personal(sNombres, sApMaterno, sApPaterno, sTelefono, sSexo, sCURP, sEmail, bEstatus)
+VALUES('Norma Idalia','Sáenz','Méndez','2721575539','F','LALP920516HVZLPB07','urogopli@gmail.com',1);
+
+INSERT INTO medico(nIdPersonal, sNumCedula, dFechaExpedicionCed, sNumCedEsp, dFecExpedCedEsp, sNumTelefono1, sNumTelefono2, nIdEspecialidad)
+VALUES(2,'3878720','2003-01-01','6926620','2011-01-01','2711575539','',1);
+
+INSERT INTO medico(nIdPersonal, sNumCedula, dFechaExpedicionCed, sNumCedEsp, dFecExpedCedEsp, sNumTelefono1, sNumTelefono2, nIdEspecialidad)
+VALUES(3,'5090513','2007-01-01','0','0','2721575539','',2);
 
 INSERT INTO Accesos(sEmail, nNIP, bEstado) VALUES ('sisalpasolft@gmail.com',md5(3728),1);
+INSERT INTO Accesos(sEmail, nNIP, bEstado) VALUES ('urogopli@gmail.com',md5(2813),1);
 
 INSERT INTO usuario_rol (sEmail, nIdRol) VALUES('sisalpasolft@gmail.com',1);
+INSERT INTO usuario_rol (sEmail, nIdRol) VALUES('urogopli@gmail.com',1);
 
 /*Menús del Sistema */
 INSERT INTO menu (sDescripcion) values ('Pacientes');
@@ -730,58 +746,50 @@ INSERT INTO menu (sDescripcion) values ('Seguro');
 INSERT INTO menu (sDescripcion) values ('Consultorios');
 INSERT INTO menu (sDescripcion) values ('Personal');
 INSERT INTO menu (sDescripcion) values ('Otros');
-
-/*Menús para las notas */
 INSERT INTO menu (sDescripcion) values ('Nota Médica');
 INSERT INTO menu (sDescripcion) values ('Nota de Intervención');
 
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Registrar Pacientes', 'Sesiones/Pacientes/registroPacientes.php',1); /*1*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Registrar Antecedentes', 'Sesiones/Pacientes/Pacientes.php',1); /*2*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Control de Estudios', 'Sesiones/Estudios/controlEstudios.php',5); /*3*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Control de Usuarios', 'Sesiones/Usuarios/controlUsuarios.php',2); /*4*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Gestión de Roles de Usuario', 'Sesiones/Usuarios/gestionRoles.php',2); /*5*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Registrar Cita', 'Sesiones/Citas/registrarCitas.php',3); /*6*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Consultar Citas', 'Sesiones/Citas/consultarCitas.php',3); /*7*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Reportes de Estudios', 'Sesiones/Reportes/generarReporte.php',4); /*8*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Registrar Consultorio', 'Sesiones/Consultorios/registrarConsultorio.php',8); /*9*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Control de Aseguradoras', 'Sesiones/Seguro/controlSeguros.php',7); /*10*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Control de Personal', 'Sesiones/Personal/controlPersonal.php',9); /*11*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Consultar Bitácora del Sistema', 'Sesiones/Otros/consultarBitacora.php',6); /*12*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES('Generar Nota médica', 'Sesiones/NotaMedica/genNotaMed.php',11); /*13*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES('Generar Nota de Intervención', 'Sesiones/NotaIntervencion/genNotaInt.php',12); /*14*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES('Registrar Resultados de Intervención','Sesiones/NotaIntervencion/registroResultadosInt.php',12); /*15*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Generar hoja de consentimiento', 'Sesiones/Reportes/hojaConsentimiento.php',4); /*16*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Generar reporte de intervención', 'Sesiones/Reportes/rptIntervencion.php',4);/*17*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Generar Receta', 'Sesiones/NotaMedica/genReceta.php',11); /*18*/
+INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
+VALUES ('Generar historia clínica de Gíneco Obstetricia', 'Sesiones/NotaMedica/genHoja.php',11); /*19*/
 
 
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Registrar Pacientes', 'Sesiones/Pacientes/registroPacientes.php',1);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Registrar Antecedentes', 'Sesiones/Pacientes/Pacientes.php',1);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Control de Estudios', 'Sesiones/Estudios/controlEstudios.php',5);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Control de Usuarios', 'Sesiones/Usuarios/controlUsuarios.php',2);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Gestión de Roles de Usuario', 'Sesiones/Usuarios/gestionRoles.php',2);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Registrar Cita', 'Sesiones/Citas/registrarCitas.php',3);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Consultar Citas', 'Sesiones/Citas/consultarCitas.php',3);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Cancelar Cita', 'Sesiones/Citas/cancelarCitas.php',3);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Reportes de Estudios', 'Sesiones/Reportes/generarReporte.php',4);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Registrar Consultorio', 'Sesiones/Consultorios/registrarConsultorio.php',8);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Control de Aseguradoras', 'Sesiones/Seguro/controlSeguros.php',7);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Control de Personal', 'Sesiones/Personal/controlPersonal.php',9);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Consultar Bitácora del Sistema', 'Sesiones/Otros/consultarBitacora.php',6);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Descargar Reporte', 'Sesiones/Reportes/descargarReporte.php',4);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-    VALUES ('Generar Receta', 'Sesiones/NotaMedica/genReceta.php',11);
-
-/*Reporte de las notas de intervención */
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Generar hoja de consentimiento', 'Sesiones/Reportes/hojaConsentimiento.php',4);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES ('Generar reporte de intervención', 'Sesiones/Reportes/rptIntervencion.php',4);
-
-/*Sub-menús para las notas */
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES('Generar Nota médica', 'Sesiones/NotaMedica/genNotaMed.php',11);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES('Generar Nota de Intervención', 'Sesiones/NotaIntervencion/genNotaInt.php',12);
-INSERT INTO funcion(sDescripcion, sRutaPag, nPadre)
-VALUES('Registrar resultados de Intervención', 'Sesiones/NotaIntervencion/registroResultadosInt.php',12);
-
+/*Administrador*/
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(3,1);
@@ -792,35 +800,33 @@ INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(9,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(10,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(11,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(12,1);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(13,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(14,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(15,1);
-
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(16,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(17,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(18,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(19,1);
+/*Médico*/
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,2);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(9,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(13,2);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,3);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,3);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,3);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(8,3);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(2,3);
-
-/*Permisos para las notas */
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(15,1);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(16,1);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(17,1);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(14,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(15,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(16,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(17,2);
-
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(18,1);
-INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(19,1);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(18,2);
 INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(19,2);
+/*Recepcionista*/
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(1,3);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(6,3);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(7,3);
+INSERT INTO funcion_rol(nClaveFuncion, nIdRol) VALUES(10,3);
+
+
+
 
 /* Tablas de Estados y Municipios */
 
