@@ -254,7 +254,8 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                         <div class="clearfix"></div>
                     </div>
                         <div class="row">
-                            <form>
+                            <form id="frmNota" action="../../Controllers/altaNota.php" method="post" enctype="multipart/form-data">
+                                <input type="hidden" value="<?php echo $sExpediente;?>" name="txtExpe" />
                                 <input type="hidden" value="<?php echo $dFec->format("Y-m-d");?>" name="txtFecha" />
                                 <div class="x_content">
                                     <div class="clearfix"></div>
@@ -262,7 +263,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                                     <div class="form-group">
                                         <label class="control-label col-md-2 col-sm-3 col-xs-12">Nivel de Urgencia</label>
                                         <div class="col-md-3 col-sm-9 col-xs-12">
-                                            <select class="form-control" name="urgencia">
+                                            <select class="form-control" name="urgencia" id="urgencia">
                                                 <option value="">Seleccione</option>
                                                 <option value="URGENTE">URGENTE</option>
                                                 <option value="ORDINARIO">ORDINARIO</option>
@@ -274,8 +275,8 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                                     <div class="form-group">
                                         <label class="control-label col-md-2 col-sm-3 col-xs-12">Estudio a realizar</label>
                                         <div class="col-md-5 col-sm-9 col-xs-12">
-                                            <select class="form-control" name="estudios">
-                                                <option>Seleccione</option>
+                                            <select class="form-control" name="estudios" id="estudios">
+                                                <option value="">Seleccione</option>
                                                 <?php
                                                 if($arrEst != null){
                                                     foreach ($arrEst as $vEst){
@@ -293,7 +294,7 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                                         <label class="control-label col-md-2 col-sm-3 col-xs-12" for="txtDxIng">Diagnóstico de Ingreso
                                         </label>
                                         <div class="col-md-10 col-sm-6 col-xs-12">
-                                            <input type="text" id="txtDxIng" name="txtDxIng" class="form-control col-md-7 col-xs-12">
+                                            <input type="text" id="txtDxIng" name="txtDxIng" class="form-control col-md-7 col-xs-12" required>
                                         </div>
                                     </div>
                                     <br/><br/>
@@ -428,17 +429,17 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-4 col-sm-3 col-xs-12" for="txtEstSolLab">Seleccione el archivo a subir
+                                    <label class="control-label col-md-4 col-sm-3 col-xs-12" for="txtEstSolLab">Seleccione el archivo a subir (4Mb Máximo)
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="file" name="archivo">
+                                        <input type="file" name="imagen" accept="application/pdf">
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
                                 <br/><br/>
                                 <div class="form-group">
                                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                        <button type="submit" class="btn btn-lg btn-success">Guardar</button>
+                                        <input type="submit" class="btn btn-lg btn-success" value="Guardar" />
                                     </div>
                                 </div>
                             </form>
@@ -547,6 +548,17 @@ if(isset($_SESSION['sUser']) && !empty($_SESSION['sUser'])){
     });
 </script>
 <!-- /validator -->
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function(){
+       $("#estudios").attr({
+           required : true
+       });
+        $("#urgencia").attr({
+            required : true
+        });
+    });
+</script>
 </body>
 </html>
 

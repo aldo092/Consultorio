@@ -13,7 +13,29 @@ class EstImagen extends EstudioRealizado
     private $sNivelUrgencia = "";
     private $dFechaSoliciutd = null;
     private $sEstudioSolicitado = "";
+    private $sOtrosEstudios = "";
+    private $sRegionSol = "";
 
+
+    public function getOtrosEstudios()
+    {
+        return $this->sOtrosEstudios;
+    }
+    
+    public function setOtrosEstudios($sOtrosEstudios)
+    {
+        $this->sOtrosEstudios = $sOtrosEstudios;
+    }
+    
+    public function getRegionSol()
+    {
+        return $this->sRegionSol;
+    }
+
+    public function setRegionSol($sRegionSol)
+    {
+        $this->sRegionSol = $sRegionSol;
+    }
 
     public function getNivelUrgencia()
     {

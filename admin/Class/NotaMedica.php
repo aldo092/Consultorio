@@ -90,4 +90,6 @@ class NotaMedica
         $this->sTemperatura = $sTemperatura;
     }
     
+
+    
 }

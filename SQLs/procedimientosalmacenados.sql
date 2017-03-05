@@ -1282,4 +1282,12 @@ CREATE PROCEDURE CitasDiariasMedico(IN Hoy DATE, IN Medico VARCHAR(60))
     order by h.sHoraInicio Desc;
   END //
 
+DELIMITER //
+CREATE PROCEDURE buscarIdMedico(IN user varchar(100))
+  BEGIN
+    SELECT nIdPersonal FROM personal
+    WHERE sEmail = user;
+  END
+//
+
 

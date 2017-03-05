@@ -450,6 +450,8 @@ CREATE TABLE EstImagen (
   sNivelUrgencia VARCHAR(15) NOT NULL,
   dFechaSolicitud DATE NOT NULL,
   sEstudioSolicitado TEXT NOT NULL,
+  sOtrosEstudios TEXT,
+  sRegionSolicitada TEXT,
   PRIMARY KEY (nIdEstudioReal, nClaveInterna)
 );
 

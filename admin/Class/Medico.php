@@ -152,6 +152,24 @@ class Medico extends Personal
         return $vObj;
 
     }
+    
+    function buscarIdMedico($sUser){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $rst = null;
+        $nIdMedico = 0;
+        if($sUser == ""){
+            throw new Exception("Medico->buscarIdMedico(): error, faltan datos");
+        }else{
+            $sQuery = "call buscarIdMedico('".$sUser."');";
+            if($oAD->Conecta()){
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+            }
+            $nIdMedico = $rst[0][0];
+        }
+        return $nIdMedico;
+    }
 
 
 
