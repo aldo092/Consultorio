@@ -159,7 +159,7 @@ if($sErr != ""){
                 <div class="x_panel">
 
                     <div class="x_title">
-                        <h2>Lista de Pacientes Registrados en el sistema</h2>
+                        <h2>Lista de Pacientes atendidos por usted</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -201,7 +201,7 @@ if($sErr != ""){
                                             <td><?php echo $vRT->getExpediente();?></td>
                                             <td><?php echo $vRT->getCURPPaciente();?></td>
                                             <td><?php echo $vRT->getApPaterno()." ".$vRT->getApMaterno()." ".$vRT->getNombre(); ?></td>
-                                            <td><input type="submit" value="Generar Reporte" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $vRT->getExpediente();?>';txtSexo.value='<?php echo $vRT->getSexo();?>'" ></td>
+                                            <td><input type="submit" value="Ver Estudios realizados" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $vRT->getExpediente();?>';txtSexo.value='<?php echo $vRT->getSexo();?>'" ></td>
 
                                         </tr>
                                         <?php

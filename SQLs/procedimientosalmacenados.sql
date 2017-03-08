@@ -42,7 +42,7 @@ CREATE PROCEDURE insertarPersonal(IN user      VARCHAR(60), IN nombre VARCHAR(40
   BEGIN
     CALL insertarUsuario(user, email, pass);
 
-    INSERT INTO Personal (sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCurp, sEmail, bEstatus, sImagen)
+    INSERT INTO personal (sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCurp, sEmail, bEstatus, sImagen)
     VALUES (nombre, apPaterno, apMaterno, telefono, sexo, curp, email, 1, imagen);
 
     CALL insertaUserRol(user, email, rol);
@@ -185,8 +185,8 @@ CREATE PROCEDURE buscarDatosUsuario(IN email VARCHAR(60))
       sApMaterno,
       bEstatus,
       sImagen
-    FROM Personal
-      LEFT OUTER JOIN Usuarios
+    FROM personal
+      LEFT OUTER JOIN usuarios
         ON usuarios.sEmail = personal.sEmail
     WHERE usuarios.sEmail = email;
   END;
@@ -196,19 +196,19 @@ DELIMITER //
 CREATE PROCEDURE buscarTodosPersonal()
   BEGIN
     SELECT
-      Personal.nIdPersonal,
-      Personal.sNombres,
-      Personal.sApPaterno,
-      Personal.sApMaterno,
-      Personal.sTelefono,
-      Personal.sSexo,
-      Personal.sCURP,
-      Personal.sEmail,
-      Personal.bEstatus,
-      Roles.sDescripcion
-    FROM Personal
+      personal.nIdPersonal,
+      personal.sNombres,
+      personal.sApPaterno,
+      personal.sApMaterno,
+      personal.sTelefono,
+      personal.sSexo,
+      personal.sCURP,
+      personal.sEmail,
+      personal.bEstatus,
+      roles.sDescripcion
+    FROM personal
       LEFT OUTER JOIN usuarios
-        ON usuarios.sEmail = Personal.sEmail
+        ON usuarios.sEmail = personal.sEmail
       LEFT OUTER JOIN usuario_rol
         ON usuario_rol.sEmail = usuarios.sEmail
       LEFT OUTER JOIN roles
@@ -265,7 +265,7 @@ CREATE PROCEDURE insertaPersonalMedico(IN user         VARCHAR(60), IN nombre VA
   BEGIN
     CALL insertarUsuario(user, email, pass);
 
-    INSERT INTO Personal (sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCurp, sEmail, bEstatus, sImagen)
+    INSERT INTO personal (sNombres, sApPaterno, sApMaterno, sTelefono, sSexo, sCurp, sEmail, bEstatus, sImagen)
     VALUES (nombre, apPaterno, apMaterno, telefono, sexo, curp, email, 1, imagen);
 
     SET @nPersonal = (SELECT LAST_INSERT_ID());
@@ -388,26 +388,26 @@ DELIMITER //
 CREATE PROCEDURE buscaDatosPersona(IN idpersona INT(11))
   BEGIN
     SELECT
-      Personal.nIdPersonal,
-      Personal.sNombres,
-      Personal.sApPaterno,
-      Personal.sApMaterno,
-      Personal.sTelefono,
-      Personal.sSexo,
-      Personal.sCURP,
-      Personal.sEmail,
-      Personal.bEstatus,
-      Roles.sDescripcion,
-      Personal.sImagen,
-      Roles.nIdRol
-    FROM Personal
+      personal.nIdPersonal,
+      personal.sNombres,
+      personal.sApPaterno,
+      personal.sApMaterno,
+      personal.sTelefono,
+      personal.sSexo,
+      personal.sCURP,
+      personal.sEmail,
+      personal.bEstatus,
+      roles.sDescripcion,
+      personal.sImagen,
+      roles.nIdRol
+    FROM personal
       LEFT OUTER JOIN usuarios
-        ON usuarios.sEmail = Personal.sEmail
+        ON usuarios.sEmail = personal.sEmail
       LEFT OUTER JOIN usuario_rol
         ON usuario_rol.sEmail = usuarios.sEmail
       LEFT OUTER JOIN roles
         ON roles.nIdRol = usuario_rol.nIdRol
-    WHERE Personal.nIdPersonal = idpersona;
+    WHERE personal.nIdPersonal = idpersona;
   END;
 //
 
@@ -1290,4 +1290,86 @@ CREATE PROCEDURE buscarIdMedico(IN user varchar(100))
   END
 //
 
+DELIMITER //
+CREATE PROCEDURE insertarEstudioLab(IN user varchar(100), IN nClaveEstudio int(10), IN nClaveEstReal int(10), IN sEstudiosSol text)
+  BEGIN
+    INSERT INTO estlaboratorio(nIdEstudioReal, nClaveInterna, sEstudiosSolicitados)
+    VALUES(nClaveEstReal, nClaveEstudio, sEstudiosSol);
+
+    INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES (user, 'INSERT', current_date, 'ESTLABORATORIO', 'Se insertó una solicitud de estudio de Laboratorio ');
+  END
+//
+
+
+DELIMITER //
+CREATE PROCEDURE insertarEstudioImagen(IN user varchar(100), IN nClaveEstudio int(10), IN nClaveEstReal int(10), IN sNivelUrgencia text,
+                                       IN dFecSol date, IN sEstudiosSol text, IN sOtrosEst text, IN sRegionSol text)
+  BEGIN
+    INSERT INTO estimagen(nIdEstudioReal, nClaveInterna, sNivelUrgencia, dFechaSolicitud, sEstudioSolicitado, sOtrosEstudios, sRegionSolicitada)
+    VALUES(nClaveEstReal, nClaveEstudio, sNivelUrgencia,dFecSol, sEstudiosSol, sOtrosEst, sRegionSol);
+
+    INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES (user, 'INSERT', current_date, 'ESTIMAGEN', 'Se insertó una solicitud de estudio de Imagenología ');
+  END
+//
+
+DELIMITER //
+CREATE PROCEDURE insertarNotaMedica (IN user varchar(100), IN nIdEstudio int(11), IN nClaveInterna int(11), IN sResumen text, IN sPresionArt varchar(200),
+                                     IN sSignosVitales varchar(200), IN sTemperatura varchar(200))
+  BEGIN
+    INSERT INTO notamedica (nIdEstudioReal, nClaveInterna, sNumCama, sResumen, sPresionArterial, sSignosVitales, sTemperatura)
+    VALUES(nIdEstudio, nClaveInterna, 'S/Cama', sResumen, sPresionArt, sSignosVitales, sTemperatura);
+
+    INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES (user, 'INSERT', current_date, 'NOTAMEDICA', 'Se insertó una nota médica');
+  END
+//
+
+DELIMITER //
+CREATE PROCEDURE insertarEstReal(IN user varchar(100), IN nClaveInterna int(11), IN nNumero varchar(20), IN nIdPersonal int(11), IN sDiagnostico text,
+                                 IN dFechaRealizado date, IN sRutaArchivo text)
+  BEGIN
+    INSERT INTO estudiorealizado(nClaveInterna, nNumero, nIdPersonal, sDiagnostico, dFechaRealizado, sRutaArchivo)
+    VALUES(nClaveInterna, nNumero, nIdPersonal, sDiagnostico, dFechaRealizado, sRutaArchivo);
+
+    INSERT INTO bitacora (sEmail, sAccion, dFechaAccion, sTabla, sDescripcionAccion)
+    VALUES (user, 'INSERT', current_date, 'ESTUDIOREALIZADO', 'Se insertó un registro de estudio realizado ');
+  END
+//
+
+
+DELIMITER //
+CREATE PROCEDURE insertarEstAtendido(IN user varchar(100), IN nClaveInterna int(11), IN nNumero varchar(20), IN nIdPersonal int(11), IN sDiagnostico text,
+                                     IN dFechaRealizado date, IN sRutaArchivo text, IN sNivelUrgencia varchar(15), IN dFechaSolicitud date,
+                                     IN sEstudiosSol text, IN sOtrosEst text, IN sRegionSol text, IN sEstSol text, IN sResumen text,
+                                     IN sPresionArterial varchar(200), IN sSignosVitales varchar(200), IN sTemperatura varchar(20))
+  BEGIN
+    CALL  insertarEstReal(user,nClaveInterna, nNumero, nIdPersonal, sDiagnostico, dFechaRealizado, sRutaArchivo);
+
+    SET @nEstReal = (SELECT max(nIdEstudioReal) FROM estudiorealizado);
+
+    CALL insertarEstudioLab(user, nClaveInterna, @nEstReal, sEstSol);
+
+    CALL insertarEstudioImagen(user, nClaveInterna, @nEstReal, sNivelUrgencia, dFechaSolicitud, sEstudiosSol, sOtrosEst, sRegionSol);
+
+    CALL insertarNotaMedica(user, @nEstReal, nClaveInterna, sResumen, sPresionArterial, sSignosVitales, sTemperatura);
+  END
+//
+
+
+DELIMITER //
+CREATE PROCEDURE buscarNotasMedicasPaciente(IN sExpediente varchar(20))
+  BEGIN
+    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, estudios.sDescripcion, estudiorealizado.dFechaRealizado
+    FROM paciente
+      LEFT JOIN expediente
+        ON expediente.sCurpPaciente = paciente.sCurpPaciente
+      LEFT JOIN estudiorealizado
+        ON estudiorealizado.nNumero = expediente.nNumero
+      LEFT JOIN estudios
+        ON estudios.nClaveInterna = estudiorealizado.nClaveInterna
+    WHERE estudiorealizado.nNumero = sExpediente;
+  END
+//
 

@@ -106,7 +106,8 @@ class Funcion
             throw new Exception("Funcion->checkRoot(): error, faltan datos");
         }else{
             if($oAD->Conecta()){
-                $sQuery = "call checkAccess('".$usuario."','$sruta');";
+                $sQuery = "call checkAccess('".$usuario."','".$sruta."');";
+                var_dump($sQuery);
                 $rst = $oAD->ejecutaQuery($sQuery);
                 $oAD->Desconecta();
                 if($rst){

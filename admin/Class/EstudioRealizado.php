@@ -161,6 +161,41 @@ class EstudioRealizado
         return $nAfec;
     }
 
+    function buscarTodosEstRealPorPaciente(){
+        $oAD = new AccesoDatos();
+        $vObj = null;
+        $rst = null;
+        $sQuery = "";
+        $i = 0;
+        $oEstReal  = null;
+        if($this->getPaciente()->getExpediente()->getNumero() == ""){
+            throw new Exception("EstudioRealizado->buscarTodosEstRealPorPaciente(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarNotasMedicasPaciente('".$this->getPaciente()->getExpediente()->getNumero()."');";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+            }
+            if($rst){
+                foreach ($rst as $vRow){
+                    $oEstReal = new EstudioRealizado();
+                    $oEstReal->setPaciente(new Paciente());
+                    $oEstReal->setEstudios(new Estudios());
+                    $oEstReal->getPaciente()->setNombre($vRow[0]);
+                    $oEstReal->getPaciente()->setApPaterno($vRow[1]);
+                    $oEstReal->getPaciente()->setApMaterno($vRow[2]);
+                    $oEstReal->getEstudios()->setDescripcion($vRow[3]);
+                    $oEstReal->setFechaRealizado($vRow[4]);
+                    $vObj[$i] = $oEstReal;
+                    $i = $i + 1;
+                }
+            }else{
+                $vObj = false;
+            }
+        }
+        return $vObj;
+    }
+
 
 
 }
