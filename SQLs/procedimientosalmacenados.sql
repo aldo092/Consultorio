@@ -603,7 +603,7 @@ CREATE PROCEDURE buscarMunicipios(IN estado INT)
     SELECT
       CVE_MUN,
       NOM_MUN
-    FROM municipios
+    FROM Municipios
     WHERE CVE_ENT = estado;
   END;
 //
@@ -1372,4 +1372,14 @@ CREATE PROCEDURE buscarNotasMedicasPaciente(IN sExpediente varchar(20))
     WHERE estudiorealizado.nNumero = sExpediente;
   END
 //
+
+DELIMITER //
+CREATE PROCEDURE BuscaNombreExpediente (IN expediente varchar(20))
+    BEGIN
+    select p.sNombre,p.sApPaterno, p.sApMaterno
+    from paciente p
+      join expediente e on p.sCurpPaciente=e.sCurpPaciente
+    where e.nNumero=expediente;
+  END
+  //
 
