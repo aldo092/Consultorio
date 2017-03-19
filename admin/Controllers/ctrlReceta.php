@@ -30,7 +30,7 @@ $Nombre="";
 $url="../admin/index.php";
 $NAfec=0;
 $user= $_SESSION['sUser']->getEmail();
-
+//Comentario sobre el reporte
 
 if( isset($_POST["paciente"])&&!empty($_POST["paciente"])&&
     isset($_POST["medico"]) && !empty($_POST["medico"])&&
