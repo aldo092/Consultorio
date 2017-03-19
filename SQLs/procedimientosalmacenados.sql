@@ -1345,6 +1345,10 @@ CREATE PROCEDURE insertarEstAtendido(IN user varchar(100), IN nClaveInterna int(
                                      IN sEstudiosSol text, IN sOtrosEst text, IN sRegionSol text, IN sEstSol text, IN sResumen text,
                                      IN sPresionArterial varchar(200), IN sSignosVitales varchar(200), IN sTemperatura varchar(20))
   BEGIN
+    DECLARE nCosto decimal(10,2);
+    DECLARE nOpe decimal(10,2);
+    DECLARE nTotal decimal(10,2);
+
     CALL  insertarEstReal(user,nClaveInterna, nNumero, nIdPersonal, sDiagnostico, dFechaRealizado, sRutaArchivo);
 
     SET @nEstReal = (SELECT max(nIdEstudioReal) FROM estudiorealizado);
@@ -1354,6 +1358,24 @@ CREATE PROCEDURE insertarEstAtendido(IN user varchar(100), IN nClaveInterna int(
     CALL insertarEstudioImagen(user, nClaveInterna, @nEstReal, sNivelUrgencia, dFechaSolicitud, sEstudiosSol, sOtrosEst, sRegionSol);
 
     CALL insertarNotaMedica(user, @nEstReal, nClaveInterna, sResumen, sPresionArterial, sSignosVitales, sTemperatura);
+
+
+    SET @nSeguro = (SELECT nNumeroPoliza FROM seguro WHERE seguro.nNumero = nNumero and dFechaVigencia >= current_date());
+
+    IF @nSeguro IS NOT NULL THEN
+      SET nCosto = (SELECT nCostoAseg FROM estudios JOIN estudiorealizado ON estudiorealizado.nclaveinterna = estudios.nclaveinterna
+      WHERE estudiorealizado.nIdEstudioReal = @nEstReal);
+    ELSEIF @nSeguro IS NULL THEN
+      SET nCosto = (SELECT nCostoNormal FROM estudios JOIN estudiorealizado ON estudiorealizado.nclaveinterna =  estudios.nclaveinterna
+      WHERE estudiorealizado.nIdEstudioReal = @nEstReal);
+    END IF;
+
+    SET nOpe = (SELECT nIVA * nCosto FROM estudios JOIN estudiorealizado ON estudiorealizado.nclaveinterna = estudios.nclaveinterna
+    WHERE estudiorealizado.nIdEstudioReal = @nEstReal);
+
+    SET nTotal = nOpe + nCosto;
+
+    CALL insertarRecibo(user, @nEstReal, nClaveInterna, nTotal);
   END
 //
 
@@ -1361,7 +1383,7 @@ CREATE PROCEDURE insertarEstAtendido(IN user varchar(100), IN nClaveInterna int(
 DELIMITER //
 CREATE PROCEDURE buscarNotasMedicasPaciente(IN sExpediente varchar(20))
   BEGIN
-    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, estudios.sDescripcion, estudiorealizado.dFechaRealizado
+    SELECT estudiorealizado.nIdEstudioReal,paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, estudios.sDescripcion, estudiorealizado.dFechaRealizado
     FROM paciente
       LEFT JOIN expediente
         ON expediente.sCurpPaciente = paciente.sCurpPaciente
@@ -1373,3 +1395,44 @@ CREATE PROCEDURE buscarNotasMedicasPaciente(IN sExpediente varchar(20))
   END
 //
 
+
+DELIMITER //
+CREATE PROCEDURE buscarArchivosEstReal (IN nIdEstReal int(11))
+  BEGIN
+    SELECT estudiorealizado.sRutaArchivo FROM estudiorealizado
+    WHERE estudiorealizado.nIdEstudioReal = nIdEstReal;
+  END
+//
+
+
+DELIMITER //
+CREATE PROCEDURE buscarDatosEstReal(IN nNumeroExp varchar(20), IN nEstReal int(11))
+  BEGIN
+    SELECT paciente.sNombre, paciente.sApPaterno, paciente.sApMaterno, estudios.sDescripcion, recibocobro.nTotal, estudiorealizado.sDiagnostico,
+      estudiorealizado.dFechaRealizado, estimagen.sNivelUrgencia, estimagen.dFechaSolicitud, estimagen.sEstudioSolicitado, estimagen.sOtrosEstudios,
+      estimagen.sRegionSolicitada, estlaboratorio.sEstudiosSolicitados as estLab, notamedica.sNumCama, notamedica.sResumen, notamedica.sPresionArterial,
+      notamedica.sSignosVitales, notamedica.sTemperatura, YEAR(CURDATE())-YEAR(paciente.dFecNacimiento) + IF(DATE_FORMAT(CURDATE(),'%m-%d') > DATE_FORMAT(paciente.dFecNacimiento,'%m-%d'), 0, -1) as edad,
+      expediente.nNumero, personal.sNombres as NombreMed, personal.sApPaterno as ApPat, personal.sApMaterno as ApMat, medico.sNumCedula
+    FROM paciente
+      LEFT JOIN expediente
+        ON expediente.sCurpPaciente = paciente.sCurpPaciente
+      LEFT JOIN estudiorealizado
+        ON estudiorealizado.nNumero = expediente.nNumero
+      LEFT JOIN estudios
+        ON estudiorealizado.nClaveInterna = estudios.nClaveInterna
+      LEFT JOIN estimagen
+        ON estimagen.nIdEstudioReal = estudiorealizado.nIdEstudioReal
+      LEFT JOIN estlaboratorio
+        ON estlaboratorio.nIdEstudioReal = estlaboratorio.nIdEstudioReal
+      LEFT JOIN recibocobro
+        ON recibocobro.nIdEstudioReal = estudiorealizado.nIdEstudioReal
+      LEFT JOIN notamedica
+        ON notamedica.nIdEstudioReal = estudiorealizado.nIdEstudioReal
+      LEFT JOIN personal
+        ON personal.nIdPersonal = estudiorealizado.nIdPersonal
+      LEFT JOIN medico
+        ON medico.nIdPersonal = personal.nIdPersonal
+    WHERE estudiorealizado.nNumero = nNumeroExp AND estudiorealizado.nIdEstudioReal = nEstReal;
+
+  END
+//

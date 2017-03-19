@@ -179,10 +179,9 @@ if($sErr != ""){
                     </div>
 
                     <div class="x_content">
-                        <form id="frmExpediente" action="../../Sesiones/Reportes/generaRep.php" method="post">
+                        <form id="frmExpediente" action="../../Controllers/pdfNotaMed.php" method="post">
                             <input type="hidden" name="txtExpediente">
-                            <input type="hidden" name="txtSexo">
-
+                            <input type="hidden" name="txtIdEstReal">
                             <p class="text-muted font-13 m-b-30">
                             </p>
 
@@ -207,8 +206,8 @@ if($sErr != ""){
                                             <td><?php echo $vRT->getEstudios()->getDescripcion();?></td>
                                             <td><?php echo $vRT->getFechaRealizado(); ?></td>
                                             <td>
-                                                <input type="submit" value="Ver Reporte del Estudio" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $_POST['txtExpediente'];?>';">
-                                                <input type="submit" value="Descargar archivo del Estudio" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $_POST['txtExpediente'];?>';" >
+                                                <input type="submit" value="Ver Reporte del Estudio" class=" btn btn-primary" onClick="txtExpediente.value='<?php echo $_POST['txtExpediente'];?>';txtIdEstReal.value='<?php echo $vRT->getIdEstReal();?>';">
+                                                <a class="btn btn-info" href="../../Controllers/reportesNotaMed.php?nIdEstReal=<?php echo $vRT->getIdEstReal();?>&txtOp=descargar" target="_blank">Descargar PDF adjuntado</a>
                                             </td>
 
                                         </tr>

@@ -13,6 +13,7 @@ include_once ("Medico.php");
 include_once ("EstImagen.php");
 include_once ("EstLaboratorio.php");
 include_once ("NotaMedica.php");
+include_once ("ReciboCobro.php");
 class EstudioRealizado
 {
     private $oAD = null;
@@ -25,7 +26,29 @@ class EstudioRealizado
     private $oEstImagen = null;
     private $oEstLab = null;
     private $oNota = null;
+    private $nIdEstReal = 0;
+    private $oRecibo = null;
 
+
+    public function getRecibo()
+    {
+        return $this->oRecibo;
+    }
+
+    public function setRecibo($oRecibo)
+    {
+        $this->oRecibo = $oRecibo;
+    }
+
+    public function getIdEstReal()
+    {
+        return $this->nIdEstReal;
+    }
+
+    public function setIdEstReal($nIdEstReal)
+    {
+        $this->nIdEstReal = $nIdEstReal;
+    }
 
     public function getNota()
     {
@@ -181,11 +204,12 @@ class EstudioRealizado
                     $oEstReal = new EstudioRealizado();
                     $oEstReal->setPaciente(new Paciente());
                     $oEstReal->setEstudios(new Estudios());
-                    $oEstReal->getPaciente()->setNombre($vRow[0]);
-                    $oEstReal->getPaciente()->setApPaterno($vRow[1]);
-                    $oEstReal->getPaciente()->setApMaterno($vRow[2]);
-                    $oEstReal->getEstudios()->setDescripcion($vRow[3]);
-                    $oEstReal->setFechaRealizado($vRow[4]);
+                    $oEstReal->setIdEstReal($vRow[0]);
+                    $oEstReal->getPaciente()->setNombre($vRow[1]);
+                    $oEstReal->getPaciente()->setApPaterno($vRow[2]);
+                    $oEstReal->getPaciente()->setApMaterno($vRow[3]);
+                    $oEstReal->getEstudios()->setDescripcion($vRow[4]);
+                    $oEstReal->setFechaRealizado($vRow[5]);
                     $vObj[$i] = $oEstReal;
                     $i = $i + 1;
                 }
@@ -194,6 +218,79 @@ class EstudioRealizado
             }
         }
         return $vObj;
+    }
+
+    function buscarArchivoEstReal(){
+        $oAD = new AccesoDatos();
+        $sQuery = "";
+        $rst = null;
+        $bRet = false;
+        if($this->getIdEstReal() == 0){
+            throw new Exception("EstudioRealizado->buscarArchivoEstReal(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "call buscarArchivosEstReal(".$this->getIdEstReal().");";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+            }
+            if($rst){
+                $this->setRutaArchivo($rst[0][0]);
+                $bRet = true;
+            }
+        }
+        return $bRet;
+    }
+
+    function buscarReporteNotaMed(){
+        $oAD = new AccesoDatos();
+        $rst = null;
+        $bEnc = false;
+        $sQuery = "";
+        if($this->getPaciente()->getExpediente()->getNumero() == "" and $this->getIdEstReal() == 0){
+            throw new Exception("EstudioRealizado->buscarReporteNotaMed(): error, faltan datos");
+        }else{
+            if($oAD->Conecta()){
+                $sQuery = "CALL buscarDatosEstReal('".$this->getPaciente()->getExpediente()->getNumero()."',".$this->getIdEstReal().");";
+                $rst = $oAD->ejecutaQuery($sQuery);
+                $oAD->Desconecta();
+            }
+            if($rst){
+                $this->setPaciente(new Paciente());
+                $this->getPaciente()->setExpediente(new Expediente());
+                $this->setEstudios(new Estudios());
+                $this->setMedico(new Medico());
+                $this->setRecibo(new ReciboCobro());
+                $this->setEstImagen(new EstImagen());
+                $this->setEstLab(new EstLaboratorio());
+                $this->setNota(new NotaMedica());
+                $this->getPaciente()->setNombre($rst[0][0]);
+                $this->getPaciente()->setApPaterno($rst[0][1]);
+                $this->getPaciente()->setApMaterno($rst[0][2]);
+                $this->getEstudios()->setDescripcion($rst[0][3]);
+                $this->getRecibo()->setTotal($rst[0][4]);
+                $this->setDiagnostica($rst[0][5]);
+                $this->setFechaRealizado($rst[0][6]);
+                $this->getEstImagen()->setNivelUrgencia($rst[0][7]);
+                $this->getEstImagen()->setFechaSoliciutd($rst[0][8]);
+                $this->getEstImagen()->setEstudioSolicitado($rst[0][9]);
+                $this->getEstImagen()->setOtrosEstudios($rst[0][10]);
+                $this->getEstImagen()->setRegionSol($rst[0][11]);
+                $this->getEstLab()->setEstudiosSolicitados($rst[0][12]);
+                $this->getNota()->setNumCama($rst[0][13]);
+                $this->getNota()->setResumen($rst[0][14]);
+                $this->getNota()->setPresionArterial($rst[0][15]);
+                $this->getNota()->setSignosVitales($rst[0][16]);
+                $this->getNota()->setTemperatura($rst[0][17]);
+                $this->getPaciente()->setEdad($rst[0][18]);
+                $this->getPaciente()->getExpediente()->setNumero($rst[0][19]);
+                $this->getMedico()->setNombres($rst[0][20]);
+                $this->getMedico()->setApPaterno($rst[0][22]);
+                $this->getMedico()->setApMaterno($rst[0][21]);
+                $this->getMedico()->setNumCedula($rst[0][23]);
+                $bEnc = true;
+            }
+        }
+        return $bEnc;
     }
 
 
